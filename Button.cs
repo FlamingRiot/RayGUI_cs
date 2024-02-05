@@ -2,6 +2,16 @@
 namespace RayGUI_cs
 {
     /// <summary>
+    /// Button action system
+    /// </summary>
+    public enum ButtonType
+    {
+        Custom = 0,
+        PathFinder,
+        DropDown
+    }
+
+    /// <summary>
     /// 2D button
     /// </summary>
     public partial struct Button
@@ -46,6 +56,16 @@ namespace RayGUI_cs
         /// </summary>
         public string Text;
 
+        /// <summary>
+        /// Subbuttons of the button (works only for DropDown type)
+        /// </summary>
+        public Button[] subbuttons;
+
+        /// <summary>
+        /// Type of the button event
+        /// </summary>
+        public ButtonType Type;
+
         public Button(int width, int height, int x, int y, Color color, Color borderColor)
         {
             Width = width;
@@ -58,6 +78,8 @@ namespace RayGUI_cs
 
             // Automatically set
             Text = "";
+            Type = ButtonType.Custom;
+            subbuttons = new Button[] { };
         }
 
         public Button(int width, int height, int x, int y, Color color, Color borderColor, Color hoverColor)
@@ -72,6 +94,36 @@ namespace RayGUI_cs
 
             // Automatically set
             Text = "";
+            Type = ButtonType.Custom;
+            subbuttons = new Button[] { };
+        }
+
+        public void Activate()
+        {
+            switch (Type)
+            {
+                case ButtonType.Custom:
+                    Raylib.TraceLog(TraceLogLevel.Info, "This button has not any event asigned to it");
+                    break;
+                case ButtonType.PathFinder:
+                    // Find the current user
+                    string userString = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+                    string[] userArray = userString.Split('\\');
+                    string user = userArray[1];
+
+                    // Open the file explorer
+                    System.Diagnostics.Process process = new System.Diagnostics.Process();
+                    System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                    startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    string _path = "c:/users/" + user + "/downloads";
+                    startInfo.Arguments = string.Format("/C start {0}", _path);
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    break;
+                case ButtonType.DropDown:
+                    break;
+            }
         }
     }
 }

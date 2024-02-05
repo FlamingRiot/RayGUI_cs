@@ -7,12 +7,12 @@ namespace RayGUI_cs
         /// <summary>
         /// X coordinate (Right corner)
         /// </summary>
-        public int X;
+        public float X;
 
         /// <summary>
         /// Y coordinate (Left corner)
         /// </summary>
-        public int Y;
+        public float Y;
 
         /// <summary>
         /// Conatiner width
@@ -25,6 +25,16 @@ namespace RayGUI_cs
         public int Height;
 
         /// <summary>
+        /// Maximum width
+        /// </summary>
+        public int MaxWidth;
+
+        /// <summary>
+        /// Maximum height
+        /// </summary>
+        public int MaxHeight;
+
+        /// <summary>
         /// Background color of the container
         /// </summary>
         public Color Color;
@@ -34,14 +44,23 @@ namespace RayGUI_cs
         /// </summary>
         public Color BorderColor;
 
-        public Container(int x, int y, int width, int height, Color color, Color borderColor)
+        /// <summary>
+        /// Resize direction
+        /// </summary>
+        public string Resize;
+
+        public Container(int x, int y, int width, int height, int maxWidth, int maxHeight, Color color, Color borderColor)
         {
             X = x; 
-            Y = y; 
+            Y = y;
             Width = width;
             Height = height;
+            MaxWidth = maxWidth;
+            MaxHeight = maxHeight;
             Color = color;
             BorderColor = borderColor;
+
+            Resize = "none";
         }
     }
 }
