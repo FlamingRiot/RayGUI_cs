@@ -34,6 +34,9 @@ namespace RayGUI_cs
             font.BaseSize = 2;
             int txtLength = button.Text.Length;
             DrawTextPro(font, button.Text, new Vector2(button.X + button.Width / 2 - txtLength * 4, button.Y + button.Height / 3 -  5), new Vector2(0, 0), 0, 1, 1, Color.White);
+
+            // Does user interacts with the buttons 
+            IsButtonPressed(button);
         }
 
         /// <summary>
@@ -142,10 +145,39 @@ namespace RayGUI_cs
                     c.Width = (int)mouse.X - (int)c.X;
                     break;
             }
-            
+
+            // Manage FileDropper containers
+            if (c.Type == ContainerType.FileDropper)
+            {
+                if (IsFileDropped() && mouse.X < c.X + c.Width && mouse.X > c.X && mouse.Y < c.Y + c.Height && mouse.Y > c.Y)
+                {
+                    FilePathList filePathList = LoadDroppedFiles();
+                    string path = new string((sbyte*)filePathList.Paths[0]);
+                    string[] pathArray = path.Split('.');
+                    string[] pathArryBySlash = path.Split('\\');
+                    string fileName = pathArryBySlash.Last();
+
+                    // Copy file to output directory of the container
+                    if (pathArray.Last() == c.ExtensionFile)
+                    {
+                        File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
+                    }
+                    Console.WriteLine(path);
+                }
+            }
+
             // Draw container
             DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
             DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
+        }
+
+        /// <summary>
+        /// Import the dropped files in the corresponding container
+        /// </summary>
+        /// <param name="c">Corresponding container</param>
+        public static void ImportFiles(Container c)
+        {
+
         }
     }
 }

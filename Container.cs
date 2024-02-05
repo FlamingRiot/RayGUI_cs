@@ -2,6 +2,12 @@
 
 namespace RayGUI_cs
 {
+    public enum ContainerType
+    {
+        Custom = 0,
+        FileDropper
+    }
+
     public partial struct Container
     {
         /// <summary>
@@ -49,6 +55,26 @@ namespace RayGUI_cs
         /// </summary>
         public string Resize;
 
+        /// <summary>
+        /// Type of the container
+        /// </summary>
+        public ContainerType Type;
+
+        /// <summary>
+        /// The file path for the output directory
+        /// </summary>
+        public string OutputFilePath;
+
+        /// <summary>
+        /// Acceptable file types (works only for the File Dropper type)
+        /// </summary>
+        public string ExtensionFile;
+
+        /// <summary>
+        /// Paths of the container's files
+        /// </summary>
+        public List<string> Files;
+
         public Container(int x, int y, int width, int height, int maxWidth, int maxHeight, Color color, Color borderColor)
         {
             X = x; 
@@ -61,6 +87,10 @@ namespace RayGUI_cs
             BorderColor = borderColor;
 
             Resize = "none";
+            ExtensionFile = "";
+            Files = new List<string>();
+            Type = ContainerType.Custom;
+            OutputFilePath = "";
         }
     }
 }

@@ -7,8 +7,7 @@ namespace RayGUI_cs
     public enum ButtonType
     {
         Custom = 0,
-        PathFinder,
-        DropDown
+        PathFinder
     }
 
     /// <summary>
@@ -57,11 +56,6 @@ namespace RayGUI_cs
         public string Text;
 
         /// <summary>
-        /// Subbuttons of the button (works only for DropDown type)
-        /// </summary>
-        public Button[] subbuttons;
-
-        /// <summary>
         /// Type of the button event
         /// </summary>
         public ButtonType Type;
@@ -79,7 +73,6 @@ namespace RayGUI_cs
             // Automatically set
             Text = "";
             Type = ButtonType.Custom;
-            subbuttons = new Button[] { };
         }
 
         public Button(int width, int height, int x, int y, Color color, Color borderColor, Color hoverColor)
@@ -95,7 +88,6 @@ namespace RayGUI_cs
             // Automatically set
             Text = "";
             Type = ButtonType.Custom;
-            subbuttons = new Button[] { };
         }
 
         public void Activate()
@@ -120,8 +112,7 @@ namespace RayGUI_cs
                     startInfo.Arguments = string.Format("/C start {0}", _path);
                     process.StartInfo = startInfo;
                     process.Start();
-                    break;
-                case ButtonType.DropDown:
+                    Console.WriteLine("Explo lancé");
                     break;
             }
         }
