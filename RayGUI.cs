@@ -6,7 +6,7 @@ namespace RayGUI_cs
 {
     public static unsafe partial class RayGUI
     {
-        const int BORDER = 2;
+        const int BORDER = 1;
 
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
@@ -49,6 +49,58 @@ namespace RayGUI_cs
                     return true;
             }
             else { return false; }
+        }
+
+        /// <summary>
+        /// Draw container on the screen
+        /// </summary>
+        /// <param name="c"></param>
+        public static void DrawContainer(Container c)
+        {
+            // Manage the resize option
+            Vector2 mouse = GetMousePosition();
+            switch (mouse)
+            {
+                // Left
+                case Vector2 i when i.X < c.X + 5 && i.X > c.X - 5 && i.Y < c.Height - 5 && i.Y > c.Y + 5:
+                    SetMouseCursor(MouseCursor.ResizeEw);
+                    break;
+                // Right
+                case Vector2 i when i.X < c.X + c.Width + 5 && i.X > c.X + c.Width - 5 && i.Y < c.Height - 5 && i.Y > c.Y + 5:
+                    SetMouseCursor(MouseCursor.ResizeEw);
+                    break;
+                // Top
+                case Vector2 i when i.X < c.X + c.Width - 5 && i.X > c.X + 5 && i.Y < c.Y + 5 && i.Y > c.Y - 5:
+                    SetMouseCursor(MouseCursor.ResizeNs);
+                    break;
+                // Bottom
+                case Vector2 i when i.X < c.X + c.Width - 5 && i.X > c.X + 5 && i.Y < c.Y + c.Height + 5 && i.Y > c.Y + c.Height - 5:
+                    SetMouseCursor(MouseCursor.ResizeNs);
+                    break;
+                // Top-Left
+                case Vector2 i when i.X < c.X + 5 && i.X > c.X - 5 && i.Y < c.Y + 5 && i.Y > c.Y - 5:
+                    SetMouseCursor(MouseCursor.ResizeNwse);
+                    break;
+                // Top-Right
+                case Vector2 i when i.X < c.X + c.Width + 5 && i.X > c.X + c.Width - 5 && i.Y < c.Y + 5 && i.Y > c.Y - 5:
+                    SetMouseCursor(MouseCursor.ResizeNesw);
+                    break;
+                // Bottom-Left
+                case Vector2 i when i.X < c.X + 5 && i.X > c.X - 5 && i.Y < c.Y + c.Height + 5 && i.Y > c.Y + c.Height - 5:
+                    SetMouseCursor(MouseCursor.ResizeNesw);
+                    break;
+                // Bottom-Right
+                case Vector2 i when i.X < c.X + c.Width + 5 && i.X > c.X + c.Width - 5 && i.Y < c.Y + c.Height + 5 && i.Y > c.Y + c.Height - 5:
+                    SetMouseCursor(MouseCursor.ResizeNwse);
+                    break;
+                // Not
+                default:
+                    SetMouseCursor(MouseCursor.Default);
+                    break;
+            }
+
+            DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
+            DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
         }
     }
 }

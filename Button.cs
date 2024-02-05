@@ -7,6 +7,16 @@ namespace RayGUI_cs
     public partial struct Button
     {
         /// <summary>
+        /// X coordinate of the button
+        /// </summary>
+        public int X;
+
+        /// <summary>
+        /// Y coordinate of the button
+        /// </summary>
+        public int Y;
+
+        /// <summary>
         /// Button width
         /// </summary>
         public int Width;
@@ -30,16 +40,6 @@ namespace RayGUI_cs
         /// Hover color for the button
         /// </summary>
         public Color HoverColor;
-
-        /// <summary>
-        /// X coordinate of the button
-        /// </summary>
-        public int X;
-
-        /// <summary>
-        /// Y coordinate of the button
-        /// </summary>
-        public int Y;
 
         /// <summary>
         /// Text of the button
