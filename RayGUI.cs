@@ -151,18 +151,7 @@ namespace RayGUI_cs
             {
                 if (IsFileDropped() && mouse.X < c.X + c.Width && mouse.X > c.X && mouse.Y < c.Y + c.Height && mouse.Y > c.Y)
                 {
-                    FilePathList filePathList = LoadDroppedFiles();
-                    string path = new string((sbyte*)filePathList.Paths[0]);
-                    string[] pathArray = path.Split('.');
-                    string[] pathArryBySlash = path.Split('\\');
-                    string fileName = pathArryBySlash.Last();
-
-                    // Copy file to output directory of the container
-                    if (pathArray.Last() == c.ExtensionFile)
-                    {
-                        File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
-                    }
-                    Console.WriteLine(path);
+                    ImportFiles(c);
                 }
             }
 
@@ -177,7 +166,20 @@ namespace RayGUI_cs
         /// <param name="c">Corresponding container</param>
         public static void ImportFiles(Container c)
         {
+            FilePathList filePathList = LoadDroppedFiles();
+            string path = new string((sbyte*)filePathList.Paths[0]);
+            string[] pathArray = path.Split('.');
+            string[] pathArryBySlash = path.Split('\\');
+            string fileName = pathArryBySlash.Last();
 
+            // Copy file to output directory of the container
+            if (pathArray.Last() == c.ExtensionFile && !c.Files.Contains(c.OutputFilePath + fileName))
+            {
+                File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
+                TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+            }
+            else { TraceLog(TraceLogLevel.Warning, "File could not be received, it either already exists in this directory or the file extension isn't supported"); }
+            c.Files.Add(c.OutputFilePath + fileName);
         }
     }
 }
