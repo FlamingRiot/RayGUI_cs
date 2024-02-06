@@ -90,18 +90,21 @@ namespace RayGUI_cs
             Type = ButtonType.Custom;
         }
 
+        /// <summary>
+        /// Activate button event, if not set to custom
+        /// </summary>
         public void Activate()
         {
             switch (Type)
             {
                 case ButtonType.Custom:
-                    Raylib.TraceLog(TraceLogLevel.Info, "This button has not any event asigned to it");
+                    Raylib.TraceLog(TraceLogLevel.Warning, "This button has not any event asigned to it");
                     break;
                 case ButtonType.PathFinder:
                     // Find the current user
                     string userString = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
                     string[] userArray = userString.Split('\\');
-                    string user = userArray[1];
+                    string user = userArray.Last();
 
                     // Open the file explorer
                     System.Diagnostics.Process process = new System.Diagnostics.Process();

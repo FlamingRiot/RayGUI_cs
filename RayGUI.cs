@@ -180,7 +180,7 @@ namespace RayGUI_cs
                     File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
                     TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
                 }
-                else { TraceLog(TraceLogLevel.Warning, "File could not be received, extension is not supported"); }
+                else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
             }
             // Add file path to the container
             c.Files.Add(c.OutputFilePath + fileName);
