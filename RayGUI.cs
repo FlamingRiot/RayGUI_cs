@@ -199,7 +199,7 @@ namespace RayGUI_cs
             // Manage ticking option
             if (mouse.X < t.X + size && mouse.X > t.X && mouse.Y < t.Y + size && mouse.Y > t.Y)
             {
-                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, new Color(60, 60, 60, 255));
+                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, t.BorderColor);
                 if (IsMouseButtonPressed(MouseButton.Left))
                 {
                     t.Ticked = !t.Ticked;
@@ -207,16 +207,26 @@ namespace RayGUI_cs
             }
             else
             {
-                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, new Color(60, 60, 60, 255));
+                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, t.BorderColor);
                 if (!t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, size, size, new Color(30, 30, 30, 255));
+                    DrawRectangle(t.X, t.Y, size, size, t.Color);
                 }
                 else if (t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, size, size, new Color(60, 60, 60, 255));
+                    DrawRectangle(t.X, t.Y, size, size, t.BorderColor);
                 }
             }
+        }
+
+        /// <summary>
+        /// Draw label on the screen
+        /// </summary>
+        /// <param name="l"></param>
+        public static void DrawLabel(Label l, Font font)
+        {
+            font.BaseSize = 2;
+            DrawTextPro(font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, 1, 1, Color.White);
         }
     }
 }
