@@ -185,5 +185,38 @@ namespace RayGUI_cs
             // Add file path to the container
             c.Files.Add(c.OutputFilePath + fileName);
         }
+
+        /// <summary>
+        /// Draw tickbox on the screen
+        /// </summary>
+        /// <param name="t"></param>
+        public static void DrawTickbox(ref Tickbox t)
+        {
+            int size = 16;
+            int border = 1;
+            Vector2 mouse = GetMousePosition();
+
+            // Manage ticking option
+            if (mouse.X < t.X + size && mouse.X > t.X && mouse.Y < t.Y + size && mouse.Y > t.Y)
+            {
+                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, new Color(60, 60, 60, 255));
+                if (IsMouseButtonPressed(MouseButton.Left))
+                {
+                    t.Ticked = !t.Ticked;
+                }
+            }
+            else
+            {
+                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, new Color(60, 60, 60, 255));
+                if (!t.Ticked)
+                {
+                    DrawRectangle(t.X, t.Y, size, size, new Color(30, 30, 30, 255));
+                }
+                else if (t.Ticked)
+                {
+                    DrawRectangle(t.X, t.Y, size, size, new Color(60, 60, 60, 255));
+                }
+            }
+        }
     }
 }
