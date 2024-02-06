@@ -173,12 +173,16 @@ namespace RayGUI_cs
             string fileName = pathArryBySlash.Last();
 
             // Copy file to output directory of the container
-            if (pathArray.Last() == c.ExtensionFile && !c.Files.Contains(c.OutputFilePath + fileName))
+            if (!c.Files.Contains(c.OutputFilePath + fileName))
             {
-                File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
-                TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+                if (pathArray.Last() == c.ExtensionFile)
+                {
+                    File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
+                    TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+                }
+                else { TraceLog(TraceLogLevel.Warning, "File could not be received, extension is not supported"); }
             }
-            else { TraceLog(TraceLogLevel.Warning, "File could not be received, it either already exists in this directory or the file extension isn't supported"); }
+            // Add file path to the container
             c.Files.Add(c.OutputFilePath + fileName);
         }
     }

@@ -112,7 +112,6 @@ namespace RayGUI_cs
                     startInfo.Arguments = string.Format("/C start {0}", _path);
                     process.StartInfo = startInfo;
                     process.Start();
-                    Console.WriteLine("Explo lancé");
                     break;
             }
         }
