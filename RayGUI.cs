@@ -5,7 +5,7 @@ using System.Numerics;
 namespace RayGUI_cs
 {
     public static unsafe partial class RayGUI
-    {
+    {   
         const int BORDER = 1;
 
         //------------------------------------------------------------------------------------

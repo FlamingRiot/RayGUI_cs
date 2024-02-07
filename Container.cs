@@ -31,16 +31,6 @@ namespace RayGUI_cs
         public int Height;
 
         /// <summary>
-        /// Maximum width
-        /// </summary>
-        public int MaxWidth;
-
-        /// <summary>
-        /// Maximum height
-        /// </summary>
-        public int MaxHeight;
-
-        /// <summary>
         /// Background color of the container
         /// </summary>
         public Color Color;
@@ -75,14 +65,12 @@ namespace RayGUI_cs
         /// </summary>
         public List<string> Files;
 
-        public Container(int x, int y, int width, int height, int maxWidth, int maxHeight, Color color, Color borderColor)
+        public Container(int x, int y, int width, int height, Color color, Color borderColor)
         {
             X = x; 
             Y = y;
             Width = width;
             Height = height;
-            MaxWidth = maxWidth;
-            MaxHeight = maxHeight;
             Color = color;
             BorderColor = borderColor;
 
