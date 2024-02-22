@@ -296,7 +296,7 @@ namespace RayGUI_cs
         /// <returns></returns>
         public static string GetKeyString(int keycode)
         {
-            return KEYS.Key[keycode - 67];
+            return KEYS.Key[keycode - 65];
         }
     }
 }
