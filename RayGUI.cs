@@ -7,14 +7,8 @@ namespace RayGUI_cs
 {
     public unsafe partial class RayGUI
     {   
-        // Load data from external files
-
         const int BORDER = 1;
-        static StreamReader sr = new StreamReader("data/keycodes.json");
-        static string json = sr.ReadToEnd();
-        static readonly List<string> KEYCODE = JsonConvert.DeserializeObject<List<string>>(json);
-
-
+        static Keys KEYS = new Keys();
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
         //------------------------------------------------------------------------------------
@@ -302,7 +296,7 @@ namespace RayGUI_cs
         /// <returns></returns>
         public static string GetKeyString(int keycode)
         {
-            return externalData;
+            return KEYS.Key[keycode - 67];
         }
     }
 }
