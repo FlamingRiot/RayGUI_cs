@@ -1,13 +1,14 @@
 ﻿using static Raylib_cs.Raylib;
 using Raylib_cs;
 using System.Numerics;
+using Newtonsoft.Json;
 
 namespace RayGUI_cs
 {
-    public static unsafe partial class RayGUI
+    public unsafe partial class RayGUI
     {   
         const int BORDER = 1;
-
+           
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
         //------------------------------------------------------------------------------------
@@ -227,6 +228,75 @@ namespace RayGUI_cs
         {
             font.BaseSize = 2;
             DrawTextPro(font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, 1, 1, Color.White);
+        }
+
+        /// <summary>
+        /// Draw a textbox on the screen
+        /// </summary>
+        /// <param name="t">Textbox</param>
+        /// <param name="font">Font to use</param>
+        public static void DrawTextbox(ref Textbox t, Font font)
+        {
+            // Manage box border
+            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+            // Manage hover t color
+            Vector2 mouse = GetMousePosition();
+            if (mouse.X < t.X + t.Width && mouse.X > t.X && mouse.Y < t.Y + t.Height && mouse.Y > t.Y)
+            {
+                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BorderColor);
+            }
+            else
+            {
+                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.Color);
+            }
+
+            // Manage button text
+            font.BaseSize = 2;
+            int txtLength = t.Text.Length;
+            DrawTextPro(font, t.Text, new Vector2(t.X + t.Width / 2 - txtLength * 4, t.Y + t.Height / 3 - 5), new Vector2(0, 0), 0, 1, 1, Color.White);
+
+            // Manage modifying option
+
+            if (Hover(t.X, t.Y, t.Width, t.Height) && IsMouseButtonPressed(MouseButton.Left))
+            {
+                t.Focus = true;
+            }
+            if (t.Focus)
+            {
+                int key = GetKeyPressed();
+                if (key != 0)
+                {
+                    t.Text += GetKeyString(key);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check if mouse is over any element by passing its position and scale properties
+        /// </summary>
+        /// <param name="x">X coordinate</param>
+        /// <param name="y">Y coordinate</param>
+        /// <param name="width">Width scale</param>
+        /// <param name="height">height scale</param>
+        /// <returns></returns>
+        public static bool Hover(int x, int y, int width, int height)
+        {
+            Vector2 mouse = GetMousePosition();
+            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y && IsMouseButtonPressed(MouseButton.Left))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        /// <summary>
+        /// Get the pressed key by passing the key code
+        /// </summary>
+        /// <param name="keycode">Code of the key</param>
+        /// <returns></returns>
+        public static string GetKeyString(int keycode)
+        {
+            return "";
         }
     }
 }
