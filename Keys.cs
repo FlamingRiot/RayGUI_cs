@@ -40,8 +40,8 @@ namespace RayGUI_cs
                 "v",
                 "w",
                 "x",
-                "y",
-                "z"
+                "z",
+                "y"
             };
         }
     }
