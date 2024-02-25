@@ -60,7 +60,7 @@ namespace RayGUI_cs
         /// </summary>
         public ButtonType Type;
 
-        public Button(int width, int height, int x, int y, Color color, Color borderColor)
+        public Button(int x, int y, int width, int height, Color color, Color borderColor)
         {
             Width = width;
             Height = height;
