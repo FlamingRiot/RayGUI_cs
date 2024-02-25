@@ -8,14 +8,15 @@ namespace RayGUI_cs
 {
     public partial struct Keys
     {
-        public string[] Key;
+        public string[] LCKey;
+        public string[] UCKey;
 
         /// <summary>
         /// Define keys
         /// </summary>
         public Keys()
         {
-            Key = new string[]
+            LCKey = new string[]
             {
                 "a",
                 "b",
@@ -43,6 +44,36 @@ namespace RayGUI_cs
                 "x",
                 "z",
                 "y"
+            };
+
+            UCKey = new string[]
+            {
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "Q",
+                "R",
+                "S",
+                "T",
+                "U",
+                "V",
+                "W",
+                "X",
+                "Z",
+                "Y"
             };
         }
     }

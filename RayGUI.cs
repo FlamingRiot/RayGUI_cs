@@ -267,7 +267,8 @@ namespace RayGUI_cs
                 int key = GetKeyPressed();
                 if (key != 0)
                 {
-                    t.Text += GetKeyString(key);
+                    if (key == 259 && t.Text.Length != 0) t.Text = t.Text.Remove(t.Text.Length - 1);
+                    else t.Text += GetKeyString(key);
                 }
             }
         }
@@ -297,14 +298,28 @@ namespace RayGUI_cs
         /// <returns></returns>
         public static string GetKeyString(int keycode)
         {
-            try
+            // Specific cases
+            switch (keycode)
             {
-                return KEYS.Key[keycode - 65];
-            }
-            catch
-            {
-                TraceLog(TraceLogLevel.Warning, "Key not implemented - Check your keyboard you dumbass");
-                return "";
+                // Space bar
+                case 32:return " ";
+                default:
+                    try
+                    {
+                        if (IsKeyDown(KeyboardKey.LeftShift))
+                        {
+                            return KEYS.UCKey[keycode - 65];
+                        }
+                        else
+                        {
+                            return KEYS.LCKey[keycode - 65];
+                        }
+                    }
+                    catch
+                    {
+                        TraceLog(TraceLogLevel.Warning, "Key not implemented - Check your keyboard you dumbass");
+                        return "";
+                    }
             }
         }
     }
