@@ -297,7 +297,15 @@ namespace RayGUI_cs
         /// <returns></returns>
         public static string GetKeyString(int keycode)
         {
-            return KEYS.Key[keycode - 65];
+            try
+            {
+                return KEYS.Key[keycode - 65];
+            }
+            catch
+            {
+                TraceLog(TraceLogLevel.Warning, "Key not implemented - Check your keyboard you dumbass");
+                return "";
+            }
         }
     }
 }
