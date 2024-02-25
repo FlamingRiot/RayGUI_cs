@@ -251,6 +251,7 @@ namespace RayGUI_cs
             }
 
             // Manage button text
+            // Manage button text
             font.BaseSize = 2;
             int txtLength = t.Text.Length;
             DrawTextPro(font, t.Text, new Vector2(t.X + t.Width / 2 - txtLength * 4, t.Y + t.Height / 3 - 5), new Vector2(0, 0), 0, 1, 1, Color.White);

@@ -63,31 +63,15 @@ namespace RayGUI_cs
         public Button(string text, int x, int y, int width, int height, Color color, Color borderColor)
         {
             Text = text;
-            Width = width;
+            Width = width + text.Length * 6;
             Height = height;
-            X = x;
+            X = x - text.Length * 8;
             Y = y;
             Color = color;
             BorderColor = borderColor;
             HoverColor = borderColor;
 
             // Automatically set
-            Text = "";
-            Type = ButtonType.Custom;
-        }
-
-        public Button(int width, int height, int x, int y, Color color, Color borderColor, Color hoverColor)
-        {
-            Width = width;
-            Height = height;
-            X = x;
-            Y = y;
-            Color = color;
-            BorderColor = borderColor;
-            HoverColor = hoverColor;
-
-            // Automatically set
-            Text = "";
             Type = ButtonType.Custom;
         }
 

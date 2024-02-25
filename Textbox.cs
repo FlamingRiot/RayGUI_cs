@@ -53,12 +53,13 @@ namespace RayGUI_cs
         public Textbox(string text, int x, int y, int width, int height, Color color, Color borderColor)
         {
             this.Text = text;
-            this.X = x;
+            this.X = x - text.Length * 8;
             this.Y = y;
-            this.Width = width;
+            this.Width = width + text.Length * 6;
             this.Height = height;
             this.Color = color;
             this.BorderColor = borderColor;
+
 
             this.Focus = false;
         }
