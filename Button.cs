@@ -60,15 +60,16 @@ namespace RayGUI_cs
         /// </summary>
         public ButtonType Type;
 
-        public Button(int x, int y, int width, int height, Color color, Color borderColor)
+        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor)
         {
+            Text = text;
             Width = width;
             Height = height;
             X = x;
             Y = y;
             Color = color;
             BorderColor = borderColor;
-            HoverColor = color;
+            HoverColor = borderColor;
 
             // Automatically set
             Text = "";

@@ -282,7 +282,7 @@ namespace RayGUI_cs
         public static bool Hover(int x, int y, int width, int height)
         {
             Vector2 mouse = GetMousePosition();
-            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y)
+            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y && IsMouseButtonPressed(MouseButton.Left))
             {
                 return true;
             }
