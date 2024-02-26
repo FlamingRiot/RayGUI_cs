@@ -265,11 +265,10 @@ namespace RayGUI_cs
             if (t.Focus)
             {
                 int key = GetKeyPressed();
-                if (key != 0)
-                {
-                    if (key == 259 && t.Text.Length != 0) t.Text = t.Text.Remove(t.Text.Length - 1);
-                    else t.Text += GetKeyString(key);
-                }
+
+                if (IsKeyDown(KeyboardKey.Backspace) && t.Text.Length != 0) t.Text = t.Text.Remove(t.Text.Length - 1);
+                else if (key != 0) t.Text += GetKeyString(key);
+                
             }
         }
 
