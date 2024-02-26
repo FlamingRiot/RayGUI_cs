@@ -8,6 +8,8 @@ namespace RayGUI_cs
     {   
         const int BORDER = 1;
         static Keys KEYS = new Keys();
+        static Color baseColor;
+        static Color borderColor;
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
         //------------------------------------------------------------------------------------
@@ -15,10 +17,12 @@ namespace RayGUI_cs
         /// <summary>
         /// Initialize GUI tool
         /// </summary>
-        public static void InitGUI()
+        public static void InitGUI(Color BaseColor, Color BorderColor)
         {
             // Disable exit key
             SetExitKey(KeyboardKey.Null);
+            baseColor = BaseColor;
+            borderColor = BorderColor;
         }
 
         /// <summary>
@@ -248,8 +252,7 @@ namespace RayGUI_cs
             // Manage box border
             DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
             // Manage hover t color
-            Vector2 mouse = GetMousePosition();
-            if (mouse.X < t.X + t.Width && mouse.X > t.X && mouse.Y < t.Y + t.Height && mouse.Y > t.Y)
+            if (Hover(t.X, t.Y, t.Width, t.Height) && !t.Focus)
             {
                 DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BorderColor);
             }
@@ -264,10 +267,14 @@ namespace RayGUI_cs
             DrawTextPro(font, t.Text, new Vector2(t.X + t.Width / 2 - txtLength * 4, t.Y + t.Height / 3 - 5), new Vector2(0, 0), 0, 1, 1, Color.White);
 
             // Manage modifying option
-
-            if (Hover(t.X, t.Y, t.Width, t.Height) && IsMouseButtonPressed(MouseButton.Left))
+            if (Hover(t.X, t.Y, t.Width, t.Height))
             {
-                t.Focus = true;
+                SetMouseCursor(MouseCursor.IBeam);
+                if (IsMouseButtonPressed(MouseButton.Left)) 
+                {
+                    t.Focus = true;
+                    t.Color = ColorTint(t.Color, Color.Blue);
+                }
             }
             if (t.Focus)
             {
@@ -290,7 +297,7 @@ namespace RayGUI_cs
                 if (key != 0 && key != 259) t.Text += GetKeyString(key);
                 
             }
-            if (IsKeyPressed(KeyboardKey.Escape)) { t.Focus = false; }
+            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.Color = baseColor; }
         }
 
         /// <summary>
@@ -304,7 +311,7 @@ namespace RayGUI_cs
         public static bool Hover(int x, int y, int width, int height)
         {
             Vector2 mouse = GetMousePosition();
-            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y && IsMouseButtonPressed(MouseButton.Left))
+            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y)
             {
                 return true;
             }
