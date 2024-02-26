@@ -34,7 +34,6 @@ namespace RayGUI_cs
         {
             DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
             // Manage hover button color
-            Vector2 mouse = GetMousePosition();
             if (Hover(button.X, button.Y, button.Width, button.Height)) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
@@ -192,7 +191,6 @@ namespace RayGUI_cs
                     t.Color = ColorTint(t.Color, Color.Blue);
                 }
             }
-            else { SetMouseCursor(MouseCursor.Default); }
             if (t.Focus)
             {
                 int key = GetKeyPressed();

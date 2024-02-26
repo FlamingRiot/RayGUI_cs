@@ -85,7 +85,7 @@ namespace RayGUI_cs
             switch (Type)
             {
                 case ButtonType.Custom:
-                    Raylib.TraceLog(TraceLogLevel.Warning, "This button has not any event asigned to it");
+                    Raylib.TraceLog(TraceLogLevel.Warning, "You must assign an event yourself to this button");
                     break;
                 case ButtonType.PathFinder:
                     // Find the current user
