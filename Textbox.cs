@@ -45,6 +45,11 @@ namespace RayGUI_cs
         public bool Focus;
 
         /// <summary>
+        /// Delta time of the back key being pressed
+        /// </summary>
+        public double DeltaBack;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="text">Initial value of the box</param>
@@ -62,6 +67,7 @@ namespace RayGUI_cs
 
 
             this.Focus = false;
+            this.DeltaBack = 0.0;
         }
     }
 }

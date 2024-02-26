@@ -1,7 +1,6 @@
 ﻿using static Raylib_cs.Raylib;
 using Raylib_cs;
 using System.Numerics;
-using Newtonsoft.Json;
 
 namespace RayGUI_cs
 {
@@ -12,6 +11,15 @@ namespace RayGUI_cs
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
         //------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Initialize GUI tool
+        /// </summary>
+        public static void InitGUI()
+        {
+            // Disable exit key
+            SetExitKey(KeyboardKey.Null);
+        }
 
         /// <summary>
         /// Draw button on the screen
@@ -251,7 +259,6 @@ namespace RayGUI_cs
             }
 
             // Manage button text
-            // Manage button text
             font.BaseSize = 2;
             int txtLength = t.Text.Length;
             DrawTextPro(font, t.Text, new Vector2(t.X + t.Width / 2 - txtLength * 4, t.Y + t.Height / 3 - 5), new Vector2(0, 0), 0, 1, 1, Color.White);
@@ -266,10 +273,24 @@ namespace RayGUI_cs
             {
                 int key = GetKeyPressed();
 
-                if (IsKeyDown(KeyboardKey.Backspace) && t.Text.Length != 0) t.Text = t.Text.Remove(t.Text.Length - 1);
-                else if (key != 0) t.Text += GetKeyString(key);
+                if (t.Text.Length != 0)
+                {
+                    if (key == 259)
+                    {
+                        t.Text = t.Text.Remove(t.Text.Length - 1);
+                    }
+
+                    if (IsKeyDown(KeyboardKey.Backspace))
+                    {
+                        if (t.DeltaBack == 0.0) { t.DeltaBack = GetTime(); }
+                        if (GetTime() - t.DeltaBack >= 0.5) { t.Text = t.Text.Remove(t.Text.Length - 1); }
+                    }
+                    else { t.DeltaBack = 0.0; }
+                }
+                if (key != 0 && key != 259) t.Text += GetKeyString(key);
                 
             }
+            if (IsKeyPressed(KeyboardKey.Escape)) { t.Focus = false; }
         }
 
         /// <summary>
