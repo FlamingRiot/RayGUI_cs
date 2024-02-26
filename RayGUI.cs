@@ -72,7 +72,7 @@ namespace RayGUI_cs
         /// Draw container on the screen
         /// </summary>
         /// <param name="c"></param>
-        public static void DrawContainer(ref Container c)
+        public static Container DrawContainer(ref Container c)
         {
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)
@@ -86,6 +86,8 @@ namespace RayGUI_cs
             // Draw container
             DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
             DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
+
+            return c;
         }
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace RayGUI_cs
         /// </summary>
         /// <param name="t">Textbox</param>
         /// <param name="font">Font to use</param>
-        public static void DrawTextbox(ref Textbox t, Font font)
+        public static Textbox DrawTextbox(ref Textbox t, Font font)
         {
             // Manage box border
             DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
@@ -213,6 +215,8 @@ namespace RayGUI_cs
                 
             }
             if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.Color = baseColor; }
+
+            return t;
         }
 
         /// <summary>

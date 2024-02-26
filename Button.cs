@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using System.Security.Principal;
 namespace RayGUI_cs
 {
     /// <summary>
@@ -7,7 +8,8 @@ namespace RayGUI_cs
     public enum ButtonType
     {
         Custom = 0,
-        PathFinder
+        PathFinder,
+        ColorPicker
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ namespace RayGUI_cs
                     break;
                 case ButtonType.PathFinder:
                     // Find the current user
-                    string userString = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+                    string userString = WindowsIdentity.GetCurrent().Name;
                     string[] userArray = userString.Split('\\');
                     string user = userArray.Last();
 
@@ -100,6 +102,8 @@ namespace RayGUI_cs
                     startInfo.Arguments = string.Format("/C start {0}", _path);
                     process.StartInfo = startInfo;
                     process.Start();
+                    break;
+                case ButtonType.ColorPicker:
                     break;
             }
         }
