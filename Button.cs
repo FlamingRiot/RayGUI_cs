@@ -58,11 +58,16 @@ namespace RayGUI_cs
         public string Text;
 
         /// <summary>
+        /// Tag of the button
+        /// </summary>
+        public string Tag;
+
+        /// <summary>
         /// Type of the button event
         /// </summary>
         public ButtonType Type;
 
-        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor)
+        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor, string tag)
         {
             Text = text;
             Width = width + text.Length * 6;
@@ -72,6 +77,7 @@ namespace RayGUI_cs
             Color = color;
             BorderColor = borderColor;
             HoverColor = borderColor;
+            Tag = tag;
 
             // Automatically set
             Type = ButtonType.Custom;
@@ -84,9 +90,6 @@ namespace RayGUI_cs
         {
             switch (Type)
             {
-                case ButtonType.Custom:
-                    Raylib.TraceLog(TraceLogLevel.Warning, "You must assign an event yourself to this button");
-                    break;
                 case ButtonType.PathFinder:
                     // Find the current user
                     string userString = WindowsIdentity.GetCurrent().Name;
