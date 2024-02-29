@@ -77,6 +77,7 @@ namespace RayGUI_cs
 
             ExtensionFile = "";
             Files = new List<string>();
+            Files.Add("");
             Type = ContainerType.Custom;
             OutputFilePath = "";
         }

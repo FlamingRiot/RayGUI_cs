@@ -78,7 +78,7 @@ namespace RayGUI_cs
             {
                 if (IsFileDropped() && Hover((int)c.X, (int)c.Y, c.Width, c.Height))
                 {
-                    ImportFiles(c);
+                    ImportFiles(ref c);
                 }
             }
 
@@ -93,7 +93,7 @@ namespace RayGUI_cs
         /// Import the dropped files in the corresponding container
         /// </summary>
         /// <param name="c">Corresponding container</param>
-        public static void ImportFiles(Container c)
+        public static void ImportFiles(ref Container c)
         {
             FilePathList filePathList = LoadDroppedFiles();
             string path = new string((sbyte*)filePathList.Paths[0]);
@@ -102,18 +102,18 @@ namespace RayGUI_cs
             string fileName = pathArryBySlash.Last();
 
             // Copy file to output directory of the container
-            if (!c.Files.Contains(c.OutputFilePath + fileName))
+            if (!c.Files.Contains(c.OutputFilePath + "\\" +fileName))
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
-                    File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + fileName, true);
-                    File.Copy(path, c.OutputFilePath + "\\" +fileName, true);
+                    File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + "\\" +fileName, true);
+                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
                     TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
                 }
                 else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
+                // Add file path to the container
+                c.Files.Add(c.OutputFilePath + "\\" +fileName);
             }
-            // Add file path to the container
-            c.Files.Add(c.OutputFilePath + fileName);
         }
 
         /// <summary>
