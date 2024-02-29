@@ -41,11 +41,6 @@ namespace RayGUI_cs
         public Color BorderColor;
 
         /// <summary>
-        /// Resize direction
-        /// </summary>
-        public string Resize;
-
-        /// <summary>
         /// Type of the container
         /// </summary>
         public ContainerType Type;
@@ -65,7 +60,12 @@ namespace RayGUI_cs
         /// </summary>
         public List<string> Files;
 
-        public Container(int x, int y, int width, int height, Color color, Color borderColor)
+        /// <summary>
+        /// Container tag
+        /// </summary>
+        public string Tag;
+
+        public Container(int x, int y, int width, int height, Color color, Color borderColor, string Tag)
         {
             X = x; 
             Y = y;
@@ -73,8 +73,8 @@ namespace RayGUI_cs
             Height = height;
             Color = color;
             BorderColor = borderColor;
+            this.Tag = Tag;
 
-            Resize = "none";
             ExtensionFile = "";
             Files = new List<string>();
             Type = ContainerType.Custom;

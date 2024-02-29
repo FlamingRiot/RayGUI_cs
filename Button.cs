@@ -105,6 +105,7 @@ namespace RayGUI_cs
                     startInfo.Arguments = string.Format("/C start {0}", _path);
                     process.StartInfo = startInfo;
                     process.Start();
+                    Console.WriteLine("Expolrer launched");
                     break;
                 case ButtonType.ColorPicker:
                     break;
