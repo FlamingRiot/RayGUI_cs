@@ -114,6 +114,7 @@ namespace RayGUI_cs
                 // Add file path to the container
                 c.Files.Add(c.OutputFilePath + "\\" +fileName);
             }
+            UnloadDroppedFiles(filePathList);
         }
 
         /// <summary>
