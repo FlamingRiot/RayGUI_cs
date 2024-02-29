@@ -266,5 +266,14 @@ namespace RayGUI_cs
                     }
             }
         }
+
+        /// <summary>
+        /// Draw panel
+        /// </summary>
+        /// <param name="p">Panel</param>
+        public static void DrawPanel(Panel p)
+        {
+            DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
+        }
     }
 }
