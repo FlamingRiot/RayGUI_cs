@@ -211,7 +211,12 @@ namespace RayGUI_cs
                     }
                     else { t.DeltaBack = 0.0; }
                 }
-                if (key != 0 && key != 259) t.Text += GetKeyString(key);
+                // Manager copy-paste
+                if (IsKeyDown(KeyboardKey.LeftControl) && IsKeyPressed(KeyboardKey.V))
+                {
+                    t.Text += GetClipboardText_();
+                }
+                else if (key != 0 && key != 259) t.Text += GetKeyString(key);
                 
             }
             if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.Color = baseColor; }
