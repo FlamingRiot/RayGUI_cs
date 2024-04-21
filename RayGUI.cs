@@ -106,8 +106,22 @@ namespace RayGUI_cs
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
-                    File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + "\\" +fileName, true);
-                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
+                    string exeLoc = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+                    string[] exePathArray = exeLoc.Split('\\');
+                    string exeParent = exePathArray[exePathArray.Length - 2];
+
+                    if (exeParent == "net6.0")
+                    {
+                        Console.WriteLine("The program is currently running in the Debug version");
+                        File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + "\\" + fileName, true);
+                        File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
+                    }
+                    else
+                    {
+                        Console.WriteLine("The program is currently running the Published version");
+                        File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
+                    }
+                    
                     TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
                 }
                 else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
