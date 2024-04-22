@@ -110,7 +110,7 @@ namespace RayGUI_cs
                     string[] exePathArray = exeLoc.Split('\\');
                     string exeParent = exePathArray[exePathArray.Length - 2];
 
-                    if (exeParent == "net6.0")
+                    if (System.Diagnostics.Debugger.IsAttached)
                     {
                         Console.WriteLine("The program is currently running in the Debug version");
                         File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + "\\" + fileName, true);
