@@ -106,21 +106,8 @@ namespace RayGUI_cs
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
-                    string exeLoc = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-                    string[] exePathArray = exeLoc.Split('\\');
-                    string exeParent = exePathArray[exePathArray.Length - 2];
-
-                    if (System.Diagnostics.Debugger.IsAttached)
-                    {
-                        Console.WriteLine("The program is currently running in the Debug version");
-                        File.Copy(path, "..\\..\\..\\" + c.OutputFilePath + "\\" + fileName, true);
-                        File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
-                    }
-                    else
-                    {
-                        Console.WriteLine("The program is currently running the Published version");
-                        File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
-                    }
+                    Console.WriteLine("The program is currently running the Published version");
+                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
                     
                     TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
                 }
