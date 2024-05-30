@@ -71,14 +71,14 @@ namespace RayGUI_cs
         /// Draw container on the screen
         /// </summary>
         /// <param name="c"></param>
-        public static Container DrawContainer(ref Container c)
-        {
+        public static string DrawContainer(ref Container c)
+        
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)
             {
                 if (IsFileDropped() && Hover((int)c.X, (int)c.Y, c.Width, c.Height))
                 {
-                    ImportFiles(ref c);
+                    fileReceived = ImportFiles(ref c);
                 }
             }
 
@@ -86,7 +86,7 @@ namespace RayGUI_cs
             DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
             DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
 
-            return c;
+            return c.Files.Last();
         }
 
         /// <summary>
