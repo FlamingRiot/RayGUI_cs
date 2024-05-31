@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
-    public unsafe partial class RayGUI
+    public unsafe class RayGUI
     {   
         const int BORDER = 1;
         static Keys KEYS = new Keys();
@@ -72,13 +72,13 @@ namespace RayGUI_cs
         /// </summary>
         /// <param name="c"></param>
         public static string DrawContainer(ref Container c)
-        
+        { 
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)
             {
                 if (IsFileDropped() && Hover((int)c.X, (int)c.Y, c.Width, c.Height))
                 {
-                    fileReceived = ImportFiles(ref c);
+                    ImportFiles(ref c);
                 }
             }
 
