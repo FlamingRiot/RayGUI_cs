@@ -106,14 +106,19 @@ namespace RayGUI_cs
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
-                    Console.WriteLine("The program is currently running the Published version");
-                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
-                    
-                    TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+                    try
+                    {
+                        File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
+                        c.Files.Add(c.OutputFilePath + "\\" + fileName);
+                        // Add file path to the container
+                        TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+                    }
+                    catch
+                    {
+                        TraceLog(TraceLogLevel.Warning, "File could not be received, incorrect path or no project loaded");
+                    }
                 }
                 else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
-                // Add file path to the container
-                c.Files.Add(c.OutputFilePath + "\\" +fileName);
             }
             UnloadDroppedFiles(filePathList);
         }
