@@ -132,9 +132,9 @@ namespace RayGUI_cs
             int border = 1;
 
             // Manage ticking option
-            if (Hover(t.X, t.Y, size, size))
+            if (Hover(t.X, t.Y, t.Width, t.Height))
             {
-                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, t.BorderColor);
+                DrawRectangle(t.X - border, t.Y - border, t.Width + border * 2, t.Height + border * 2, t.BorderColor);
                 if (IsMouseButtonPressed(MouseButton.Left))
                 {
                     t.Ticked = !t.Ticked;
@@ -142,14 +142,14 @@ namespace RayGUI_cs
             }
             else
             {
-                DrawRectangle(t.X - border, t.Y - border, size + border * 2, size + border * 2, t.BorderColor);
+                DrawRectangle(t.X - border, t.Y - border, t.Width + border * 2, t.Height + border * 2, t.BorderColor);
                 if (!t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, size, size, t.Color);
+                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.Color);
                 }
                 else if (t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, size, size, t.BorderColor);
+                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
                 }
             }
         }
