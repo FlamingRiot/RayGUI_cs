@@ -86,7 +86,7 @@ namespace RayGUI_cs
             DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
             DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
 
-            return c.Files.Last();
+            return c.GetLastFile();
         }
 
         /// <summary>
@@ -102,14 +102,14 @@ namespace RayGUI_cs
             string fileName = pathArryBySlash.Last();
 
             // Copy file to output directory of the container
-            if (!c.Files.Contains(c.OutputFilePath + "\\" +fileName))
+            if (!c.FilesContain(c.OutputFilePath + "\\" +fileName))
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
                     try
                     {
                         File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
-                        c.Files.Add(c.OutputFilePath + "\\" + fileName);
+                        c.AddFile(c.OutputFilePath + "\\" + fileName);
                         // Add file path to the container
                         TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
                     }
@@ -129,7 +129,6 @@ namespace RayGUI_cs
         /// <param name="t"></param>
         public static void DrawTickbox(ref Tickbox t)
         {
-            int size = 16;
             int border = 1;
 
             // Manage ticking option

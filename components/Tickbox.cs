@@ -1,46 +1,56 @@
 ﻿using Raylib_cs;
-
 namespace RayGUI_cs
 {
-    public class Tickbox
+    public class Tickbox : Component
     {
         /// <summary>
-        /// X coordinate of the tickbox
+        /// Is the tickbox ticked ? (haha.)
         /// </summary>
-        public int X;
-
+        private bool ticked;
         /// <summary>
-        /// Y coordinate of the tickbox
+        /// Tickbox color
         /// </summary>
-        public int Y;
-
+        private Color color;
         /// <summary>
-        /// Is the tickbox ticked ?
+        /// Tickbox secondary color
         /// </summary>
-        public bool Ticked;
-
+        private Color borderColor;
         /// <summary>
-        /// Background color of the label
+        /// Is the tickbox ticked ? (haha.)
         /// </summary>
-        public Color Color;
-
+        public bool Ticked { get { return ticked; } set { ticked = value; } }
         /// <summary>
-        /// Border color of the label
+        /// Tickbox color
         /// </summary>
-        public Color BorderColor;
-
-        public Tickbox(int x, int y, Color color)
+        public Color Color { get { return color; } set { color = value; } }
+        /// <summary>
+        /// Tickbox secondary color
+        /// </summary>
+        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        /// <summary>
+        /// Tickbox constructor
+        /// </summary>
+        /// <param name="x">Tickbox X position</param>
+        /// <param name="y">Tickbox Y position</param>
+        /// <param name="color">Tickbox main color</param>
+        /// <param name="borderColor">Tickbox secondary color</param>
+        public Tickbox(int x, int y, Color color, Color borderColor) : base(x, y, 16, 16)
         {
-            this.X = x;
-            this.Y = y;
             this.Ticked = false;
             this.Color = color;
-            this.BorderColor = color;
+            this.BorderColor = borderColor;
+            this.Tag = "";
         }
-        public Tickbox(int x, int y, Color color, Color borderColor)
+        /// <summary>
+        /// Tickbox constructor
+        /// </summary>
+        /// <param name="x">Tickbox X position</param>
+        /// <param name="y">Tickbox Y position</param>
+        /// <param name="color">Tickbox main color</param>
+        /// <param name="borderColor">Tickbox secondary color</param>
+        /// <param name="tag">Tickbox tag</param>
+        public Tickbox(int x, int y, Color color, Color borderColor, string tag) : base(x, y, 16, 16, tag)
         {
-            this.X = x;
-            this.Y = y;
             this.Ticked = false;
             this.Color = color;
             this.BorderColor = borderColor;

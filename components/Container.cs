@@ -2,84 +2,148 @@
 
 namespace RayGUI_cs
 {
+    /// <summary>
+    /// Container type system
+    /// </summary>
     public enum ContainerType
     {
         Custom = 0,
         FileDropper
     }
-
-    public class Container
+    /// <summary>
+    /// 2-Dimensional container
+    /// </summary>
+    public class Container : Component
     {
-        /// <summary>
-        /// X coordinate (Right corner)
-        /// </summary>
-        public float X;
-
-        /// <summary>
-        /// Y coordinate (Left corner)
-        /// </summary>
-        public float Y;
-
-        /// <summary>
-        /// Conatiner width
-        /// </summary>
-        public int Width;
-
-        /// <summary>
-        /// Container height
-        /// </summary>
-        public int Height;
-
         /// <summary>
         /// Background color of the container
         /// </summary>
-        public Color Color;
-
+        private Color color;
         /// <summary>
         /// Border color of the container
         /// </summary>
-        public Color BorderColor;
-
+        private Color borderColor;
         /// <summary>
         /// Type of the container
         /// </summary>
-        public ContainerType Type;
-
+        private ContainerType type;
         /// <summary>
         /// The file path for the output directory
         /// </summary>
-        public string OutputFilePath;
-
+        private string? outputFilePath;
         /// <summary>
         /// Acceptable file types (works only for the File Dropper type)
         /// </summary>
-        public string ExtensionFile;
-
+        private string? extensionFile;
         /// <summary>
         /// Paths of the container's files
         /// </summary>
-        public List<string> Files;
-
+        private List<string> files;
         /// <summary>
-        /// Container tag
+        /// Background color for the container
         /// </summary>
-        public string Tag;
-
-        public Container(int x, int y, int width, int height, Color color, Color borderColor, string Tag)
+        public Color Color { get { return color; } set { color = value; } }
+        /// <summary>
+        /// Border color for the container
+        /// </summary>
+        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        /// <summary>
+        /// Extension file filter
+        /// </summary>
+        public string? ExtensionFile { get { return extensionFile; } set { extensionFile = value; } }
+        /// <summary>
+        /// Output folder for dropped files
+        /// </summary>
+        public string? OutputFilePath { get { return outputFilePath; } set { outputFilePath = value; } }
+        /// <summary>
+        /// Container type
+        /// </summary>
+        public ContainerType Type { get { return type; } set { type = value; } }
+        /// <summary>
+        /// Container constructor
+        /// </summary>
+        /// <param name="x">Container X position</param>
+        /// <param name="y">Container Y position</param>
+        /// <param name="width">Container width</param>
+        /// <param name="height">Container height</param>
+        /// <param name="color">Container main color</param>
+        /// <param name="borderColor">Container second color</param>
+        public Container(int x, int y, int width, int height, Color color, Color borderColor) : base(x, y, width, height)
         {
-            X = x; 
-            Y = y;
-            Width = width;
-            Height = height;
+            // Color assignment
             Color = color;
             BorderColor = borderColor;
-            this.Tag = Tag;
+            this.Tag = "";
 
             ExtensionFile = "";
-            Files = new List<string>();
-            Files.Add("");
+            files = new List<string>();
+            files.Add("");
             Type = ContainerType.Custom;
             OutputFilePath = "";
+        }
+        /// <summary>
+        /// Container constructor
+        /// </summary>
+        /// <param name="x">Container X position</param>
+        /// <param name="y">Container Y position</param>
+        /// <param name="width">Container width</param>
+        /// <param name="height">Container height</param>
+        /// <param name="color">Container main color</param>
+        /// <param name="borderColor">Container second color</param>
+        /// <param name="tag">Container tag</param>
+        public Container(int x, int y, int width, int height, Color color, Color borderColor, string tag) : base(x, y, width, height, tag)
+        {
+            // Color assignment
+            Color = color;
+            BorderColor = borderColor;
+
+            ExtensionFile = "";
+            files = new List<string>();
+            files.Add("");
+            Type = ContainerType.Custom;
+            OutputFilePath = "";
+        }
+        /// <summary>
+        /// Add a file to the list of the container
+        /// </summary>
+        /// <param name="file">File to add</param>
+        public void AddFile(string file)
+        {
+            files.Add(file);
+        }
+        /// <summary>
+        /// Delete a file from the list of the container
+        /// </summary>
+        /// <param name="index">File to remove</param>
+        public void DeleteFile(int index)
+        {
+            files.RemoveAt(index);  
+        }
+        /// <summary>
+        /// Get a file from the list of the container
+        /// </summary>
+        /// <param name="index">Index of the file</param>
+        /// <returns>The file</returns>
+        public string GetFile(int index)
+        {
+            return files[index];
+        }
+        /// <summary>
+        /// Get the last added file to the list of the container
+        /// </summary>
+        /// <returns>The file</returns>
+        public string GetLastFile()
+        {
+            return files.Last();
+        }
+        /// <summary>
+        /// Does a file exist in the list of the container ?
+        /// </summary>
+        /// <param name="file">File to search for</param>
+        /// <returns>Boolean for file presence</returns>
+        public bool FilesContain(string file)
+        {
+            return files.Contains(file);
         }
     }
 }

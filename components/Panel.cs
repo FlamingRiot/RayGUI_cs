@@ -1,46 +1,61 @@
 ﻿using Raylib_cs;
 namespace RayGUI_cs
 {
-    public class Panel
+    public class Panel : Component
     {
-        /// <summary>
-        /// X coordinate of the panel
-        /// </summary>
-        public int X;
-
-        /// <summary>
-        /// Y coordinate of the panel
-        /// </summary>
-        public int Y;
-
         /// <summary>
         /// Panel scale
         /// </summary>
-        public float Scale;
-
+        private float scale;
         /// <summary>
         /// Panel rotation
         /// </summary>
-        public float Rotation;
-
+        private float rotation;
         /// <summary>
         /// Panel textures
         /// </summary>
-        public Texture2D Texture;
-
+        private Texture2D texture;
         /// <summary>
-        /// Panel tag
+        /// Panel scale
         /// </summary>
-        public string Tag;
-
-        public Panel(int X, int Y, float Scale, float Rotation, Texture2D Texture, string Tag)
+        public float Scale { get { return scale; } set { scale = value; } }
+        /// <summary>
+        /// Panel rotation
+        /// </summary>
+        public float Rotation { get { return rotation; } set { rotation = value; } }
+        /// <summary>
+        /// Panel texture
+        /// </summary>
+        public Texture2D Texture { get { return texture; } set { texture = value; } }
+        /// <summary>
+        /// Panel constructor
+        /// </summary>
+        /// <param name="x">Panel X position</param>
+        /// <param name="y">Panel Y position</param>
+        /// <param name="scale">Panel scale</param>
+        /// <param name="rotation">Panel rotation</param>
+        /// <param name="texture">Panel texture</param>
+        public Panel(int x, int y, float scale, float rotation, Texture2D texture) : base(x, y, (int)(texture.Width * scale), (int)(texture.Height * scale))
         {
-            this.X = X; 
-            this.Y = Y; 
-            this.Scale = Scale;
-            this.Rotation = Rotation;
-            this.Texture = Texture;
-            this.Tag = Tag;
+            this.scale = scale;
+            this.rotation = rotation;
+            this.texture = texture;
+            this.Tag = "";
+        }
+        /// <summary>
+        /// Panel constructor
+        /// </summary>
+        /// <param name="x">Panel X position</param>
+        /// <param name="y">Panel Y position</param>
+        /// <param name="scale">Panel scale</param>
+        /// <param name="rotation">Panel rotation</param>
+        /// <param name="texture">Panel texture</param>
+        /// <param name="tag">Panel tag</param>
+        public Panel(int x, int y, float scale, float rotation, Texture2D texture, string tag) : base(x, y, (int)(texture.Width * scale), (int)(texture.Height * scale), tag)
+        {
+            this.scale = scale;
+            this.rotation = rotation;
+            this.texture = texture;
         }
     }
 }

@@ -7,82 +7,103 @@ namespace RayGUI_cs
     /// </summary>
     public enum ButtonType
     {
-        Custom = 0,
+        Custom,
         PathFinder,
         ColorPicker
     }
-
     /// <summary>
-    /// 2D button
+    /// 2-Dimensional button
     /// </summary>
-    public class Button
+    public class Button : Component
     {
-        /// <summary>
-        /// X coordinate of the button
-        /// </summary>
-        public int X;
-
-        /// <summary>
-        /// Y coordinate of the button
-        /// </summary>
-        public int Y;
-
-        /// <summary>
-        /// Button width
-        /// </summary>
-        public int Width;
-
-        /// <summary>
-        /// Button height
-        /// </summary>
-        public int Height;
-
         /// <summary>
         /// Background color for the button
         /// </summary>
-        public Color Color;
-
+        private Color color;
         /// <summary>
         /// Border color for the button
         /// </summary>
-        public Color BorderColor;
-
+        private Color borderColor;
         /// <summary>
         /// Hover color for the button
         /// </summary>
-        public Color HoverColor;
-
+        private Color hoverColor;
         /// <summary>
         /// Text of the button
         /// </summary>
-        public string Text;
-
-        /// <summary>
-        /// Tag of the button
-        /// </summary>
-        public string Tag;
-
+        private string? text;
         /// <summary>
         /// Type of the button event
         /// </summary>
-        public ButtonType Type;
-
-        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor, string tag)
+        private ButtonType type;
+        /// <summary>
+        /// Background color for the button
+        /// </summary>
+        public Color Color { get { return color; } set { color = value; } }
+        /// <summary>
+        /// Border color for the button
+        /// </summary>
+        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        /// <summary>
+        /// Hover color for the button
+        /// </summary>
+        public Color HoverColor { get { return hoverColor; } set { hoverColor = value; } }
+        /// <summary>
+        /// Text of the button
+        /// </summary>
+        public string? Text { get { return text; } set { text = value; } }
+        /// <summary>
+        /// Type of the button event
+        /// </summary>
+        public ButtonType Type { get { return type; } set { type = value; } }
+        /// <summary>
+        /// Button Constructor
+        /// </summary>
+        /// <param name="x">Button X position</param>
+        /// <param name="y">Button Y position</param>
+        /// <param name="width">Button width</param>
+        /// <param name="height">Button height</param>
+        /// <param name="text">Button text</param>
+        /// <param name="color">Button color</param>
+        /// <param name="borderColor">Button second color</param>
+        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor):base(x, y, width, height)
         {
-            Text = text;
+            // Position assignment
             Width = width + text.Length * 6;
-            Height = height;
             X = x - text.Length * 8;
-            Y = y;
+            Text = text;
+            this.Tag = "";
+            // Color assignment
             Color = color;
             BorderColor = borderColor;
             HoverColor = borderColor;
-            Tag = tag;
-
-            // Automatically set
+            // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }
-
+        /// <summary>
+        /// Button Constructor
+        /// </summary>
+        /// <param name="x">Button X position</param>
+        /// <param name="y">Button Y position</param>
+        /// <param name="width">Button width</param>
+        /// <param name="height">Button height</param>
+        /// <param name="text">Button text</param>
+        /// <param name="color">Button color</param>
+        /// <param name="borderColor">Button second color</param>
+        /// <param name="tag">Button tag</param>
+        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor, string tag) : base(x, y, width, height, tag)
+        {
+            // Position assignment
+            Width = width + text.Length * 6;
+            X = x - text.Length * 8;
+            Text = text;
+            // Color assignment
+            Color = color;
+            BorderColor = borderColor;
+            HoverColor = borderColor;
+            // Automatically set (has to be modified afterwards if needed)
+            Type = ButtonType.Custom;
+        }
         /// <summary>
         /// Activate button event, if not set to custom
         /// </summary>
