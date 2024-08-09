@@ -2,7 +2,7 @@
 
 namespace RayGUI_cs
 {
-    public partial struct Tickbox
+    public class Tickbox
     {
         /// <summary>
         /// X coordinate of the tickbox

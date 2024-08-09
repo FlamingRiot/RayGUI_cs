@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RayGUI_cs
 {
-    public partial struct Keys
+    public struct Keys
     {
         public string[] LCKey;
         public string[] UCKey;

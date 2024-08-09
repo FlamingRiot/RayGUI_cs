@@ -2,7 +2,7 @@
 
 namespace RayGUI_cs
 {
-    public partial struct Textbox
+    public class Textbox
     {
         /// <summary>
         /// Value of the textbox

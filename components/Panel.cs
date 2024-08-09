@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
 namespace RayGUI_cs
 {
-    public partial struct Panel
+    public class Panel
     {
         /// <summary>
         /// X coordinate of the panel

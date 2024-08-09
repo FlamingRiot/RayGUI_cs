@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
 namespace RayGUI_cs
 {
-    public partial struct Label
+    public class Label
     {
         /// <summary>
         /// X coordinate of the label

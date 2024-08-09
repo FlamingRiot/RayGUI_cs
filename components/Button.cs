@@ -15,7 +15,7 @@ namespace RayGUI_cs
     /// <summary>
     /// 2D button
     /// </summary>
-    public partial struct Button
+    public class Button
     {
         /// <summary>
         /// X coordinate of the button

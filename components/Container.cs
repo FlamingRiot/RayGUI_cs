@@ -8,7 +8,7 @@ namespace RayGUI_cs
         FileDropper
     }
 
-    public partial struct Container
+    public class Container
     {
         /// <summary>
         /// X coordinate (Right corner)
