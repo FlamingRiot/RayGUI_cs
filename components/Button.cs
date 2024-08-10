@@ -3,6 +3,10 @@ using System.Security.Principal;
 namespace RayGUI_cs
 {
     /// <summary>
+    /// Delegate event
+    /// </summary>
+    public delegate void Event();
+    /// <summary>
     /// Button action system
     /// </summary>
     public enum ButtonType
@@ -36,6 +40,10 @@ namespace RayGUI_cs
         /// Type of the button event
         /// </summary>
         private ButtonType type;
+        /// <summary>
+        /// Event of the button (if set to custom)
+        /// </summary>
+        public Event? Event;
         /// <summary>
         /// Background color for the button
         /// </summary>
@@ -129,6 +137,9 @@ namespace RayGUI_cs
                     Console.WriteLine("Expolrer launched");
                     break;
                 case ButtonType.ColorPicker:
+                    break;
+                case ButtonType.Custom:
+                    if (Event is not null) Event();
                     break;
             }
         }
