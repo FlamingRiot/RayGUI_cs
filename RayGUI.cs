@@ -71,6 +71,7 @@ namespace RayGUI_cs
         /// Draw container on the screen
         /// </summary>
         /// <param name="c"></param>
+        /// <returns>Last file that was added to the container</returns>
         public static string DrawContainer(ref Container c)
         { 
             // Manage FileDropper containers
