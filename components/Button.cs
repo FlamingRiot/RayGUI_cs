@@ -31,7 +31,7 @@ namespace RayGUI_cs
         /// <summary>
         /// Text of the button
         /// </summary>
-        private string? text;
+        private string text;
         /// <summary>
         /// Type of the button event
         /// </summary>
@@ -51,7 +51,7 @@ namespace RayGUI_cs
         /// <summary>
         /// Text of the button
         /// </summary>
-        public string? Text { get { return text; } set { text = value; } }
+        public string Text { get { return text; } set { text = value; } }
         /// <summary>
         /// Type of the button event
         /// </summary>
@@ -71,7 +71,7 @@ namespace RayGUI_cs
             // Position assignment
             Width = width + text.Length * 6;
             X = x - text.Length * 8;
-            Text = text;
+            this.text = text;
             this.Tag = "";
             // Color assignment
             Color = color;
@@ -96,7 +96,7 @@ namespace RayGUI_cs
             // Position assignment
             Width = width + text.Length * 6;
             X = x - text.Length * 8;
-            Text = text;
+            this.text = text;
             // Color assignment
             Color = color;
             BorderColor = borderColor;
