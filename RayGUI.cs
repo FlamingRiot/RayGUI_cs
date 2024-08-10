@@ -68,9 +68,9 @@ namespace RayGUI_cs
         }
 
         /// <summary>
-        /// Draw container on the screen
+        /// Draw container on the screen and check for imported files
         /// </summary>
-        /// <param name="c"></param>
+        /// <param name="c">Container to draw</param>
         /// <returns>Last file that was added to the container</returns>
         public static string DrawContainer(ref Container c)
         { 
@@ -88,6 +88,16 @@ namespace RayGUI_cs
             DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
 
             return c.GetLastFile();
+        }
+        /// <summary>
+        /// Draw container on the screen
+        /// </summary>
+        /// <param name="c">Container to draw</param>
+        public static void DrawContainer(Container c)
+        {
+            // Draw container
+            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
         }
 
         /// <summary>

@@ -43,7 +43,11 @@ namespace RayGUI_cs
         /// <summary>
         /// Event of the button (if set to custom)
         /// </summary>
-        public Event? Event;
+        private Event? action;
+        /// <summary>
+        /// Event of the button (if set to custom)
+        /// </summary>
+        public Event? Event { set { action = value; } }
         /// <summary>
         /// Background color for the button
         /// </summary>
@@ -139,7 +143,7 @@ namespace RayGUI_cs
                 case ButtonType.ColorPicker:
                     break;
                 case ButtonType.Custom:
-                    if (Event is not null) Event();
+                    if (action is not null) action();
                     break;
             }
         }
