@@ -7,7 +7,7 @@ namespace RayGUI_cs
     public unsafe class RayGUI
     {   
         const int BORDER = 1;
-        static Keys KEYS = new Keys();
+        static Keys KEYS = new();
         static Color baseColor;
         static Color borderColor;
         //------------------------------------------------------------------------------------
@@ -83,8 +83,8 @@ namespace RayGUI_cs
             }
 
             // Draw container
-            DrawRectangle((int)c.X - BORDER, (int)c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle((int)c.X, (int)c.Y, c.Width, c.Height, c.Color);
+            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
 
             return c.GetLastFile();
         }
@@ -96,7 +96,7 @@ namespace RayGUI_cs
         public static void ImportFiles(ref Container c)
         {
             FilePathList filePathList = LoadDroppedFiles();
-            string path = new string((sbyte*)filePathList.Paths[0]);
+            string path = new ((sbyte*)filePathList.Paths[0]);
             string[] pathArray = path.Split('.');
             string[] pathArryBySlash = path.Split('\\');
             string fileName = pathArryBySlash.Last();
@@ -286,6 +286,20 @@ namespace RayGUI_cs
         public static void DrawPanel(Panel p)
         {
             DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
+        public static bool DrawDragDropBox(DragDropBox d)
+        {
+            // Draw box border
+            DrawRectangleRounded(d.ExtRectangle, 5, 5, d.BorderColor);
+            // Draw box interior
+            DrawRectangleRounded(d.IntRectangle, 5, 5, d.Color);
+
+            // Return focus
+            return Hover(d.X, d.Y, d.Width, d.Height);
         }
     }
 }

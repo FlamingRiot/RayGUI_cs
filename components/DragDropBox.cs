@@ -16,6 +16,14 @@ namespace RayGUI_cs
         /// </summary>
         private Color borderColor;
         /// <summary>
+        /// Box rectangle
+        /// </summary>
+        private Rectangle intRectangle;
+        /// <summary>
+        /// Box extern rectangle
+        /// </summary>
+        private Rectangle extRectangle;
+        /// <summary>
         /// Box text
         /// </summary>
         public string Text { get { return text; } set { text = value; } }
@@ -27,6 +35,14 @@ namespace RayGUI_cs
         /// Box secondary color
         /// </summary>
         public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
+        /// <summary>
+        /// Box rectangle
+        /// </summary>
+        public Rectangle IntRectangle { get { return intRectangle; } set { intRectangle = value; } }
+        /// <summary>
+        /// Box rectangle
+        /// </summary>
+        public Rectangle ExtRectangle { get { return extRectangle; } set { extRectangle = value; } }
         /// <summary>
         /// DragDropBox constructor
         /// </summary>
@@ -42,6 +58,8 @@ namespace RayGUI_cs
             this.text = text;
             this.color = color;
             this.borderColor = borderColor;
+            this.intRectangle = new(x, y, width, height);
+            this.extRectangle = new(x - 1, y - 1, width + 2, height + 2);
         }
         /// <summary>
         /// DragDropBox constructor
@@ -59,6 +77,8 @@ namespace RayGUI_cs
             this.text = text;
             this.color = color;
             this.borderColor = borderColor;
+            this.intRectangle = new(x, y, width, height);
+            this.extRectangle = new(x - 1, y - 1, width + 2, height + 2);
         }
     }
 }
