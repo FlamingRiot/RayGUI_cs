@@ -40,6 +40,10 @@ namespace RayGUI_cs
         /// </summary>
         private List<string> files;
         /// <summary>
+        /// The last added file
+        /// </summary>
+        private string lastFile;
+        /// <summary>
         /// Background color for the container
         /// </summary>
         public Color Color { get { return color; } set { color = value; } }
@@ -55,6 +59,10 @@ namespace RayGUI_cs
         /// Output folder for dropped files
         /// </summary>
         public string? OutputFilePath { get { return outputFilePath; } set { outputFilePath = value; } }
+        /// <summary>
+        /// The last added file
+        /// </summary>
+        public string LastFile { get { return lastFile; } set { lastFile = value; } }
         /// <summary>
         /// Container type
         /// </summary>
@@ -80,6 +88,7 @@ namespace RayGUI_cs
             files.Add("");
             Type = ContainerType.Custom;
             OutputFilePath = "";
+            lastFile = "";
         }
         /// <summary>
         /// Container constructor
@@ -102,6 +111,7 @@ namespace RayGUI_cs
             files.Add("");
             Type = ContainerType.Custom;
             OutputFilePath = "";
+            lastFile = "";
         }
         /// <summary>
         /// Add a file to the list of the container
@@ -135,6 +145,12 @@ namespace RayGUI_cs
         public string GetLastFile()
         {
             return files.Last();
+        }
+        // Clear files
+        public void ClearFiles()
+        {
+            files.Clear();
+            files.Add("");
         }
         /// <summary>
         /// Does a file exist in the list of the container ?

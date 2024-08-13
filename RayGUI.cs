@@ -72,8 +72,8 @@ namespace RayGUI_cs
         /// </summary>
         /// <param name="c">Container to draw</param>
         /// <returns>Last file that was added to the container</returns>
-        public static string DrawContainer(ref Container c)
-        { 
+        public static void DrawContainer(ref Container c)
+        {
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)
             {
@@ -86,8 +86,6 @@ namespace RayGUI_cs
             // Draw container
             DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
             DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
-
-            return c.GetLastFile();
         }
         /// <summary>
         /// Draw container on the screen
@@ -106,6 +104,7 @@ namespace RayGUI_cs
         /// <param name="c">Corresponding container</param>
         public static void ImportFiles(ref Container c)
         {
+
             FilePathList filePathList = LoadDroppedFiles();
             string path = new ((sbyte*)filePathList.Paths[0]);
             string[] pathArray = path.Split('.');
