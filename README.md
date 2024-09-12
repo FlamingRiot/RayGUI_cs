@@ -17,7 +17,7 @@ You now have a .dll file that was generated in the bin folder of the project.
 
 ## Use
 
-To use the library, simply copy the .dll file in your C# project. Set a dependence to the file using the Visual Studio GUI or insert this line in your .csproj file:
+To use the library, simply copy the .dll file in your C# project. Set a dependence to the file using the Visual Studio GUI or insert these lines in your .csproj file:
 
 ```
 <ItemGroup>
@@ -27,7 +27,7 @@ To use the library, simply copy the .dll file in your C# project. Set a dependen
 </ItemGroup>
 ```
 
-You can now use the librarie's functions and classes inside of your Raylib projet to enjoy a good GUI.
+You can now use the library's functions and classes inside of your Raylib projet to enjoy a good GUI.
 Though if you encounter any problems using the .dll, go check out Microsoft's [documentation](https://learn.microsoft.com/en-us/visualstudio/ide/how-to-add-or-remove-references-by-using-the-reference-manager?view=vs-2022)
 
 ## Contact
