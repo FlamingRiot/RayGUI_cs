@@ -1,85 +1,111 @@
-﻿namespace RayGUI_cs
+﻿using Raylib_cs;
+
+namespace RayGUI_cs
 {
-    public class Component
+    /// <summary>Base 2D component of the library</summary>
+    public abstract class Component
     {
-        /// <summary>
-        /// Component X position
-        /// </summary>
+        //------------------------------------------------------------------------------------
+        // Private attributes at the core of the components
+        //------------------------------------------------------------------------------------
+
         private int x;
-        /// <summary>
-        /// Component Y position
-        /// </summary>
         private int y;
-        /// <summary>
-        /// Component width
-        /// </summary>
+
         private int width;
-        /// <summary>
-        /// Component height
-        /// </summary>
         private int height;
-        /// <summary>
-        /// Component tag
-        /// </summary>
+
         private string tag;
-        /// <summary>
-        /// Component X position
-        /// </summary>
-        public int X { get { return x; } set { x = value; } }
-        /// <summary>
-        /// Component Y position
-        /// </summary>
-        public int Y { get { return y; } set { y = value; } }
-        /// <summary>
-        /// Component width
-        /// </summary>
-        public int Width { get { return width; } set { width = value; } }
-        /// <summary>
-        /// Component height
-        /// </summary>
-        public int Height { get { return height; } set { height = value; } }
-        /// <summary>
-        /// Component tag
-        /// </summary>
-        public string Tag { get { return tag; } set { tag = value; } }
-        /// <summary>
-        /// Component constructor
-        /// </summary>
-        /// <param name="x">Component X position</param>
-        /// <param name="y">Component Y position</param>
-        /// <param name="width">Component width</param>
-        /// <param name="height">Component height</param>
-        public Component(int x, int y, int width, int height)
-        {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.tag = "";
+
+        /// <summary>Base color of the component</summary>
+        public Color BaseColor;
+
+        /// <summary>Border color of the component</summary>
+        public Color BorderColor;
+
+        /// <summary>Hover color of the component</summary>
+        public Color HoverColor;
+
+        /// <summary>X Position of the component</summary>
+        public int X { get { return x; } set { x = Math.Abs(value); } }
+
+        /// <summary>Y Position of the component</summary>
+        public int Y { get { return y; } set { y = Math.Abs(value); } }
+
+        /// <summary>Width the component</summary>
+        public int Width { get { return width; } set { width = Math.Abs(value); } }
+
+        /// <summary>Height of the component</summary>
+        public int Height { get { return height; } set { height = Math.Abs(value); } }
+
+        /// <summary>Tag of the component</summary>
+        public string Tag { get { return tag; } 
+            set 
+            {
+                if (value.Length > RayGUI.MAX_TAG_LENGTH) throw new ArgumentException("Tag size is above 25 characters");
+                else tag = value;
+            } 
         }
-        /// <summary>
-        /// Component constructor
-        /// </summary>
-        /// <param name="x">Component X position</param>
-        /// <param name="y">Component Y position</param>
-        /// <param name="width">Component width</param>
-        /// <param name="height">Component height</param>
-        /// <param name="tag">Component tag</param>
+
+        /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
+        /// <param name="x">X Position of the component</param>
+        /// <param name="y">Y Position of the component</param>
+        /// <param name="width">Width of the component</param>
+        /// <param name="height">Height of the component</param>
+        internal Component(int x, int y, int width, int height)
+        {
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+            tag = "";
+
+            BaseColor = RayGUI.baseColor;
+            BorderColor = RayGUI.borderColor;
+            HoverColor = RayGUI.borderColor;
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
+        /// <param name="x">X Position of the component</param>
+        /// <param name="y">Y Position of the component</param>
+        /// <param name="width">Width of the component</param>
+        /// <param name="height">Height of the component</param>
+        /// <param name="tag">Tag of the component</param>
         public Component(int x, int y, int width, int height, string tag)
         {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.tag = tag;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+
+            this.tag = "";
+            Tag = tag;
+
+            BaseColor = RayGUI.baseColor;
+            BorderColor = RayGUI.borderColor;
+            HoverColor = RayGUI.borderColor;
         }
-        /// <summary>
-        /// Stringified Component informations
-        /// </summary>
-        /// <returns></returns>
+
+        /// <summary>Returns a <see langword="string"/> containg informations about the instance.</summary>
+        /// <returns><see langword="string"/></returns>
         public override string ToString()
         {
-            return $"Position: <{x},{y}> Size: <{width} {height}>";
+            return $"Position: <{X},{Y}> Size: <{Width} {Height}>";
+        }
+
+        /// <summary>Returns a hash code based on the combined informations of the instance.</summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+            
+            hash.Add(X);
+            hash.Add(Y);
+            hash.Add(Width);
+            hash.Add(Height);
+            hash.Add(Tag);
+
+            return hash.ToHashCode();
         }
     }
 }

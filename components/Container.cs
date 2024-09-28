@@ -1,165 +1,108 @@
-﻿using Raylib_cs;
-
-namespace RayGUI_cs
+﻿namespace RayGUI_cs
 {
-    /// <summary>
-    /// Container type system
-    /// </summary>
+    /// <summary>Container type system.</summary>
     public enum ContainerType
     {
-        Custom = 0,
+        Custom,
         FileDropper
     }
-    /// <summary>
-    /// 2-Dimensional container
-    /// </summary>
+
+    /// <summary>Container component of the library.</summary>
     public class Container : Component
     {
-        /// <summary>
-        /// Background color of the container
-        /// </summary>
-        private Color color;
-        /// <summary>
-        /// Border color of the container
-        /// </summary>
-        private Color borderColor;
-        /// <summary>
-        /// Type of the container
-        /// </summary>
-        private ContainerType type;
-        /// <summary>
-        /// The file path for the output directory
-        /// </summary>
-        private string? outputFilePath;
-        /// <summary>
-        /// Acceptable file types (works only for the File Dropper type)
-        /// </summary>
-        private string? extensionFile;
-        /// <summary>
-        /// Paths of the container's files
-        /// </summary>
-        private List<string> files;
-        /// <summary>
-        /// The last added file
-        /// </summary>
-        private string lastFile;
-        /// <summary>
-        /// Background color for the container
-        /// </summary>
-        public Color Color { get { return color; } set { color = value; } }
-        /// <summary>
-        /// Border color for the container
-        /// </summary>
-        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
-        /// <summary>
-        /// Extension file filter
-        /// </summary>
-        public string? ExtensionFile { get { return extensionFile; } set { extensionFile = value; } }
-        /// <summary>
-        /// Output folder for dropped files
-        /// </summary>
-        public string? OutputFilePath { get { return outputFilePath; } set { outputFilePath = value; } }
-        /// <summary>
-        /// The last added file
-        /// </summary>
-        public string LastFile { get { return lastFile; } set { lastFile = value; } }
-        /// <summary>
-        /// Container type
-        /// </summary>
-        public ContainerType Type { get { return type; } set { type = value; } }
-        /// <summary>
-        /// Container constructor
-        /// </summary>
-        /// <param name="x">Container X position</param>
-        /// <param name="y">Container Y position</param>
-        /// <param name="width">Container width</param>
-        /// <param name="height">Container height</param>
-        /// <param name="color">Container main color</param>
-        /// <param name="borderColor">Container second color</param>
-        public Container(int x, int y, int width, int height, Color color, Color borderColor) : base(x, y, width, height)
-        {
-            // Color assignment
-            Color = color;
-            BorderColor = borderColor;
-            this.Tag = "";
+        /// <summary>Type of the container.</summary>
+        public ContainerType Type;
 
+        //------------------------------------------------------------------------------------
+        // FileDropper containers only (ContainerType:1)
+        //------------------------------------------------------------------------------------
+
+        /// <summary>The abosulte file path for the output directory.</summary>
+        public string? OutputFilePath;
+
+        /// <summary>Acceptable file type when file is dropped.</summary>
+        public string? ExtensionFile;
+
+        /// <summary>Last dropped file.</summary>
+        public string LastFile;
+
+        /// <summary>Paths of the container's files.</summary>
+        private readonly List<string> Files;
+
+        /// <summary>Initializes a new instance of <see cref="Container"/>.</summary>
+        /// <param name="x">X Position of the container</param>
+        /// <param name="y">Y Position of the container</param>
+        /// <param name="width">Width of the container</param>
+        /// <param name="height">Height of the container</param>
+        public Container(int x, int y, int width, int height) : base(x, y, width, height)
+        {
             ExtensionFile = "";
-            files = new List<string>();
-            files.Add("");
+            Files = new List<string>() { "" };
             Type = ContainerType.Custom;
             OutputFilePath = "";
-            lastFile = "";
+            LastFile = "";
         }
-        /// <summary>
-        /// Container constructor
-        /// </summary>
-        /// <param name="x">Container X position</param>
-        /// <param name="y">Container Y position</param>
-        /// <param name="width">Container width</param>
-        /// <param name="height">Container height</param>
-        /// <param name="color">Container main color</param>
-        /// <param name="borderColor">Container second color</param>
-        /// <param name="tag">Container tag</param>
-        public Container(int x, int y, int width, int height, Color color, Color borderColor, string tag) : base(x, y, width, height, tag)
-        {
-            // Color assignment
-            Color = color;
-            BorderColor = borderColor;
 
+        /// <summary>Initializes a new instance of <see cref="Container"/>.</summary>
+        /// <param name="x">X Position of the container</param>
+        /// <param name="y">Y Position of the container</param>
+        /// <param name="width">Width of the container</param>
+        /// <param name="height">Height of the container</param>
+        public Container(int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
+        {
             ExtensionFile = "";
-            files = new List<string>();
-            files.Add("");
+            Files = new List<string>() { "" };
             Type = ContainerType.Custom;
             OutputFilePath = "";
-            lastFile = "";
+            LastFile = "";
         }
-        /// <summary>
-        /// Add a file to the list of the container
-        /// </summary>
+
+        //------------------------------------------------------------------------------------
+        // FileDropper containers only (ContainerType:1)
+        //------------------------------------------------------------------------------------
+
+        /// <summary>Adds a file to the list of the container.</summary>
         /// <param name="file">File to add</param>
         public void AddFile(string file)
         {
-            files.Add(file);
+            Files.Add(file);
         }
-        /// <summary>
-        /// Delete a file from the list of the container
-        /// </summary>
+
+        /// <summary>Deletes a file from the list of the container.</summary>
         /// <param name="index">File to remove</param>
         public void DeleteFile(int index)
         {
-            files.RemoveAt(index);  
+            Files.RemoveAt(index);  
         }
-        /// <summary>
-        /// Get a file from the list of the container
-        /// </summary>
-        /// <param name="index">Index of the file</param>
-        /// <returns>The file</returns>
+
+        /// <summary>Returns a file from the list of the container.</summary>
+        /// <param name="index">Index of the file.</param>
+        /// <returns>The file.</returns>
         public string GetFile(int index)
         {
-            return files[index];
+            return Files[index];
         }
-        /// <summary>
-        /// Get the last added file to the list of the container
-        /// </summary>
+
+        /// <summary>Returns the latest file added to the list of the container.</summary>
         /// <returns>The file</returns>
         public string GetLastFile()
         {
-            return files.Last();
+            return Files.Last();
         }
-        // Clear files
+
+        /// <summary>Clears the list of files of the container.</summary>
         public void ClearFiles()
         {
-            files.Clear();
-            files.Add("");
+            Files.Clear();
+            Files.Add("");
         }
-        /// <summary>
-        /// Does a file exist in the list of the container ?
-        /// </summary>
+
+        /// <summary>Checks if a file exists in the list of the container.</summary>
         /// <param name="file">File to search for</param>
-        /// <returns>Boolean for file presence</returns>
+        /// <returns>Returns <see langword="true"/> if the file exists. <see langword="false"/> otherwise.</returns>
         public bool FilesContain(string file)
         {
-            return files.Contains(file);
+            return Files.Contains(file);
         }
     }
 }

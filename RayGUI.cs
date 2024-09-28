@@ -4,47 +4,70 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
+    /// <summary>RayGUI instance of the library</summary>
     public unsafe class RayGUI
     {   
-        const int BORDER = 1;
-        static Keys KEYS = new();
-        static Color baseColor;
-        static Color borderColor;
+        /// <summary>Constant border size of components</summary>
+        public const int BORDER = 1;
+
+        /// <summary>Maximum of characters in components tag</summary>
+        public const int MAX_TAG_LENGTH = 25;
+
+        /// <summary>Tickbox width and height values</summary>
+        public const int TICKBOX_SIZE = 16;
+
+        /// <summary><see cref="Keys"/> object hosting the key informations</summary>
+        static Keys KEYS;
+
+        /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
+        public static Color baseColor;
+
+        /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
+        public static Color borderColor;
+
+        /// <summary>Global font of the GUI tool</summary>
+        static Font font;
+
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
         //------------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Initialize GUI tool
-        /// </summary>
-        public static void InitGUI(Color BaseColor, Color BorderColor)
+        /// <summary>Initialize GUI tool</summary>
+        /// <param name="color1">Primary color of the GUI tool</param>
+        /// <param name="color2">Secondary color of the GUI tool</param>
+        public static void InitGUI(Color color1, Color color2, Font font)
         {
-            // Disable exit key
-            SetExitKey(KeyboardKey.Null);
-            baseColor = BaseColor;
-            borderColor = BorderColor;
+            // Init keys object
+            RayGUI.KEYS = new();
+            // Set colors
+            RayGUI.baseColor = color1;
+            RayGUI.borderColor = color2;
+            // Set font
+            font.BaseSize = 2;
+            RayGUI.font = font;
+
+            // Send debug text
+            Console.ForegroundColor = ConsoleColor.Green;
+            TraceLog(TraceLogLevel.Info, "RayGUI_cs: Initialized successfully");
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
-        /// <summary>
-        /// Draw button on the screen
-        /// </summary>
-        /// <param name="button">Button to draw</param>
-        /// <param name="position">Positon to draw the button</param>
-        public static void DrawButton(Button button, Font font)
+        /// <summary>Draws a <see cref="Button"/> object to the screen</summary>
+        /// <param name="button"><see cref="Button"/> to draw</param>
+        public static void DrawButton(Button button)
         {
             DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
             // Manage hover button color
             if (Hover(button.X, button.Y, button.Width, button.Height)) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
-                DrawRectangle((int)button.X, (int)button.Y, button.Width, button.Height, button.HoverColor);
+                DrawRectangle(button.X, button.Y, button.Width, button.Height, button.HoverColor);
             }
             else
             {
-                DrawRectangle((int)button.X, (int)button.Y, button.Width, button.Height, button.Color);
+                DrawRectangle(button.X, button.Y, button.Width, button.Height, button.BaseColor);
             }
             // Manage button text
-            font.BaseSize = 2;
             int txtLength = button.Text.Length;
             DrawTextPro(font, button.Text, new Vector2(button.X + button.Width / 2 - txtLength * 4, button.Y + button.Height / 3 -  5), new Vector2(0, 0), 0, 1, 1, Color.White);
 
@@ -85,7 +108,7 @@ namespace RayGUI_cs
 
             // Draw container
             DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
         }
         /// <summary>
         /// Draw container on the screen
@@ -95,7 +118,7 @@ namespace RayGUI_cs
         {
             // Draw container
             DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.Color);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
         }
 
         /// <summary>
@@ -155,7 +178,7 @@ namespace RayGUI_cs
                 DrawRectangle(t.X - border, t.Y - border, t.Width + border * 2, t.Height + border * 2, t.BorderColor);
                 if (!t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.Color);
+                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
                 }
                 else if (t.Ticked)
                 {
@@ -190,7 +213,7 @@ namespace RayGUI_cs
             }
             else
             {
-                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.Color);
+                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BaseColor);
             }
 
             // Manage button text
@@ -205,7 +228,7 @@ namespace RayGUI_cs
                 if (IsMouseButtonPressed(MouseButton.Left))
                 {
                     t.Focus = true;
-                    t.Color = ColorTint(t.Color, Color.Blue);
+                    t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
                 }
             }
             if (t.Focus)
@@ -234,7 +257,7 @@ namespace RayGUI_cs
                 else if (key != 0 && key != 259) t.Text += GetKeyString(key);
                 
             }
-            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.Color = baseColor; }
+            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = baseColor; }
 
             return t;
         }
@@ -306,7 +329,7 @@ namespace RayGUI_cs
             // Draw box border
             DrawRectangleRounded(d.ExtRectangle, 5, 5, d.BorderColor);
             // Draw box interior
-            DrawRectangleRounded(d.IntRectangle, 5, 5, d.Color);
+            DrawRectangleRounded(d.IntRectangle, 5, 5, d.BaseColor);
 
             // Return focus
             return Hover(d.X, d.Y, d.Width, d.Height);

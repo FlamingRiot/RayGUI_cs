@@ -1,124 +1,74 @@
-﻿using Raylib_cs;
-using System.Security.Principal;
+﻿using System.Security.Principal;
+
 namespace RayGUI_cs
 {
-    /// <summary>
-    /// Delegate event
-    /// </summary>
+    /// <summary>Represents an activation function for the buttons.</summary>
     public delegate void Event();
-    /// <summary>
-    /// Button action system
-    /// </summary>
+    
+    /// <summary>Button actions system.</summary>
     public enum ButtonType
     {
         Custom,
         PathFinder,
         ColorPicker
     }
-    /// <summary>
-    /// 2-Dimensional button
-    /// </summary>
+
+    /// <summary>Button component of the library</summary>
     public class Button : Component
     {
-        /// <summary>
-        /// Background color for the button
-        /// </summary>
-        private Color color;
-        /// <summary>
-        /// Border color for the button
-        /// </summary>
-        private Color borderColor;
-        /// <summary>
-        /// Hover color for the button
-        /// </summary>
-        private Color hoverColor;
-        /// <summary>
-        /// Text of the button
-        /// </summary>
-        private string text;
-        /// <summary>
-        /// Type of the button event
-        /// </summary>
-        private ButtonType type;
-        /// <summary>
-        /// Event of the button (if set to custom)
-        /// </summary>
-        private Event? action;
-        /// <summary>
-        /// Event of the button (if set to custom)
-        /// </summary>
-        public Event? Event { set { action = value; } }
-        /// <summary>
-        /// Background color for the button
-        /// </summary>
-        public Color Color { get { return color; } set { color = value; } }
-        /// <summary>
-        /// Border color for the button
-        /// </summary>
-        public Color BorderColor { get { return borderColor; } set { borderColor = value; } }
-        /// <summary>
-        /// Hover color for the button
-        /// </summary>
-        public Color HoverColor { get { return hoverColor; } set { hoverColor = value; } }
-        /// <summary>
-        /// Text of the button
-        /// </summary>
-        public string Text { get { return text; } set { text = value; } }
-        /// <summary>
-        /// Type of the button event
-        /// </summary>
-        public ButtonType Type { get { return type; } set { type = value; } }
-        /// <summary>
-        /// Button Constructor
-        /// </summary>
-        /// <param name="x">Button X position</param>
-        /// <param name="y">Button Y position</param>
-        /// <param name="width">Button width</param>
-        /// <param name="height">Button height</param>
-        /// <param name="text">Button text</param>
-        /// <param name="color">Button color</param>
-        /// <param name="borderColor">Button second color</param>
-        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor):base(x, y, width, height)
+        /// <summary>Displayed text on the button.</summary>
+        public string Text;
+
+        /// <summary>Action type of the button.</summary>
+        public ButtonType Type;
+
+        /// <summary>Event function of the button.</summary>
+        public Event? Action;
+
+        /// <summary>Initializes a <see cref="Button"/> object.</summary>
+        /// <param name="x">X position of the button</param>
+        /// <param name="y">Y position of the button</param>
+        /// <param name="width">Width of the button</param>
+        /// <param name="height">Height of the button</param>
+        /// <param name="text">Text of the button</param>
+        public Button(string text, int x, int y, int width, int height):base(x, y, width, height)
         {
-            // Position assignment
+            // Size correction
             Width = width + text.Length * 6;
-            X = x - text.Length * 8;
-            this.text = text;
-            this.Tag = "";
-            // Color assignment
-            Color = color;
-            BorderColor = borderColor;
-            HoverColor = borderColor;
+            // Position correction
+            if (X - text.Length * 8 < 0)
+                X = 0;
+            else
+                X -= text.Length * 8;
+
+            Text = text;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }
-        /// <summary>
-        /// Button Constructor
-        /// </summary>
-        /// <param name="x">Button X position</param>
-        /// <param name="y">Button Y position</param>
-        /// <param name="width">Button width</param>
-        /// <param name="height">Button height</param>
-        /// <param name="text">Button text</param>
-        /// <param name="color">Button color</param>
-        /// <param name="borderColor">Button second color</param>
-        /// <param name="tag">Button tag</param>
-        public Button(string text, int x, int y, int width, int height, Color color, Color borderColor, string tag) : base(x, y, width, height, tag)
+
+        /// <summary>Initializes a <see cref="Button"/> object.</summary>
+        /// <param name="x">X position of the button</param>
+        /// <param name="y">Y position of the button</param>
+        /// <param name="width">Width of the button</param>
+        /// <param name="height">Height of the button</param>
+        /// <param name="text">Text of the button</param>
+        /// <param name="tag">Tag of the button</param>
+        public Button(string text, int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
         {
-            // Position assignment
+            // Size correction
             Width = width + text.Length * 6;
-            X = x - text.Length * 8;
-            this.text = text;
-            // Color assignment
-            Color = color;
-            BorderColor = borderColor;
-            HoverColor = borderColor;
+            // Position correction
+            if (X - text.Length * 8 < 0)
+                X = 0;
+            else
+                X -= text.Length * 8;
+
+            Text = text;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }
-        /// <summary>
-        /// Activate button event, if not set to custom
-        /// </summary>
+
+        /// <summary>Activates the event associated to the button</summary>
         public void Activate()
         {
             switch (Type)
@@ -143,9 +93,26 @@ namespace RayGUI_cs
                 case ButtonType.ColorPicker:
                     break;
                 case ButtonType.Custom:
-                    if (action is not null) action();
+                    if (Action is not null) Action();
                     break;
             }
+        }
+
+        /// <summary>Returns a hash code based on the combined informations of the instance.</summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            HashCode hash = new HashCode();
+
+            hash.Add(X);
+            hash.Add(Y);
+            hash.Add(Width);
+            hash.Add(Height);
+            hash.Add(Tag);
+            hash.Add(Text);
+            hash.Add(Type);
+
+            return hash.ToHashCode();
         }
     }
 }

@@ -1,36 +1,28 @@
 ﻿namespace RayGUI_cs
 {
+    /// <summary>Label component of the library</summary>
     public class Label : Component
     {
-        /// <summary>
-        /// Label text
-        /// </summary>
-        private string text;
-        /// <summary>
-        /// Label text
-        /// </summary>
-        public string Text { get { return text; } set { text = value; } }
-        /// <summary>
-        /// Label constructor
-        /// </summary>
-        /// <param name="x">Label X position</param>
-        /// <param name="y">Label Y position</param>
-        /// <param name="text">Label text</param>
+        /// <summary>Displayed text on the button.</summary>
+        public string Text;
+
+        /// <summary>Initializes a new instance of a <see cref="Label"/> object.</summary>
+        /// <param name="x">X position of the label</param>
+        /// <param name="y">Y position of the label</param>
+        /// <param name="text">Text of the label</param>
         public Label(int x, int y, string text) : base(x, y, 0, 0)
         {
-            this.text = text;
-            this.Tag = "";
+            Text = text;
         }
-        /// <summary>
-        /// Label constructor
-        /// </summary>
-        /// <param name="x">Label X position</param>
-        /// <param name="y">Label Y position</param>
-        /// <param name="text">Label text</param>
-        /// <param name="tag">Label tag</param>
+
+        /// <summary>Initializes a new instance of a <see cref="Label"/> object.</summary>
+        /// <param name="x">X position of the label</param>
+        /// <param name="y">Y position of the label</param>
+        /// <param name="text">Text of the label</param>
+        /// <param name="tag">Tag of the label</param>
         public Label(int x, int y, string text, string tag) : base(x, y, 0, 0, tag)
         {
-            this.text = text;
+            Text = text;
         }
     }    
 }
