@@ -18,6 +18,9 @@ namespace RayGUI_cs
         private string tag;
 
         /// <summary>Base color of the component</summary>
+        public bool LightFocus;
+
+        /// <summary>Base color of the component</summary>
         public Color BaseColor;
 
         /// <summary>Border color of the component</summary>
@@ -63,6 +66,8 @@ namespace RayGUI_cs
             BaseColor = RayGUI.BaseColor;
             BorderColor = RayGUI.BorderColor;
             HoverColor = RayGUI.BorderColor;
+
+            LightFocus = false;
         }
 
         /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
@@ -84,6 +89,8 @@ namespace RayGUI_cs
             BaseColor = RayGUI.BaseColor;
             BorderColor = RayGUI.BorderColor;
             HoverColor = RayGUI.BorderColor;
+
+            LightFocus = false;
         }
 
         /// <summary>Returns a <see langword="string"/> containg informations about the instance.</summary>

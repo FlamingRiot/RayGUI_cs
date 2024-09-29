@@ -46,7 +46,6 @@ namespace RayGUI_cs
             RayGUI.BaseColor = color1;
             RayGUI.BorderColor = color2;
             // Set font
-            //font.BaseSize = 2;
             SetTextureFilter(font.Texture, TextureFilter.Trilinear);
             RayGUI.Font = font;
 
@@ -56,13 +55,27 @@ namespace RayGUI_cs
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+
+        /// <summary>Checks if the mouse hovers an element.</summary>
+        /// <param name="c">Component to check for.</param>
+        /// <returns><see langword="true"/> if the mouse hover the element. <see langword="false"/> otherwise.</returns>
+        public static bool Hover(Component c)
+        {
+            Vector2 mouse = GetMousePosition();
+            if (mouse.X < c.X + c.Width && mouse.X > c.X && mouse.Y < c.Y + c.Height && mouse.Y > c.Y)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         /// <summary>Draws a <see cref="Button"/> object to the screen</summary>
         /// <param name="button"><see cref="Button"/> to draw</param>
-        public static void DrawButton(Button button)
+        internal static void DrawButton(Button button)
         {
             DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
             // Manage hover button color
-            if (Hover(button.X, button.Y, button.Width, button.Height)) 
+            if (Hover(button)) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
                 DrawRectangle(button.X, button.Y, button.Width, button.Height, button.HoverColor);
@@ -73,64 +86,140 @@ namespace RayGUI_cs
             }
             // Draw text
             DrawTextPro(Font, button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
-
-            // Does user interacts with the buttons 
-            IsButtonPressed(button);
         }
 
-        /// <summary>
-        /// Check if a button is pressed, returns boolean, activates event if true
-        /// </summary>
-        /// <param name="button">Button to check</param>
-        /// <returns></returns>
-        public static bool IsButtonPressed(Button button)
-        {
-            if (Hover(button.X, button.Y, button.Width, button.Height) && IsMouseButtonPressed(MouseButton.Left))
-            {
-                button.Activate();
-                return true;
-            }
-            else { return false; }
-        }
-
-        /// <summary>
-        /// Draw container on the screen and check for imported files
-        /// </summary>
+        /// <summary>Draws a container to the screen.</summary>
         /// <param name="c">Container to draw</param>
-        /// <returns>Last file that was added to the container</returns>
-        public static void DrawContainer(ref Container c)
+        internal static void DrawContainer(Container c)
+        {
+            // Draw container
+            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
+        }
+
+        /// <summary>Draws a <see cref="Tickbox"/> component.</summary>
+        /// <param name="t"></param>
+        internal static void DrawTickbox(Tickbox t)
+        {
+            if (Hover(t))
+            {
+                DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+            }
+            else
+            {
+                DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+                if (!t.Ticked)
+                {
+                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
+                }
+                else if (t.Ticked)
+                {
+                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
+                }
+            }
+        }
+
+        /// <summary>Draws a <see cref="Label"/> component.</summary>
+        /// <param name="l">Label to draw</param>
+        internal static void DrawLabel(Label l)
+        {
+            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
+        }
+
+        /// <summary>Draws a <see cref="Textbox"/> component.</summary>
+        /// <param name="t">Textbox to draw</param>
+        internal static void DrawTextbox(Textbox t)
+        {
+            // Manage box border
+            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+            // Manage hover t color
+            if (Hover(t) && !t.Focus)
+            {
+                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
+            }
+            else
+            {
+                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
+            }
+
+            // Draw text
+            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
+        }
+
+
+        /// <summary>Draws a <see cref="Panel"/> component.</summary>
+        /// <param name="p">Panel to draw.</param>
+        internal static void DrawPanel(Panel p)
+        {
+            DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
+        }
+
+
+        /// <summary>Checks for dropped files.</summary>
+        /// <param name="c">Container to update</param>
+        internal static Container UpdateContainer(Container c)
         {
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)
             {
-                if (IsFileDropped() && Hover((int)c.X, (int)c.Y, c.Width, c.Height))
+                if (IsFileDropped() && Hover(c))
                 {
-                    ImportFiles(ref c);
+                    return ImportFiles(c);
                 }
+                return c;
             }
-
-            // Draw container
-            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
+            return c;
         }
-        /// <summary>
-        /// Draw container on the screen
-        /// </summary>
-        /// <param name="c">Container to draw</param>
-        public static void DrawContainer(Container c)
+
+        /// <summary>Updates a <see cref="Tickbox"/> component.</summary>
+        /// <param name="t">Tickbox to update.</param>
+        /// <returns><see langword="true"/> if the box is ticked. <see langword="false"/> otherwise.</returns>
+        internal static Tickbox UpdateTickbox(Tickbox t)
         {
-            // Draw container
-            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
+            t.Ticked = !t.Ticked;
+            return t;
         }
 
-        /// <summary>
-        /// Import the dropped files in the corresponding container
-        /// </summary>
+        /// <summary>Updates a <see cref="Textbox"/> component.</summary>
+        /// <param name="t">Textbox to update.</param>
+        /// <returns>Updated textbox.</returns>
+        internal static Textbox UpdateTextbox(Textbox t)
+        {
+            t.Focus = true;
+            t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
+
+            int key = GetKeyPressed();
+
+            if (t.Text is not null && t.Text.Length != 0)
+            {
+                if (key == 259)
+                {
+                    t.Text = t.Text.Remove(t.Text.Length - 1);
+                }
+
+                if (IsKeyDown(KeyboardKey.Backspace))
+                {
+                    if (t.DeltaBack == 0.0) { t.DeltaBack = GetTime(); }
+                    if (GetTime() - t.DeltaBack >= 0.5) { t.Text = t.Text.Remove(t.Text.Length - 1); }
+                }
+                else { t.DeltaBack = 0.0; }
+            }
+            // Manager copy-paste
+            if (IsKeyDown(KeyboardKey.LeftControl) && IsKeyPressed(KeyboardKey.V))
+            {
+                t.Text += GetClipboardText_();
+            }
+            else if (key != 0 && key != 259) t.Text += GetKeyString(key);
+
+            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = BaseColor; }
+
+            return t;
+        }
+
+        /// <summary>Imports files in a container</summary>
         /// <param name="c">Corresponding container</param>
-        public static void ImportFiles(ref Container c)
+        internal static Container ImportFiles(Container c)
         {
-
             FilePathList filePathList = LoadDroppedFiles();
             string path = new ((sbyte*)filePathList.Paths[0]);
             string[] pathArray = path.Split('.');
@@ -157,133 +246,15 @@ namespace RayGUI_cs
                 else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
             }
             UnloadDroppedFiles(filePathList);
+
+            // Return modified container
+            return c;
         }
 
-        /// <summary>
-        /// Draw tickbox on the screen
-        /// </summary>
-        /// <param name="t"></param>
-        public static void DrawTickbox(ref Tickbox t)
-        {
-            int border = 1;
-
-            // Manage ticking option
-            if (Hover(t.X, t.Y, t.Width, t.Height))
-            {
-                DrawRectangle(t.X - border, t.Y - border, t.Width + border * 2, t.Height + border * 2, t.BorderColor);
-                if (IsMouseButtonPressed(MouseButton.Left))
-                {
-                    t.Ticked = !t.Ticked;
-                }
-            }
-            else
-            {
-                DrawRectangle(t.X - border, t.Y - border, t.Width + border * 2, t.Height + border * 2, t.BorderColor);
-                if (!t.Ticked)
-                {
-                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
-                }
-                else if (t.Ticked)
-                {
-                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
-                }
-            }
-        }
-
-        /// <summary>Draws a <see cref="Label"/> component.</summary>
-        /// <param name="l">Label to draw</param>
-        public static void DrawLabel(Label l)
-        {
-            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
-        }
-
-        /// <summary>
-        /// Draw a textbox on the screen
-        /// </summary>
-        /// <param name="t">Textbox</param>
-        /// <param name="font">Font to use</param>
-        public static Textbox DrawTextbox(ref Textbox t)
-        {
-            // Manage box border
-            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
-            // Manage hover t color
-            if (Hover(t.X, t.Y, t.Width, t.Height) && !t.Focus)
-            {
-                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BorderColor);
-            }
-            else
-            {
-                DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BaseColor);
-            }
-
-            // Draw text
-            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y  + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
-
-            // Manage modifying option
-            if (Hover(t.X, t.Y, t.Width, t.Height))
-            {
-                SetMouseCursor(MouseCursor.IBeam);
-                if (IsMouseButtonPressed(MouseButton.Left))
-                {
-                    t.Focus = true;
-                    t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
-                }
-            }
-            if (t.Focus)
-            {
-                int key = GetKeyPressed();
-
-                if (t.Text is not null && t.Text.Length != 0)
-                {
-                    if (key == 259)
-                    {
-                        t.Text = t.Text.Remove(t.Text.Length - 1);
-                    }
-
-                    if (IsKeyDown(KeyboardKey.Backspace))
-                    {
-                        if (t.DeltaBack == 0.0) { t.DeltaBack = GetTime(); }
-                        if (GetTime() - t.DeltaBack >= 0.5) { t.Text = t.Text.Remove(t.Text.Length - 1); }
-                    }
-                    else { t.DeltaBack = 0.0; }
-                }
-                // Manager copy-paste
-                if (IsKeyDown(KeyboardKey.LeftControl) && IsKeyPressed(KeyboardKey.V))
-                {
-                    t.Text += GetClipboardText_();
-                }
-                else if (key != 0 && key != 259) t.Text += GetKeyString(key);
-                
-            }
-            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = BaseColor; }
-
-            return t;
-        }
-
-        /// <summary>
-        /// Check if mouse is over any element by passing its position and scale properties
-        /// </summary>
-        /// <param name="x">X coordinate</param>
-        /// <param name="y">Y coordinate</param>
-        /// <param name="width">Width scale</param>
-        /// <param name="height">height scale</param>
-        /// <returns></returns>
-        public static bool Hover(int x, int y, int width, int height)
-        {
-            Vector2 mouse = GetMousePosition();
-            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y)
-            {
-                return true;
-            }
-            else return false;
-        }
-
-        /// <summary>
-        /// Get the pressed key by passing the key code
-        /// </summary>
+        /// <summary>Gets the corresponding key to a keycode</summary>
         /// <param name="keycode">Code of the key</param>
-        /// <returns></returns>
-        public static string GetKeyString(int keycode)
+        /// <returns>The key</returns>
+        internal static string GetKeyString(int keycode)
         {
             // Specific cases
             switch (keycode)
@@ -310,13 +281,72 @@ namespace RayGUI_cs
             }
         }
 
-        /// <summary>
-        /// Draw panel
-        /// </summary>
-        /// <param name="p">Panel</param>
-        public static void DrawPanel(Panel p)
+        //------------------------------------------------------------------------------------
+        // Component lists managment
+        //------------------------------------------------------------------------------------
+
+        /// <summary>Draws a list of <see cref="Component"/>.</summary>
+        /// <param name="components">List of <see cref="Component"/> to draw.</param>
+        public static void DrawGUIList(List<Component> components)
         {
-            DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
+            // Draw
+            foreach (Component c in components) 
+            {
+                // Check for light focus
+                components[components.IndexOf(c)].LightFocus = Hover(c);
+                switch (c)
+                {
+                    case Button:
+                        DrawButton((Button)c);
+                        break;
+                    case Container:
+                        DrawContainer((Container)c);
+                        break;
+                    case Label:
+                        DrawLabel((Label)c); 
+                        break;
+                    case Panel:
+                        DrawPanel((Panel)c);
+                        break;
+                    case Textbox:
+                        DrawTextbox((Textbox)c);
+                        break;
+                    case Tickbox:
+                        DrawTickbox((Tickbox)c);    
+                        break;
+                }
+            }
+            // Update heavily focused textboxes
+            components.Where(x => x is Textbox).Where(x => ((Textbox)x).Focus).ToList().ForEach(Update);
+
+            // Update
+            if (IsMouseButtonPressed(MouseButton.Left))
+            {
+                List<Component> actives = components.Where(x => x.LightFocus).ToList();
+                // Update actives
+                actives.ForEach(Update);
+            }
+        }
+
+        /// <summary>Updates a <see cref="Component"/> in a list of <see cref="Component"/>.</summary>
+        /// <param name="c"><see cref="Component"/> to update.</param>
+        internal static void Update(Component c)
+        {
+            switch (c)
+            {
+                case Button:
+                    ((Button)c).Activate();
+                    break;
+                case Textbox:
+                    c = UpdateTextbox((Textbox)c);
+                    break;
+                case Tickbox:
+                    c = UpdateTickbox((Tickbox)c);
+                    break;
+                case Container:
+                    c = UpdateContainer((Container)c);
+                    break;
+            }
         }
     }
 }

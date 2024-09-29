@@ -31,7 +31,7 @@ namespace RayGUI_cs
         public ButtonType Type;
 
         /// <summary>Event function of the button.</summary>
-        public Event? Action;
+        public Event? Event;
 
         /// <summary>Displayed text on the button.</summary>
         public string? Text { get { return text; }
@@ -107,7 +107,7 @@ namespace RayGUI_cs
                 case ButtonType.ColorPicker:
                     break;
                 case ButtonType.Custom:
-                    if (Action is not null) Action();
+                    if (Event is not null) Event();
                     break;
             }
         }
