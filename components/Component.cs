@@ -60,9 +60,9 @@ namespace RayGUI_cs
             Height = height;
             tag = "";
 
-            BaseColor = RayGUI.baseColor;
-            BorderColor = RayGUI.borderColor;
-            HoverColor = RayGUI.borderColor;
+            BaseColor = RayGUI.BaseColor;
+            BorderColor = RayGUI.BorderColor;
+            HoverColor = RayGUI.BorderColor;
         }
 
         /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
@@ -81,9 +81,9 @@ namespace RayGUI_cs
             this.tag = "";
             Tag = tag;
 
-            BaseColor = RayGUI.baseColor;
-            BorderColor = RayGUI.borderColor;
-            HoverColor = RayGUI.borderColor;
+            BaseColor = RayGUI.BaseColor;
+            BorderColor = RayGUI.BorderColor;
+            HoverColor = RayGUI.BorderColor;
         }
 
         /// <summary>Returns a <see langword="string"/> containg informations about the instance.</summary>

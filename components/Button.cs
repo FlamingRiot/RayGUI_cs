@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using System.Numerics;
+using System.Security.Principal;
+using Raylib_cs;
 
 namespace RayGUI_cs
 {
@@ -16,14 +18,38 @@ namespace RayGUI_cs
     /// <summary>Button component of the library</summary>
     public class Button : Component
     {
-        /// <summary>Displayed text on the button.</summary>
-        public string Text;
+        private int fontSize;
+        private string? text;
+
+        /// <summary>Text size in pixels.</summary>
+        internal Vector2 TextSize;
+
+        /// <summary>Text color of the label.</summary>
+        public Color TextColor;
 
         /// <summary>Action type of the button.</summary>
         public ButtonType Type;
 
         /// <summary>Event function of the button.</summary>
         public Event? Action;
+
+        /// <summary>Displayed text on the button.</summary>
+        public string? Text { get { return text; }
+            set 
+            {
+                text = value;
+                TextSize = Raylib.MeasureTextEx(RayGUI.Font, text, FontSize, 1);
+            }
+        }
+
+        /// <summary>Font size of the buttons's text.</summary>
+        public int FontSize { get { return fontSize; }
+            set 
+            {
+                fontSize = value;
+                TextSize = Raylib.MeasureTextEx(RayGUI.Font, Text, fontSize, 1);
+            } 
+        }
 
         /// <summary>Initializes a <see cref="Button"/> object.</summary>
         /// <param name="x">X position of the button</param>
@@ -33,15 +59,9 @@ namespace RayGUI_cs
         /// <param name="text">Text of the button</param>
         public Button(string text, int x, int y, int width, int height):base(x, y, width, height)
         {
-            // Size correction
-            Width = width + text.Length * 6;
-            // Position correction
-            if (X - text.Length * 8 < 0)
-                X = 0;
-            else
-                X -= text.Length * 8;
-
             Text = text;
+            FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }
@@ -55,15 +75,9 @@ namespace RayGUI_cs
         /// <param name="tag">Tag of the button</param>
         public Button(string text, int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
         {
-            // Size correction
-            Width = width + text.Length * 6;
-            // Position correction
-            if (X - text.Length * 8 < 0)
-                X = 0;
-            else
-                X -= text.Length * 8;
-
             Text = text;
+            FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }

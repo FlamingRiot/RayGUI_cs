@@ -8,25 +8,28 @@ namespace RayGUI_cs
     public unsafe class RayGUI
     {   
         /// <summary>Constant border size of components</summary>
-        public const int BORDER = 1;
+        internal const int BORDER = 1;
 
         /// <summary>Maximum of characters in components tag</summary>
-        public const int MAX_TAG_LENGTH = 25;
+        internal const int MAX_TAG_LENGTH = 25;
 
         /// <summary>Tickbox width and height values</summary>
-        public const int TICKBOX_SIZE = 16;
+        internal const int TICKBOX_SIZE = 16;
+
+        /// <summary>Tickbox width and height values</summary>
+        internal const int DEFAULT_FONT_SIZE = 15;
 
         /// <summary><see cref="Keys"/> object hosting the key informations</summary>
         static Keys KEYS;
 
         /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
-        public static Color baseColor;
+        public static Color BaseColor;
 
         /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
-        public static Color borderColor;
+        public static Color BorderColor;
 
         /// <summary>Global font of the GUI tool</summary>
-        static Font font;
+        public static Font Font;
 
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: core)
@@ -40,11 +43,12 @@ namespace RayGUI_cs
             // Init keys object
             RayGUI.KEYS = new();
             // Set colors
-            RayGUI.baseColor = color1;
-            RayGUI.borderColor = color2;
+            RayGUI.BaseColor = color1;
+            RayGUI.BorderColor = color2;
             // Set font
-            font.BaseSize = 2;
-            RayGUI.font = font;
+            //font.BaseSize = 2;
+            SetTextureFilter(font.Texture, TextureFilter.Trilinear);
+            RayGUI.Font = font;
 
             // Send debug text
             Console.ForegroundColor = ConsoleColor.Green;
@@ -67,9 +71,8 @@ namespace RayGUI_cs
             {
                 DrawRectangle(button.X, button.Y, button.Width, button.Height, button.BaseColor);
             }
-            // Manage button text
-            int txtLength = button.Text.Length;
-            DrawTextPro(font, button.Text, new Vector2(button.X + button.Width / 2 - txtLength * 4, button.Y + button.Height / 3 -  5), new Vector2(0, 0), 0, 1, 1, Color.White);
+            // Draw text
+            DrawTextPro(Font, button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
 
             // Does user interacts with the buttons 
             IsButtonPressed(button);
@@ -187,14 +190,11 @@ namespace RayGUI_cs
             }
         }
 
-        /// <summary>
-        /// Draw label on the screen
-        /// </summary>
-        /// <param name="l"></param>
-        public static void DrawLabel(Label l, Font font)
+        /// <summary>Draws a <see cref="Label"/> component.</summary>
+        /// <param name="l">Label to draw</param>
+        public static void DrawLabel(Label l)
         {
-            font.BaseSize = 2;
-            DrawTextPro(font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, 1, 1, Color.White);
+            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace RayGUI_cs
         /// </summary>
         /// <param name="t">Textbox</param>
         /// <param name="font">Font to use</param>
-        public static Textbox DrawTextbox(ref Textbox t, Font font)
+        public static Textbox DrawTextbox(ref Textbox t)
         {
             // Manage box border
             DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
@@ -216,10 +216,8 @@ namespace RayGUI_cs
                 DrawRectangle((int)t.X, (int)t.Y, t.Width, t.Height, t.BaseColor);
             }
 
-            // Manage button text
-            font.BaseSize = 2;
-            int txtLength = t.Text.Length;
-            DrawTextPro(font, t.Text, new Vector2(t.X + t.Width / 2 - txtLength * 4, t.Y + t.Height / 3 - 5), new Vector2(0, 0), 0, 1, 1, Color.White);
+            // Draw text
+            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y  + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
 
             // Manage modifying option
             if (Hover(t.X, t.Y, t.Width, t.Height))
@@ -235,7 +233,7 @@ namespace RayGUI_cs
             {
                 int key = GetKeyPressed();
 
-                if (t.Text.Length != 0)
+                if (t.Text is not null && t.Text.Length != 0)
                 {
                     if (key == 259)
                     {
@@ -257,7 +255,7 @@ namespace RayGUI_cs
                 else if (key != 0 && key != 259) t.Text += GetKeyString(key);
                 
             }
-            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = baseColor; }
+            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = BaseColor; }
 
             return t;
         }
@@ -319,20 +317,6 @@ namespace RayGUI_cs
         public static void DrawPanel(Panel p)
         {
             DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="d"></param>
-        public static bool DrawDragDropBox(DragDropBox d)
-        {
-            // Draw box border
-            DrawRectangleRounded(d.ExtRectangle, 5, 5, d.BorderColor);
-            // Draw box interior
-            DrawRectangleRounded(d.IntRectangle, 5, 5, d.BaseColor);
-
-            // Return focus
-            return Hover(d.X, d.Y, d.Width, d.Height);
         }
     }
 }
