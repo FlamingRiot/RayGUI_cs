@@ -13,5 +13,5 @@
 
 ---
 
-[v1.0.0]: https://git.s2.rpn.ch/ComtesseE1/raygui_cs/-/tags/v2.0.0
-[v2.0.0]: https://git.s2.rpn.ch/ComtesseE1/raygui_cs/-/tags/v1.0.0
+[v1.0.0]: https://git.s2.rpn.ch/ComtesseE1/raygui_cs/-/tags/v1.0.0
+[v2.0.0]: https://git.s2.rpn.ch/ComtesseE1/raygui_cs/-/tags/v2.0.0
