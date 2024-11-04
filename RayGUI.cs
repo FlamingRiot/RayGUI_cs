@@ -19,6 +19,9 @@ namespace RayGUI_cs
         /// <summary>Tickbox width and height values</summary>
         internal const int DEFAULT_FONT_SIZE = 15;
 
+        /// <summary>Defines whether or not a list is activated.</summary>
+        internal static bool LIST_ACTIVATED = true;
+
         /// <summary><see cref="Keys"/> object hosting the key informations</summary>
         static Keys KEYS;
 
@@ -55,6 +58,17 @@ namespace RayGUI_cs
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        /// <summary>Deactivates the current list.</summary>
+        public static void DeactivateList()
+        {
+            LIST_ACTIVATED = false;
+        }
+
+        /// <summary>Activates the current list.</summary>
+        public static void ActivateList()
+        {
+            LIST_ACTIVATED = true;
+        }
 
         /// <summary>Checks if the mouse hovers an element.</summary>
         /// <param name="c">Component to check for.</param>
@@ -69,13 +83,30 @@ namespace RayGUI_cs
             else return false;
         }
 
+        /// <summary>Checks if the mouse hovers an element.</summary>
+        /// <param name="c">Component to check for.</param>
+        /// <returns><see langword="true"/> if the mouse hover the element. <see langword="false"/> otherwise.</returns>
+        public static bool Hover(int x, int y, int width, int height)
+        {
+            Vector2 mouse = GetMousePosition();
+            if (mouse.X < x + width && mouse.X > x && mouse.Y < y + height && mouse.Y > y)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        //------------------------------------------------------------------------------------
+        // Update-needed draw functions
+        //------------------------------------------------------------------------------------
+
         /// <summary>Draws a <see cref="Button"/> object to the screen</summary>
         /// <param name="button"><see cref="Button"/> to draw</param>
         internal static void DrawButton(Button button)
         {
             DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
             // Manage hover button color
-            if (Hover(button)) 
+            if (Hover(button) && LIST_ACTIVATED) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
                 DrawRectangle(button.X, button.Y, button.Width, button.Height, button.HoverColor);
@@ -88,13 +119,25 @@ namespace RayGUI_cs
             DrawTextPro(Font, button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
         }
 
-        /// <summary>Draws a container to the screen.</summary>
-        /// <param name="c">Container to draw</param>
-        internal static void DrawContainer(Container c)
+        /// <summary>Draws a <see cref="Textbox"/> component.</summary>
+        /// <param name="t">Textbox to draw</param>
+        internal static void DrawTextbox(Textbox t)
         {
-            // Draw container
-            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
+            // Manage box border
+            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+            // Manage hover t color
+            if (Hover(t) && !t.Focus && LIST_ACTIVATED)
+            {
+                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
+                SetMouseCursor(MouseCursor.IBeam);
+            }
+            else
+            {
+                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
+            }
+
+            // Draw text
+            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
         }
 
         /// <summary>Draws a <see cref="Tickbox"/> component.</summary>
@@ -119,37 +162,31 @@ namespace RayGUI_cs
             }
         }
 
-        /// <summary>Draws a <see cref="Label"/> component.</summary>
-        /// <param name="l">Label to draw</param>
-        internal static void DrawLabel(Label l)
+        //------------------------------------------------------------------------------------
+        // Static component functions
+        //------------------------------------------------------------------------------------
+
+        /// <summary>Draws a container to the screen.</summary>
+        /// <param name="c">Container to draw</param>
+        public static void DrawContainer(Container c)
         {
-            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
+            // Draw container
+            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
+            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
         }
 
-        /// <summary>Draws a <see cref="Textbox"/> component.</summary>
-        /// <param name="t">Textbox to draw</param>
-        internal static void DrawTextbox(Textbox t)
-        {
-            // Manage box border
-            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
-            // Manage hover t color
-            if (Hover(t) && !t.Focus)
-            {
-                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
-            }
-            else
-            {
-                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
-            }
 
-            // Draw text
-            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
+        /// <summary>Draws a <see cref="Label"/> component.</summary>
+        /// <param name="l">Label to draw</param>
+        public static void DrawLabel(Label l)
+        {
+            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
         }
 
 
         /// <summary>Draws a <see cref="Panel"/> component.</summary>
         /// <param name="p">Panel to draw.</param>
-        internal static void DrawPanel(Panel p)
+        public static void DrawPanel(Panel p)
         {
             DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
         }
@@ -224,40 +261,49 @@ namespace RayGUI_cs
 
         /// <summary>Draws a list of <see cref="Component"/>.</summary>
         /// <param name="components">List of <see cref="Component"/> to draw.</param>
-        public static void DrawGUIList(List<Component> components)
+        public static void DrawGUIList(List<Component> components, ref bool focus)
         {
             // Draw
             foreach (Component c in components) 
             {
-                // Check for light focus
-                components[components.IndexOf(c)].LightFocus = Hover(c);
                 switch (c)
                 {
                     case Button:
                         DrawButton((Button)c);
+                        c.LightFocus = Hover(c);
                         break;
                     case Container:
                         DrawContainer((Container)c);
                         break;
                     case Label:
-                        DrawLabel((Label)c); 
+                        DrawLabel((Label)c);
                         break;
                     case Panel:
                         DrawPanel((Panel)c);
                         break;
                     case Textbox:
                         DrawTextbox((Textbox)c);
+                        c.LightFocus = Hover(c);
                         break;
                     case Tickbox:
-                        DrawTickbox((Tickbox)c);    
+                        DrawTickbox((Tickbox)c);
+                        c.LightFocus = Hover(c);
                         break;
                 }
             }
             // Update heavily focused textboxes
             components.Where(x => x is Textbox).Where(x => ((Textbox)x).Focus).ToList().ForEach(EventHandler.Update);
+            if (components.Where((Component x) => x.LightFocus).ToList().Count == 0)
+            {
+                focus = false;
+            }
+            else
+            {
+                focus = true;
+            }
 
             // Update
-            if (IsMouseButtonPressed(MouseButton.Left))
+            if (IsMouseButtonPressed(MouseButton.Left) && LIST_ACTIVATED)
             {
                 List<Component> actives = components.Where(x => x.LightFocus).ToList();
                 // Update actives

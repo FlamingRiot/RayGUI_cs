@@ -76,7 +76,7 @@ namespace RayGUI_cs
                 }
                 else { t.DeltaBack = 0.0; }
             }
-            // Manager copy-paste
+            // Manage copy-paste
             if (IsKeyDown(KeyboardKey.LeftControl) && IsKeyPressed(KeyboardKey.V))
             {
                 t.Text += GetClipboardText_();
