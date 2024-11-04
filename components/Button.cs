@@ -19,7 +19,7 @@ namespace RayGUI_cs
     public class Button : Component
     {
         private int fontSize;
-        private string? text;
+        private string text;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
@@ -34,7 +34,7 @@ namespace RayGUI_cs
         public Event? Event;
 
         /// <summary>Displayed text on the button.</summary>
-        public string? Text { get { return text; }
+        public string Text { get { return text; }
             set 
             {
                 text = value;
@@ -59,7 +59,7 @@ namespace RayGUI_cs
         /// <param name="text">Text of the button</param>
         public Button(string text, int x, int y, int width, int height):base(x, y, width, height)
         {
-            Text = text;
+            this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
@@ -75,7 +75,7 @@ namespace RayGUI_cs
         /// <param name="tag">Tag of the button</param>
         public Button(string text, int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
         {
-            Text = text;
+            this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)

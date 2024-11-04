@@ -18,10 +18,10 @@
         //------------------------------------------------------------------------------------
 
         /// <summary>The abosulte file path for the output directory.</summary>
-        public string? OutputFilePath;
+        public string OutputFilePath;
 
         /// <summary>Acceptable file type when file is dropped.</summary>
-        public string? ExtensionFile;
+        public string ExtensionFile;
 
         /// <summary>Last dropped file.</summary>
         public string LastFile;

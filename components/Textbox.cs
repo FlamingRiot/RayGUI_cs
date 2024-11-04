@@ -7,7 +7,7 @@ namespace RayGUI_cs
     public class Textbox : Component
     {
         private int fontSize;
-        private string? text;
+        private string text;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
@@ -16,7 +16,7 @@ namespace RayGUI_cs
         public Color TextColor;
 
         /// <summary>Displayed text on the textbox.</summary>
-        public string? Text { get { return text; }
+        public string Text { get { return text; }
             set
             {
                 text = value;
@@ -49,7 +49,7 @@ namespace RayGUI_cs
         /// <param name="text">Initial text of the textbox</param>
         public Textbox(int x, int y, int width, int height, string text) : base(x, y, width, height)
         {
-            Text = text;
+            this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
@@ -66,7 +66,7 @@ namespace RayGUI_cs
         /// <param name="tag">Tag of the textbox</param>
         public Textbox(int x, int y, int width, int height, string text, string tag) : base(x, y, width, height, tag)
         {
-            Text = text;
+            this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
