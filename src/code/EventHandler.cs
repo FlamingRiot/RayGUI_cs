@@ -21,15 +21,12 @@ namespace RayGUI_cs
                 case Tickbox:
                     c = UpdateTickbox((Tickbox)c);
                     break;
-                case Container:
-                    c = UpdateContainer((Container)c);
-                    break;
             }
         }
 
         /// <summary>Checks for dropped files.</summary>
         /// <param name="c">Container to update</param>
-        private static Container UpdateContainer(Container c)
+        public static Container UpdateContainer(Container c)
         {
             // Manage FileDropper containers
             if (c.Type == ContainerType.FileDropper)

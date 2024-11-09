@@ -274,6 +274,7 @@ namespace RayGUI_cs
                         break;
                     case Container:
                         DrawContainer((Container)c);
+                        EventHandler.UpdateContainer((Container)c);
                         break;
                     case Label:
                         DrawLabel((Label)c);
@@ -305,6 +306,19 @@ namespace RayGUI_cs
             // Update
             if (IsMouseButtonPressed(MouseButton.Left) && LIST_ACTIVATED)
             {
+                // Check for heavy focus on textboxes
+                bool coll = false;
+                foreach (Textbox textbox in components.Where(x => x is Textbox).ToList())
+                {
+                    if (Hover(textbox))
+                    {
+                        coll = true;
+                        components.Where(x => x is Textbox).Where(x => x != textbox).ToList().ForEach(x => ((Textbox)x).Focus = false);
+                        break;
+                    }
+                }
+                if (!coll) components.Where(x => x is Textbox).ToList().ForEach(x => ((Textbox)x).Focus = false);
+
                 List<Component> actives = components.Where(x => x.LightFocus).ToList();
                 // Update actives
                 actives.ForEach(EventHandler.Update);
