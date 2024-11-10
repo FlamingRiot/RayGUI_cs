@@ -17,7 +17,7 @@ namespace RayGUI_cs
         internal const int TICKBOX_SIZE = 16;
 
         /// <summary>Tickbox width and height values</summary>
-        internal const int DEFAULT_FONT_SIZE = 15;
+        internal static int DEFAULT_FONT_SIZE = 15;
 
         /// <summary>Defines whether or not a list is activated.</summary>
         internal static bool LIST_ACTIVATED = true;
@@ -68,6 +68,13 @@ namespace RayGUI_cs
         public static void ActivateList()
         {
             LIST_ACTIVATED = true;
+        }
+
+        /// <summary>Sets the default font size.</summary>
+        /// <param name="size">Size to set.</param>
+        public static void SetDefaultFontSize(int size)
+        {
+            DEFAULT_FONT_SIZE = size;
         }
 
         /// <summary>Checks if the mouse hovers an element.</summary>
