@@ -52,6 +52,14 @@ namespace RayGUI_cs
             _buttons.Where(x => x.Text == name).ToList().ForEach(button => button.Event = action);
         }
 
+        /// <summary>Sets the event function for the button at given location.</summary>
+        /// <param name="index">Index of the button.</param>
+        /// <param name="action">Action function to set.</param>
+        public void SetButtonEvent(int index, Event action)
+        {
+            _buttons[index].Event = action;
+        }
+
         /// <summary>Returns a hash code based on the combined informations of the instance.</summary>
         /// <returns>Hash code</returns>
         public override int GetHashCode()
