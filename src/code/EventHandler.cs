@@ -4,6 +4,7 @@ using static RayGUI_cs.RayGUI;
 
 namespace RayGUI_cs
 {
+    /// <summary>Represents a static instance of <see cref="EventHandler"/>.</summary>
     internal static class EventHandler
     {
         /// <summary>Updates a <see cref="Component"/> in a list of <see cref="Component"/>.</summary>
@@ -16,10 +17,13 @@ namespace RayGUI_cs
                     ((Button)c).Activate();
                     break;
                 case Textbox:
-                    c = UpdateTextbox((Textbox)c);
+                    UpdateTextbox((Textbox)c);
                     break;
                 case Tickbox:
-                    c = UpdateTickbox((Tickbox)c);
+                    UpdateTickbox((Tickbox)c);
+                    break;
+                case DropDown:
+                    UpdateDropDown((DropDown)c);
                     break;
             }
         }
@@ -43,16 +47,15 @@ namespace RayGUI_cs
         /// <summary>Updates a <see cref="Tickbox"/> component.</summary>
         /// <param name="t">Tickbox to update.</param>
         /// <returns><see langword="true"/> if the box is ticked. <see langword="false"/> otherwise.</returns>
-        private static Tickbox UpdateTickbox(Tickbox t)
+        private static void UpdateTickbox(Tickbox t)
         {
             t.Ticked = !t.Ticked;
-            return t;
         }
 
         /// <summary>Updates a <see cref="Textbox"/> component.</summary>
         /// <param name="t">Textbox to update.</param>
         /// <returns>Updated textbox.</returns>
-        private static Textbox UpdateTextbox(Textbox t)
+        private static void UpdateTextbox(Textbox t)
         {
             t.Focus = true;
             t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
@@ -81,8 +84,16 @@ namespace RayGUI_cs
             else if (key != 0 && key != 259) t.Text += GetKeyString(key);
 
             if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = BaseColor; }
+        }
 
-            return t;
+        /// <summary>Updates the events of a DropDown list.</summary>
+        /// <param name="d">DropDown list to update.</param>
+        private static void UpdateDropDown(DropDown d)
+        {
+            d._buttons.ForEach(button =>
+            {
+                if (Hover(button)) button.Activate();
+            });
         }
     }
 }

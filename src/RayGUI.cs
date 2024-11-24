@@ -148,7 +148,7 @@ namespace RayGUI_cs
         }
 
         /// <summary>Draws a <see cref="Tickbox"/> component.</summary>
-        /// <param name="t"></param>
+        /// <param name="t">Tickbox to draw.</param>
         internal static void DrawTickbox(Tickbox t)
         {
             if (Hover(t))
@@ -167,6 +167,16 @@ namespace RayGUI_cs
                     DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
                 }
             }
+        }
+
+        /// <summary>Draws a <see cref="DropDown"/> list component.</summary>
+        /// <param name="d">DropDown list to draw.</param>
+        internal static void DrawDropDown(DropDown d) 
+        {
+            d._buttons.ForEach(button =>
+            {
+                DrawButton(button);
+            });
         }
 
         //------------------------------------------------------------------------------------
@@ -295,6 +305,10 @@ namespace RayGUI_cs
                         break;
                     case Tickbox:
                         DrawTickbox((Tickbox)c);
+                        c.LightFocus = Hover(c);
+                        break;
+                    case DropDown:
+                        DrawDropDown((DropDown)c);
                         c.LightFocus = Hover(c);
                         break;
                 }
