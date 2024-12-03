@@ -3,11 +3,16 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
+    public delegate void ParamEvent(string[] args);
+
     /// <summary>Textbox component of the library</summary>
     public class Textbox : Component
     {
         private int fontSize;
         private string text;
+
+        public ParamEvent? OnEntry;
+        public string[] Args;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
@@ -55,6 +60,7 @@ namespace RayGUI_cs
             // Interaction assignment
             Focus = false;
             DeltaBack = 0.0;
+            Args = new string[2];
         }
 
         /// <summary>Initializes a new instance of a <see cref="Textbox"/> object.</summary>
@@ -72,6 +78,15 @@ namespace RayGUI_cs
             // Interaction assignment
             Focus = false;
             DeltaBack = 0.0;
+            Args = new string[2];
+        }
+
+        /// <summary>Updates a textbox after entry.</summary>
+        public void EntryUpdate()
+        {
+            BaseColor = RayGUI.BaseColor;
+            Focus = false;
+            if (OnEntry is not null) OnEntry(Args);
         }
     }
 }

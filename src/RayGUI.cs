@@ -346,8 +346,7 @@ namespace RayGUI_cs
                 try
                 {
                     Textbox t = (Textbox)components.Where(x => x is Textbox).ToList().Where(x => ((Textbox)x).Focus).ToList()[0];
-                    t.Focus = false; // Reset txb
-                    t.BaseColor = BaseColor;
+                    t.EntryUpdate();
                     int ti = components.IndexOf(t); // Get index of txb
                     int stIndex = -1;
                     bool nextFound = false;

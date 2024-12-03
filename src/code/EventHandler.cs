@@ -83,7 +83,7 @@ namespace RayGUI_cs
             }
             else if (key != 0 && key != 259) t.Text += GetKeyString(key);
 
-            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.Focus = false; t.BaseColor = BaseColor; }
+            if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.EntryUpdate(); }
         }
 
         /// <summary>Updates the events of a DropDown list.</summary>
