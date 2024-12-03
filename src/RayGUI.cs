@@ -327,22 +327,47 @@ namespace RayGUI_cs
             // Update
             if (IsMouseButtonPressed(MouseButton.Left) && LIST_ACTIVATED)
             {
-                // Check for heavy focus on textboxes
-                bool coll = false;
-                foreach (Textbox textbox in components.Where(x => x is Textbox).ToList())
+                // Clear textboxes 
+                components.Where(x => x is Textbox).ToList().ForEach(t =>
                 {
-                    if (Hover(textbox))
-                    {
-                        coll = true;
-                        components.Where(x => x is Textbox).Where(x => x != textbox).ToList().ForEach(x => ((Textbox)x).Focus = false);
-                        break;
-                    }
-                }
-                if (!coll) components.Where(x => x is Textbox).ToList().ForEach(x => ((Textbox)x).Focus = false);
+                    ((Textbox)t).Focus = false;
+                    ((Textbox)t).BaseColor = BaseColor;
+                }); 
 
                 List<Component> actives = components.Where(x => x.LightFocus).ToList();
                 // Update actives
                 actives.ForEach(EventHandler.Update);
+            }
+
+            // Textbox tab update
+            if (IsKeyPressed(KeyboardKey.Tab))
+            {
+                // Get current selected textbox
+                try
+                {
+                    Textbox t = (Textbox)components.Where(x => x is Textbox).ToList().Where(x => ((Textbox)x).Focus).ToList()[0];
+                    t.Focus = false; // Reset txb
+                    t.BaseColor = BaseColor;
+                    int ti = components.IndexOf(t); // Get index of txb
+                    int stIndex = -1;
+                    bool nextFound = false;
+                    // Go to next txb
+                    foreach (Textbox nt in components.Where(x => x is Textbox).ToList())
+                    {
+                        if (stIndex == -1) stIndex = components.IndexOf(nt); // Gets first index of the list
+                        if (components.IndexOf(nt) > ti)
+                        {
+                            EventHandler.Update(nt);
+                            nextFound = true;
+                            break;
+                        }
+                    }
+                    if (!nextFound) EventHandler.Update(components[stIndex]);
+                }
+                catch
+                {
+
+                }
             }
         }
     }
