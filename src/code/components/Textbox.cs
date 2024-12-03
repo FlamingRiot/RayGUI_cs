@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
-    public delegate void ParamEvent(string[] args);
+    public delegate void ParamEvent(string[] args, string value);
 
     /// <summary>Textbox component of the library</summary>
     public class Textbox : Component
@@ -86,7 +86,10 @@ namespace RayGUI_cs
         {
             BaseColor = RayGUI.BaseColor;
             Focus = false;
-            if (OnEntry is not null) OnEntry(Args);
+            if (OnEntry is not null)
+            {
+                OnEntry(Args, Text);
+            }
         }
     }
 }
