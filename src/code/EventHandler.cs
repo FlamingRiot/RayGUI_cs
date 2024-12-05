@@ -1,6 +1,7 @@
 ﻿using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static RayGUI_cs.RayGUI;
+using System.Text;
 
 namespace RayGUI_cs
 {
@@ -60,11 +61,11 @@ namespace RayGUI_cs
             t.Focus = true;
             t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
 
-            int key = GetKeyPressed();
+            int key = GetCharPressed();
 
             if (t.Text is not null && t.Text.Length != 0)
             {
-                if (key == 259)
+                if (IsKeyPressed(KeyboardKey.Backspace))
                 {
                     t.Text = t.Text.Remove(t.Text.Length - 1);
                 }
@@ -81,8 +82,10 @@ namespace RayGUI_cs
             {
                 t.Text += GetClipboardText_();
             }
-            else if (key != 0 && key != 259) t.Text += GetKeyString(key);
-
+            else if (key != 0 && key != 259)
+            {
+                t.Text += Convert.ToString((char)key);
+            }
             if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.EntryUpdate(); }
         }
 

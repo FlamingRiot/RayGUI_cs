@@ -22,9 +22,6 @@ namespace RayGUI_cs
         /// <summary>Defines whether or not a list is activated.</summary>
         internal static bool LIST_ACTIVATED = true;
 
-        /// <summary><see cref="Keys"/> object hosting the key informations</summary>
-        static Keys KEYS;
-
         /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
         public static Color BaseColor;
 
@@ -43,8 +40,6 @@ namespace RayGUI_cs
         /// <param name="color2">Secondary color of the GUI tool</param>
         public static void InitGUI(Color color1, Color color2, Font font)
         {
-            // Init keys object
-            RayGUI.KEYS = new();
             // Set colors
             RayGUI.BaseColor = color1;
             RayGUI.BorderColor = color2;
@@ -53,9 +48,7 @@ namespace RayGUI_cs
             RayGUI.Font = font;
 
             // Send debug text
-            Console.ForegroundColor = ConsoleColor.Green;
-            TraceLog(TraceLogLevel.Info, "RayGUI_cs: Initialized successfully");
-            Console.ForegroundColor = ConsoleColor.White;
+            Debugger.Send("Initialized successfully", ConsoleColor.Green);
         }
 
         /// <summary>Deactivates the current list.</summary>
@@ -79,7 +72,7 @@ namespace RayGUI_cs
 
         /// <summary>Checks if the mouse hovers an element.</summary>
         /// <param name="c">Component to check for.</param>
-        /// <returns><see langword="true"/> if the mouse hover the element. <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true"/> if the mouse hovers the element. <see langword="false"/> otherwise.</returns>
         public static bool Hover(Component c)
         {
             Vector2 mouse = GetMousePosition();
@@ -92,7 +85,7 @@ namespace RayGUI_cs
 
         /// <summary>Checks if the mouse hovers an element.</summary>
         /// <param name="c">Component to check for.</param>
-        /// <returns><see langword="true"/> if the mouse hover the element. <see langword="false"/> otherwise.</returns>
+        /// <returns><see langword="true"/> if the mouse hovers the element. <see langword="false"/> otherwise.</returns>
         public static bool Hover(int x, int y, int width, int height)
         {
             Vector2 mouse = GetMousePosition();
@@ -227,49 +220,19 @@ namespace RayGUI_cs
                         File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
                         c.AddFile(c.OutputFilePath + "\\" + fileName);
                         // Add file path to the container
-                        TraceLog(TraceLogLevel.Info, "File " + fileName + " was received successfully");
+                        Debugger.Send($"File {fileName} received successfully");
                     }
                     catch
                     {
-                        TraceLog(TraceLogLevel.Warning, "File could not be received, incorrect path or no project loaded");
+                        Debugger.Send($"File could not be received, incorrect path: \nSource: {path}\nDestination: {c.OutputFilePath}", ConsoleColor.Red);
                     }
                 }
-                else { TraceLog(TraceLogLevel.Warning, "File could not be received, required extension : ." + c.ExtensionFile); }
+                else Debugger.Send($"File could not be received, required extension: .{c.ExtensionFile}", ConsoleColor.Yellow);
             }
             UnloadDroppedFiles(filePathList);
 
             // Return modified container
             return c;
-        }
-
-        /// <summary>Gets the corresponding key to a keycode</summary>
-        /// <param name="keycode">Code of the key</param>
-        /// <returns>The key</returns>
-        internal static string GetKeyString(int keycode)
-        {
-            // Specific cases
-            switch (keycode)
-            {
-                // Space bar
-                case 32:return " ";
-                default:
-                    try
-                    {
-                        if (IsKeyDown(KeyboardKey.LeftShift))
-                        {
-                            return KEYS.UCKey[keycode - 65];
-                        }
-                        else
-                        {
-                            return KEYS.LCKey[keycode - 65];
-                        }
-                    }
-                    catch
-                    {
-                        TraceLog(TraceLogLevel.Warning, "Key not implemented - Check your keyboard you dumbass");
-                        return "";
-                    }
-            }
         }
 
         //------------------------------------------------------------------------------------
