@@ -13,12 +13,10 @@ namespace RayGUI_cs
 
         public ParamEvent? OnEntry;
         public string[] Args;
+        public Color TextColor;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
-
-        /// <summary>Text color of the label.</summary>
-        public Color TextColor;
 
         /// <summary>Displayed text on the textbox.</summary>
         public string Text { get { return text; }
@@ -39,12 +37,11 @@ namespace RayGUI_cs
                 TextSize = Raylib.MeasureTextEx(RayGUI.Font, Text, fontSize, 1);
             }
         }
+        // Internal values
+        internal bool _focus;
+        internal double DeltaBack;
+        public bool Focus { get { return _focus; } }
 
-        /// <summary>Focus boolean value of the box</summary>
-        public bool Focus;
-
-        /// <summary>Delta time between backspace key pressed and erasing</summary>
-        public double DeltaBack;
 
         /// <summary>Initializes a new instance of a <see cref="Textbox"/> object.</summary>
         /// <param name="x">X position of the textbox</param>
@@ -58,7 +55,7 @@ namespace RayGUI_cs
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
-            Focus = false;
+            _focus = false;
             DeltaBack = 0.0;
             Args = new string[2];
         }
@@ -76,7 +73,7 @@ namespace RayGUI_cs
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
-            Focus = false;
+            _focus = false;
             DeltaBack = 0.0;
             Args = new string[2];
         }
@@ -85,7 +82,7 @@ namespace RayGUI_cs
         public void EntryUpdate()
         {
             BaseColor = RayGUI.BaseColor;
-            Focus = false;
+            _focus = false;
             if (OnEntry is not null)
             {
                 OnEntry(Args, Text);

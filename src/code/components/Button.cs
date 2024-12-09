@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿#pragma warning disable CA1416
+
+using System.Numerics;
 using System.Security.Principal;
 using Raylib_cs;
 

@@ -293,7 +293,7 @@ namespace RayGUI_cs
                 // Clear textboxes 
                 components.Where(x => x is Textbox).ToList().ForEach(t =>
                 {
-                    ((Textbox)t).Focus = false;
+                    ((Textbox)t)._focus = false;
                     ((Textbox)t).BaseColor = BaseColor;
                 }); 
 
