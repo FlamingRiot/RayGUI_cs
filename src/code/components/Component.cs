@@ -17,8 +17,7 @@ namespace RayGUI_cs
 
         private string tag;
 
-        /// <summary>Base color of the component</summary>
-        public bool LightFocus;
+        internal bool LightFocus;
 
         /// <summary>Base color of the component</summary>
         public Color BaseColor;
