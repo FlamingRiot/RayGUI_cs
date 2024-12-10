@@ -39,13 +39,13 @@ namespace RayGUI_cs
         /// <param name="scale">Scale of the panel</param>
         /// <param name="rotation">Rotation of the panel</param>
         /// <param name="texture"><see cref="Texture2D"/> of the panel</param>
-        public Panel(int x, int y, float rotation, Texture2D texture) : base(x, y, texture.Width, texture.Height)
+        public Panel(int x, int y, float rotation, float scale, Texture2D texture) : base(x, y, texture.Width, texture.Height)
         {
             Rotation = rotation;
             Texture = texture;
 
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-            _targetRect = new Rectangle(x, y, texture.Width, texture.Height);
+            _targetRect = new Rectangle(x, y, texture.Width * scale, texture.Height * scale);
         }
 
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
@@ -55,13 +55,13 @@ namespace RayGUI_cs
         /// <param name="rotation">Rotation of the panel</param>
         /// <param name="texture"><see cref="Texture2D"/> of the panel</param>
         /// <param name="tag">Tag of the panel</param>
-        public Panel(int x, int y, float rotation, Texture2D texture, string tag) : base(x, y, texture.Width, texture.Height, tag)
+        public Panel(int x, int y, float rotation, float scale, Texture2D texture, string tag) : base(x, y, texture.Width, texture.Height, tag)
         {
             Rotation = rotation;
             Texture = texture;
 
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-            _targetRect = new Rectangle(x, y, texture.Width, texture.Height);
+            _targetRect = new Rectangle(x, y, texture.Width * scale, texture.Height * scale);
         }
     }
 }
