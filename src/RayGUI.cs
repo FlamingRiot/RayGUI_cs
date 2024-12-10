@@ -201,7 +201,7 @@ namespace RayGUI_cs
         /// <param name="p">Panel to draw.</param>
         public static void DrawPanel(Panel p)
         {
-            DrawTextureEx(p.Texture, new Vector2(p.X, p.Y), p.Rotation, p.Scale, Color.White);
+            DrawTexturePro(p.Texture, p.SourceRectangle, p.TargetRectangle, Vector2.Zero, p.Rotation, Color.White);
         }
 
         /// <param name="c">Corresponding container</param>
