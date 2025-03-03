@@ -43,11 +43,11 @@ namespace RayGUI_cs
         public static void InitGUI(Color color1, Color color2, Font font)
         {
             // Set colors
-            RayGUI.BaseColor = color1;
-            RayGUI.BorderColor = color2;
+            BaseColor = color1;
+            BorderColor = color2;
             // Set font
             SetTextureFilter(font.Texture, TextureFilter.Trilinear);
-            RayGUI.Font = font;
+            Font = font;
 
             // Send debug text
             Debugger.Send("Initialized successfully", ConsoleColor.Green);
