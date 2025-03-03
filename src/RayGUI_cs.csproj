@@ -23,6 +23,7 @@
   <PropertyGroup>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageIcon>raygui_128x128.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     </None>
 	<None Include="..\LICENSE" Pack="true" PackagePath="" />
 	<None Include="..\README.md" Pack="true" PackagePath="" />
+	<None Include="data\raygui_128x128.png" Pack="true" PackagePath="" />
   </ItemGroup>
+  
+  <PropertyGroup>
+</PropertyGroup>
 
 </Project>
