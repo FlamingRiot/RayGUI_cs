@@ -8,9 +8,18 @@ namespace RayGUI_cs
     /// <summary>Textbox component of the library</summary>
     public class Textbox : Component
     {
+        /// <summary>Defines a filter-type when typing into a textbox.</summary>
+        public enum TextFilter
+        {
+            None,
+            Naturals,
+            Decimals,
+        }
+
         private int fontSize;
         private string text;
 
+        public TextFilter Filter;
         public ParamEvent? OnEntry;
         public string[] Args;
         public Color TextColor;
@@ -58,6 +67,8 @@ namespace RayGUI_cs
             _focus = false;
             DeltaBack = 0.0;
             Args = new string[2];
+
+            Filter = TextFilter.None;
         }
 
         /// <summary>Initializes a new instance of a <see cref="Textbox"/> object.</summary>
@@ -76,6 +87,8 @@ namespace RayGUI_cs
             _focus = false;
             DeltaBack = 0.0;
             Args = new string[2];
+
+            Filter = TextFilter.None;
         }
 
         /// <summary>Updates a textbox after entry.</summary>

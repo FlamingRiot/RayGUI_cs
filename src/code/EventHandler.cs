@@ -84,7 +84,18 @@ namespace RayGUI_cs
             }
             else if (key != 0 && key != 259)
             {
-                t.Text += Convert.ToString((char)key);
+                switch (t.Filter)
+                {
+                    case Textbox.TextFilter.None:
+                        t.Text += Convert.ToString((char)key);
+                        break;
+                    case Textbox.TextFilter.Naturals:
+                        if (key >= 48 && key <= 57) t.Text += Convert.ToString((char)key);
+                        break;
+                    case Textbox.TextFilter.Decimals:
+                        if ((key >= 48 && key <= 57) || key == 46) t.Text += Convert.ToString((char)key);
+                        break;
+                }
             }
             if (IsKeyPressed(KeyboardKey.Escape) || IsKeyPressed(KeyboardKey.Enter)) { t.EntryUpdate(); }
         }
