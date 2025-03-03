@@ -4,7 +4,7 @@ RayGUI_cs is a **complementary** GUI library for the C# [wrapper](https://github
 
 ## Installation
 
-To use the library, you need to grab one of the NuGet package releases from the officiel [NuGet Gallery](https://www.nuget.org/) by simply running the following command : 
+To use the library, you need to grab one of the NuGet [package](https://www.nuget.org/packages/RayGUI-cs/) releases from the officiel [NuGet Gallery](https://www.nuget.org/) by simply running the following command : 
 
 ```
 dotnet add package RayGUI-cs
