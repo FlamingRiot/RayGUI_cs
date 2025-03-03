@@ -195,7 +195,8 @@ namespace RayGUI_cs
             // Draw background
             DrawRectangle(l.X - BORDER, l.Y - BORDER, l.Width + BORDER * 2, l.Height + BORDER * 2, l.BorderColor);
             DrawRectangle(l.X, l.Y, l.Width, l.Height, l.BaseColor);
-            DrawTextPro(Font, l.Text, new Vector2(l.X + l.Width / 2 - l.TextSize.X / 2, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
+            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
+            //DrawTextPro(Font, l.Text, new Vector2(l.X + l.Width / 2 - l.TextSize.X / 2, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
         }
 
 
