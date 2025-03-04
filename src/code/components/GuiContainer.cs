@@ -1,15 +1,14 @@
-﻿using System.Runtime.InteropServices;
-using Raylib_cs;
+﻿using Raylib_cs;
 
 namespace RayGUI_cs
 {
     /// <summary>Represents an instance of a GUI container.</summary>
     public unsafe class GuiContainer
     {
-        private OrderedDictionary<string, Component> _components;
-        private bool _focus;
-        private GCHandle _focusHandle;
-
+        private int _id;
+        private readonly OrderedDictionary<string, Component> _components;
+        
+        public bool _focus;
         public Color ColorA;
         public Color ColorB;
 
@@ -31,11 +30,6 @@ namespace RayGUI_cs
             ColorA = colorA;
             ColorB = colorB;
             InternalizeContainer();
-        }
-
-        ~GuiContainer()
-        {
-            _focusHandle.Free();
         }
 
         /// <summary>Adds a GUI component to the container.</summary>
@@ -62,30 +56,21 @@ namespace RayGUI_cs
         {
             _focus = false;
             RayGUI.DrawGuiContainer([.._components.Values], ref _focus);
+            RayGUI._activeContainers[_id] = _focus;
 
             // Check if cursor occupied
             bool check = false;
-            for (int i = 0; i < RayGUI._activeContainers.Length; i++) 
+            for (int i = 0; i < RayGUI._activeContainers.Count; i++) 
             {
-                if (*RayGUI._activeContainers[i]) check = true;
+                if (RayGUI._activeContainers.Values.ToList()[i]) check = true;
             }
             if (!check) Raylib.SetMouseCursor(MouseCursor.Default);
         }
 
         private void InternalizeContainer()
         {
-            fixed (bool* focus = &_focus)
-            {
-                // Update internal 
-                RayGUI._containerCount++;
-                bool*[] current = RayGUI._activeContainers;
-                bool*[] newArray = new bool*[RayGUI._containerCount];
-
-                // Fill with old references
-                current.CopyTo(newArray, 0);
-                newArray[RayGUI._containerCount - 1] = focus;
-                RayGUI._activeContainers = newArray;
-            }
+            _id = Random.Shared.Next(0, 1000);
+            RayGUI._activeContainers.Add(_id, _focus);
         }
     }
 }

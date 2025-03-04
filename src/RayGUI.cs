@@ -30,7 +30,7 @@ namespace RayGUI_cs
         // Inernal variables
         internal static bool _fontLoaded = false;
         internal static int _containerCount;
-        internal static bool*[] _activeContainers = [];
+        internal static Dictionary<int, bool> _activeContainers = new Dictionary<int, bool>();
 
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: Raygui)
@@ -336,12 +336,6 @@ namespace RayGUI_cs
                 {
 
                 }
-            }
-
-            // Draw pointers
-            for (int i = 0; i < _activeContainers.Length; i++)
-            {
-                DrawText($"{*_activeContainers[i]}", 20, 20 * i + 20, 20, Color.Red);
             }
         }
     }
