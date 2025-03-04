@@ -4,61 +4,54 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
-    /// <summary>RayGUI instance of the library</summary>
+    /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        private const string VERSION = "2.0.0";
+        private const string VERSION = "2.0.1";
 
-        /// <summary>Constant border size of components</summary>
+        /// <summary>Constant border size of components.</summary>
         internal const int BORDER = 1;
 
-        /// <summary>Maximum of characters in components tag</summary>
+        /// <summary>Maximum of characters in components tag.</summary>
         internal const int MAX_TAG_LENGTH = 25;
 
-        /// <summary>Tickbox width and height values</summary>
+        /// <summary>Tickbox width and height values.</summary>
         internal const int TICKBOX_SIZE = 16;
 
-        /// <summary>Tickbox width and height values</summary>
+        /// <summary>Tickbox width and height values.</summary>
         internal static int DEFAULT_FONT_SIZE = 15;
 
         /// <summary>Defines whether or not a list is activated.</summary>
         internal static bool LIST_ACTIVATED = true;
 
-        /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
-        public static Color BaseColor;
-
-        /// <summary>Primary <see cref="Color"/> of the GUI tool</summary>
-        public static Color BorderColor;
-
-        /// <summary>Global font of the GUI tool</summary>
+        /// <summary>Global font of the GUI tool.</summary>
         public static Font Font;
+        internal static bool _fontLoaded = false;
 
         //------------------------------------------------------------------------------------
-        // Window and Graphics Device Functions (Module: core)
+        // Window and Graphics Device Functions (Module: Raygui)
         //------------------------------------------------------------------------------------
 
-        /// <summary>Initialize GUI tool</summary>
-        /// <param name="color1">Primary color of the GUI tool</param>
-        /// <param name="color2">Secondary color of the GUI tool</param>
-        public static void InitGUI(Color color1, Color color2, Font font)
+        /// <summary>Initializes the GUI tool.</summary>
+        /// <param name="font">Custom font to use.</param>
+        public static void LoadGUI(Font font)
         {
-            // Set colors
-            BaseColor = color1;
-            BorderColor = color2;
             // Set font
             SetTextureFilter(font.Texture, TextureFilter.Trilinear);
             Font = font;
-
+            _fontLoaded = true;
             // Send debug text
-            Debugger.Send("Initialized successfully", ConsoleColor.Green);
+            Debugger.Send("Initialized successfully with custom font", ConsoleColor.Green);
         }
 
+        // TODO
         /// <summary>Deactivates the current list.</summary>
         public static void DeactivateList()
         {
             LIST_ACTIVATED = false;
         }
 
+        // TODO
         /// <summary>Activates the current list.</summary>
         public static void ActivateList()
         {
@@ -96,6 +89,16 @@ namespace RayGUI_cs
                 return true;
             }
             else return false;
+        }
+
+        /// <summary>Measures the length of a text, based on whether a font is loaded or not.</summary>
+        /// <param name="text">Text to measure.</param>
+        /// <param name="FontSize">Font size to use.</param>
+        /// <returns>Width and height of the text.</returns>
+        internal static Vector2 MeasureComponentText(string text, int FontSize)
+        {
+            if (_fontLoaded) return MeasureTextEx(Font, text, FontSize, 1);
+            else return new Vector2(MeasureText(text, FontSize), FontSize);
         }
 
         //------------------------------------------------------------------------------------
@@ -180,7 +183,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a container to the screen.</summary>
         /// <param name="c">Container to draw</param>
-        public static void DrawContainer(Container c)
+        internal static void DrawContainer(Container c)
         {
             // Draw container
             DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
@@ -190,7 +193,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a <see cref="Label"/> component.</summary>
         /// <param name="l">Label to draw</param>
-        public static void DrawLabel(Label l)
+        internal static void DrawLabel(Label l)
         {
             // Draw background
             DrawRectangle(l.X - BORDER, l.Y - BORDER, l.Width + BORDER * 2, l.Height + BORDER * 2, l.BorderColor);
@@ -202,7 +205,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a <see cref="Panel"/> component.</summary>
         /// <param name="p">Panel to draw.</param>
-        public static void DrawPanel(Panel p)
+        internal static void DrawPanel(Panel p)
         {
             DrawTexturePro(p.Texture, p.SourceRectangle, p.TargetRectangle, Vector2.Zero, p.Rotation, Color.White);
         }
@@ -247,7 +250,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a list of <see cref="Component"/>.</summary>
         /// <param name="components">List of <see cref="Component"/> to draw.</param>
-        public static void DrawGUIList(List<Component> components, ref bool focus)
+        internal static void DrawGuiContainer(List<Component> components, ref bool focus)
         {
             // Draw
             foreach (Component c in components) 
@@ -300,7 +303,6 @@ namespace RayGUI_cs
                 components.Where(x => x is Textbox).ToList().ForEach(t =>
                 {
                     ((Textbox)t)._focus = false;
-                    ((Textbox)t).BaseColor = BaseColor;
                 }); 
 
                 List<Component> actives = components.Where(x => x.LightFocus).ToList();

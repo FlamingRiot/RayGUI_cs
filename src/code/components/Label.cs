@@ -25,7 +25,7 @@ namespace RayGUI_cs
             set
             {
                 text = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, text, FontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             }
         }
 
@@ -36,7 +36,7 @@ namespace RayGUI_cs
             set
             {
                 fontSize = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, Text, fontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             }
         }
 

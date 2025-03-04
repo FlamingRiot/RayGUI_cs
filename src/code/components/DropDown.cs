@@ -40,7 +40,7 @@ namespace RayGUI_cs
             _buttons = new List<Button>();
             for (int i = 0; i < buttons.Count; i++)
             {
-                _buttons.Add(new Button(buttons[i], x, y + RepeatedHeight * i, width, RepeatedHeight));
+                _buttons.Add(new Button(x, y + RepeatedHeight * i, width, RepeatedHeight, buttons[i]));
             }
         }
 

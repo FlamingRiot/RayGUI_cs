@@ -62,10 +62,6 @@ namespace RayGUI_cs
             Height = height;
             tag = "";
 
-            BaseColor = RayGUI.BaseColor;
-            BorderColor = RayGUI.BorderColor;
-            HoverColor = RayGUI.BorderColor;
-
             LightFocus = false;
         }
 
@@ -84,10 +80,6 @@ namespace RayGUI_cs
 
             this.tag = "";
             Tag = tag;
-
-            BaseColor = RayGUI.BaseColor;
-            BorderColor = RayGUI.BorderColor;
-            HoverColor = RayGUI.BorderColor;
 
             LightFocus = false;
         }

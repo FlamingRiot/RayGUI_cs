@@ -40,7 +40,7 @@ namespace RayGUI_cs
             set 
             {
                 text = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, text, FontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             }
         }
 
@@ -49,7 +49,7 @@ namespace RayGUI_cs
             set 
             {
                 fontSize = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, Text, fontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             } 
         }
 
@@ -59,7 +59,7 @@ namespace RayGUI_cs
         /// <param name="width">Width of the button</param>
         /// <param name="height">Height of the button</param>
         /// <param name="text">Text of the button</param>
-        public Button(string text, int x, int y, int width, int height):base(x, y, width, height)
+        public Button(int x, int y, int width, int height, string text) :base(x, y, width, height)
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
@@ -75,7 +75,7 @@ namespace RayGUI_cs
         /// <param name="height">Height of the button</param>
         /// <param name="text">Text of the button</param>
         /// <param name="tag">Tag of the button</param>
-        public Button(string text, int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
+        public Button(int x, int y, int width, int height, string text, string tag) : base(x, y, width, height, tag)
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;

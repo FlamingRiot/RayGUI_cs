@@ -59,8 +59,7 @@ namespace RayGUI_cs
         private static void UpdateTextbox(Textbox t)
         {
             t._focus = true;
-            t.BaseColor = ColorTint(t.BaseColor, Color.Blue);
-
+            // TESOGIMNESLGESg
             int key = GetCharPressed();
 
             if (t.Text is not null && t.Text.Length != 0)

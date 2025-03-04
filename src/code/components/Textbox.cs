@@ -32,7 +32,7 @@ namespace RayGUI_cs
             set
             {
                 text = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, text, FontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             }
         }
 
@@ -43,7 +43,7 @@ namespace RayGUI_cs
             set
             {
                 fontSize = value;
-                TextSize = Raylib.MeasureTextEx(RayGUI.Font, Text, fontSize, 1);
+                TextSize = RayGUI.MeasureComponentText(text, FontSize);
             }
         }
         // Internal values
@@ -57,10 +57,10 @@ namespace RayGUI_cs
         /// <param name="y">Y position of the textbox</param>
         /// <param name="width">Width of the textbox</param>
         /// <param name="height"">Height of the textbox</param>
-        /// <param name="text">Initial text of the textbox</param>
-        public Textbox(int x, int y, int width, int height, string text) : base(x, y, width, height)
+        /// <param name="placeholder">Initial text of the textbox</param>
+        public Textbox(int x, int y, int width, int height, string placeholder) : base(x, y, width, height)
         {
-            this.text = text;
+            this.text = placeholder;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
@@ -76,11 +76,11 @@ namespace RayGUI_cs
         /// <param name="y">Y position of the textbox</param>
         /// <param name="width">Width of the textbox</param>
         /// <param name="height"">Height of the textbox</param>
-        /// <param name="text">Initial text of the textbox</param>
+        /// <param name="placeholder">Initial text of the textbox</param>
         /// <param name="tag">Tag of the textbox</param>
-        public Textbox(int x, int y, int width, int height, string text, string tag) : base(x, y, width, height, tag)
+        public Textbox(int x, int y, int width, int height, string placeholder, string tag) : base(x, y, width, height, tag)
         {
-            this.text = text;
+            this.text = placeholder;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             TextColor = Color.White;
             // Interaction assignment
@@ -92,9 +92,8 @@ namespace RayGUI_cs
         }
 
         /// <summary>Updates a textbox after entry.</summary>
-        public void EntryUpdate()
+        internal void EntryUpdate()
         {
-            BaseColor = RayGUI.BaseColor;
             _focus = false;
             if (OnEntry is not null)
             {
