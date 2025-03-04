@@ -26,7 +26,11 @@ namespace RayGUI_cs
 
         /// <summary>Global font of the GUI tool.</summary>
         public static Font Font;
+
+        // Inernal variables
         internal static bool _fontLoaded = false;
+        internal static int _containerCount;
+        internal static bool*[] _activeContainers = [];
 
         //------------------------------------------------------------------------------------
         // Window and Graphics Device Functions (Module: Raygui)
@@ -332,6 +336,12 @@ namespace RayGUI_cs
                 {
 
                 }
+            }
+
+            // Draw pointers
+            for (int i = 0; i < _activeContainers.Length; i++)
+            {
+                DrawText($"{*_activeContainers[i]}", 20, 20 * i + 20, 20, Color.Red);
             }
         }
     }

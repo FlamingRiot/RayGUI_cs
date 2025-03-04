@@ -3,6 +3,9 @@ using System.Numerics;
 
 namespace RayGUI_cs
 {
+    /// <summary>Represents a param delegate function.</summary>
+    /// <param name="args">Arguments passed from a <see cref="Component"/>.</param>
+    /// <param name="value">Value of <see cref="Component"/>.</param>
     public delegate void ParamEvent(string[] args, string value);
 
     /// <summary>Textbox component of the library</summary>

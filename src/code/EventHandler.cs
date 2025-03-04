@@ -1,7 +1,6 @@
 ﻿using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static RayGUI_cs.RayGUI;
-using System.Text;
 
 namespace RayGUI_cs
 {
