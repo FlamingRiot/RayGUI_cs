@@ -95,6 +95,8 @@ namespace RayGUI_cs
         internal void EntryUpdate()
         {
             _focus = false;
+            BaseColor = HoverColor;
+            HoverColor = BorderColor;
             if (OnEntry is not null)
             {
                 OnEntry(Args, Text);

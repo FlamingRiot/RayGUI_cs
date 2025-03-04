@@ -131,15 +131,9 @@ namespace RayGUI_cs
             // Manage box border
             DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
             // Manage hover t color
-            if (Hover(t) && !t.Focus && LIST_ACTIVATED)
-            {
-                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
-                SetMouseCursor(MouseCursor.IBeam);
-            }
-            else
-            {
-                DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
-            }
+            if (Hover(t) && !t.Focus && LIST_ACTIVATED) SetMouseCursor(MouseCursor.IBeam);
+
+            DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
 
             // Draw text
             DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
