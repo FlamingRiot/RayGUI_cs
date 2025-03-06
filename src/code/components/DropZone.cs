@@ -3,6 +3,8 @@
     /// <summary>Container component of the library.</summary>
     public class DropZone : Component
     {
+        private readonly List<string> Files;
+
         /// <summary>The abosulte file path for the output directory.</summary>
         public string OutputFilePath;
 
@@ -12,8 +14,8 @@
         /// <summary>Last dropped file.</summary>
         public string LastFile;
 
-        /// <summary>Paths of the container's files.</summary>
-        private readonly List<string> Files;
+        /// <summary>Returns the number of files contained inside of the output directory.</summary>
+        public int FileCount { get { return Files.Count; } }
 
         /// <summary>Initializes a new instance of <see cref="Container"/>.</summary>
         /// <param name="x">X Position of the container</param>
@@ -23,8 +25,8 @@
         public DropZone(int x, int y, int width, int height) : base(x, y, width, height)
         {
             Extensions = []; // Accept any file by default
-            Files = new List<string>() { "" };
             OutputFilePath = Directory.GetCurrentDirectory(); // Working directory by default
+            Files = [..Directory.GetFiles(OutputFilePath)]; // Retrieve already present files
             LastFile = "";
         }
 
