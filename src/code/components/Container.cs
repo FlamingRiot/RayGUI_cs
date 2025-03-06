@@ -1,22 +1,8 @@
 ﻿namespace RayGUI_cs
 {
-    /// <summary>Container type system.</summary>
-    public enum ContainerType
-    {
-        Custom,
-        FileDropper
-    }
-
     /// <summary>Container component of the library.</summary>
-    public class Container : Component
+    public class DropZone : Component
     {
-        /// <summary>Type of the container.</summary>
-        public ContainerType Type;
-
-        //------------------------------------------------------------------------------------
-        // FileDropper containers only (ContainerType:1)
-        //------------------------------------------------------------------------------------
-
         /// <summary>The abosulte file path for the output directory.</summary>
         public string OutputFilePath;
 
@@ -34,18 +20,13 @@
         /// <param name="y">Y Position of the container</param>
         /// <param name="width">Width of the container</param>
         /// <param name="height">Height of the container</param>
-        public Container(int x, int y, int width, int height) : base(x, y, width, height)
+        public DropZone(int x, int y, int width, int height) : base(x, y, width, height)
         {
             ExtensionFile = "";
             Files = new List<string>() { "" };
-            Type = ContainerType.Custom;
             OutputFilePath = "";
             LastFile = "";
         }
-
-        //------------------------------------------------------------------------------------
-        // FileDropper containers only (ContainerType:1)
-        //------------------------------------------------------------------------------------
 
         /// <summary>Adds a file to the list of the container.</summary>
         /// <param name="file">File to add</param>
@@ -63,14 +44,14 @@
 
         /// <summary>Returns a file from the list of the container.</summary>
         /// <param name="index">Index of the file.</param>
-        /// <returns>The file.</returns>
+        /// <returns>The requested file.</returns>
         public string GetFile(int index)
         {
             return Files[index];
         }
 
         /// <summary>Returns the latest file added to the list of the container.</summary>
-        /// <returns>The file</returns>
+        /// <returns>The requested file.</returns>
         public string GetLastFile()
         {
             return Files.Last();
@@ -86,7 +67,7 @@
         /// <summary>Checks if a file exists in the list of the container.</summary>
         /// <param name="file">File to search for</param>
         /// <returns>Returns <see langword="true"/> if the file exists. <see langword="false"/> otherwise.</returns>
-        public bool FilesContain(string file)
+        public bool Contains(string file)
         {
             return Files.Contains(file);
         }

@@ -30,16 +30,12 @@ namespace RayGUI_cs
 
         /// <summary>Checks for dropped files.</summary>
         /// <param name="c">Container to update</param>
-        public static Container UpdateContainer(Container c)
+        public static DropZone UpdateContainer(DropZone c)
         {
             // Manage FileDropper containers
-            if (c.Type == ContainerType.FileDropper)
+            if (IsFileDropped() && Hover(c))
             {
-                if (IsFileDropped() && Hover(c))
-                {
-                    return ImportFiles(c);
-                }
-                return c;
+                return ImportFiles(c);
             }
             return c;
         }

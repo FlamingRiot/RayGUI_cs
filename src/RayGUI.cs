@@ -175,7 +175,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a container to the screen.</summary>
         /// <param name="c">Container to draw</param>
-        internal static void DrawContainer(Container c)
+        internal static void DrawContainer(DropZone c)
         {
             // Draw container
             DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
@@ -203,7 +203,7 @@ namespace RayGUI_cs
         }
 
         /// <param name="c">Corresponding container</param>
-        internal static Container ImportFiles(Container c)
+        internal static DropZone ImportFiles(DropZone c)
         {
             FilePathList filePathList = LoadDroppedFiles();
             string path = new ((sbyte*)filePathList.Paths[0]);
@@ -212,7 +212,7 @@ namespace RayGUI_cs
             string fileName = pathArryBySlash.Last();
 
             // Copy file to output directory of the container
-            if (!c.FilesContain(c.OutputFilePath + "\\" +fileName))
+            if (!c.Contains(c.OutputFilePath + "\\" +fileName))
             {
                 if (pathArray.Last() == c.ExtensionFile)
                 {
@@ -253,9 +253,9 @@ namespace RayGUI_cs
                         DrawButton((Button)c, id);
                         c.LightFocus = Hover(c);
                         break;
-                    case Container:
-                        DrawContainer((Container)c);
-                        EventHandler.UpdateContainer((Container)c);
+                    case DropZone:
+                        DrawContainer((DropZone)c);
+                        EventHandler.UpdateContainer((DropZone)c);
                         break;
                     case Label:
                         DrawLabel((Label)c);
