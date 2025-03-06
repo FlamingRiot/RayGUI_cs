@@ -6,8 +6,8 @@
         /// <summary>The abosulte file path for the output directory.</summary>
         public string OutputFilePath;
 
-        /// <summary>Acceptable file type when file is dropped.</summary>
-        public string ExtensionFile;
+        /// <summary>Acceptable file types when file is dropped.</summary>
+        public string[] Extensions;
 
         /// <summary>Last dropped file.</summary>
         public string LastFile;
@@ -22,9 +22,9 @@
         /// <param name="height">Height of the container</param>
         public DropZone(int x, int y, int width, int height) : base(x, y, width, height)
         {
-            ExtensionFile = "";
+            Extensions = []; // Accept any file by default
             Files = new List<string>() { "" };
-            OutputFilePath = "";
+            OutputFilePath = Directory.GetCurrentDirectory(); // Working directory by default
             LastFile = "";
         }
 

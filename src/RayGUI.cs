@@ -214,21 +214,26 @@ namespace RayGUI_cs
             // Copy file to output directory of the container
             if (!c.Contains(c.OutputFilePath + "\\" +fileName))
             {
-                if (pathArray.Last() == c.ExtensionFile)
+                if (c.Extensions.Contains(pathArray.Last()) || c.Extensions.Length == 0)
                 {
                     try
                     {
                         File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
                         c.AddFile(c.OutputFilePath + "\\" + fileName);
                         // Add file path to the container
-                        Debugger.Send($"File {fileName} received successfully");
+                        Debugger.Send($"File {fileName} received successfully", ConsoleColor.Green);
                     }
                     catch
                     {
-                        Debugger.Send($"File could not be received, incorrect path: \nSource: {path}\nDestination: {c.OutputFilePath}", ConsoleColor.Red);
+                        Debugger.Send($"File could not be received, either wrong destination ({c.OutputFilePath}) or unsuitable source file ({path}))", ConsoleColor.Yellow);
                     }
                 }
-                else Debugger.Send($"File could not be received, required extension: .{c.ExtensionFile}", ConsoleColor.Yellow);
+                else
+                { 
+                    string err = "File could not be received, required extension(s):";
+                    for (int i = 0; i < c.Extensions.Length; i++) err += $" .{c.Extensions[i]}";
+                    Debugger.Send(err, ConsoleColor.Yellow);
+                }
             }
             UnloadDroppedFiles(filePathList);
 
