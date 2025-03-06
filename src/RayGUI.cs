@@ -7,7 +7,7 @@ namespace RayGUI_cs
     /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        private const string VERSION = "2.0.1";
+        private const string VERSION = "2.0.2";
 
         /// <summary>Constant border size of components.</summary>
         internal const int BORDER = 1;
