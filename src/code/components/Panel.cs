@@ -16,14 +16,14 @@ namespace RayGUI_cs
             set 
             {
                 _maxWidth = value;
-                _targetRect = new Rectangle(X, Y, Raymath.Clamp(value, 0, MaxWidth), Raymath.Clamp(Height, 0, MaxHeight));
+                _targetRect.Width = Raymath.Clamp(Width, 0, MaxWidth);
             }
         }
         public int MaxHeight { get { return _maxHeight; }
             set
             {
                 _maxHeight = value;
-                _targetRect = new Rectangle(X, Y, Raymath.Clamp(Width, 0, MaxWidth), Raymath.Clamp(value, 0, MaxHeight));
+                _targetRect.Height = Raymath.Clamp(Height, 0, MaxHeight);
             }
         }
 
@@ -36,7 +36,7 @@ namespace RayGUI_cs
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
         /// <param name="x">X position of the panel</param>
         /// <param name="y">Y position of the panel</param>
-        /// <param name="texture">Displayed image of the panel</param>
+        /// <param name="texture">Displayed image of the panel.</param>
         public Panel(int x, int y, Texture2D texture) : base(x, y, texture.Width, texture.Height)
         {
             Texture = texture;
@@ -55,7 +55,7 @@ namespace RayGUI_cs
         /// <param name="y">Y position of the panel</param>
         /// <param name="scale">Scale of the panel</param>
         /// <param name="rotation">Rotation of the panel</param>
-        /// <param name="texture"><see cref="Texture2D"/> of the panel</param>
+        /// <param name="texture">Displayed image of the panel.</param>
         public Panel(int x, int y, float rotation, float scale, Texture2D texture) : base(x, y, texture.Width, texture.Height)
         {
             Rotation = rotation;
