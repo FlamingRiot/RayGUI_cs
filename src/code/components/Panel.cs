@@ -27,6 +27,24 @@ namespace RayGUI_cs
             }
         }
 
+        /// <summary>Width of the panel.</summary>
+        public new int Width { get { return (int)_targetRect.Width; } 
+            set 
+            { 
+                _targetRect.Width = Raymath.Clamp(Math.Abs(value), 0, MaxWidth); 
+            }
+        }
+
+        /// <summary>Height of the panel.</summary>
+        public new int Height
+        {
+            get { return (int)_targetRect.Height; }
+            set
+            {
+                _targetRect.Height = Raymath.Clamp(Math.Abs(value), 0, MaxHeight);
+            }
+        }
+
         /// <summary>Rotation of the panel</summary>
         public float Rotation;
 
@@ -44,10 +62,10 @@ namespace RayGUI_cs
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
             _targetRect = new Rectangle(x, y, texture.Width, texture.Height);
 
-            Width = (int)_targetRect.Width;
-            Height = (int)_targetRect.Height;
             MaxWidth = Width;
             MaxHeight = Height;
+            Width = (int)_targetRect.Width;
+            Height = (int)_targetRect.Height;
         }
 
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
@@ -64,10 +82,10 @@ namespace RayGUI_cs
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
             _targetRect = new Rectangle(x, y, texture.Width * scale, texture.Height * scale);
 
-            Width = (int)_targetRect.Width;
-            Height = (int)_targetRect.Height;
             MaxWidth = Width;
             MaxHeight = Height;
+            Width = (int)_targetRect.Width;
+            Height = (int)_targetRect.Height;
         }
     }
 }
