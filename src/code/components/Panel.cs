@@ -16,7 +16,7 @@ namespace RayGUI_cs
             set 
             {
                 _maxWidth = value;
-                _targetRect = new Rectangle(X, Y, Raymath.Clamp(value, 0, MaxWidth), Raymath.Clamp(Width, 0, MaxHeight));
+                _targetRect = new Rectangle(X, Y, Raymath.Clamp(value, 0, MaxWidth), Raymath.Clamp(Height, 0, MaxHeight));
             }
         }
         public int MaxHeight { get { return _maxHeight; }
@@ -43,6 +43,11 @@ namespace RayGUI_cs
 
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
             _targetRect = new Rectangle(x, y, texture.Width, texture.Height);
+
+            Width = (int)_targetRect.Width;
+            Height = (int)_targetRect.Height;
+            MaxWidth = Width;
+            MaxHeight = Height;
         }
 
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
@@ -58,6 +63,11 @@ namespace RayGUI_cs
 
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
             _targetRect = new Rectangle(x, y, texture.Width * scale, texture.Height * scale);
+
+            Width = (int)_targetRect.Width;
+            Height = (int)_targetRect.Height;
+            MaxWidth = Width;
+            MaxHeight = Height;
         }
     }
 }
