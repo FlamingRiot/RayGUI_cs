@@ -36,16 +36,13 @@ namespace RayGUI_cs
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
         /// <param name="x">X position of the panel</param>
         /// <param name="y">Y position of the panel</param>
-        /// <param name="scale">Scale of the panel</param>
-        /// <param name="rotation">Rotation of the panel</param>
-        /// <param name="texture"><see cref="Texture2D"/> of the panel</param>
-        public Panel(int x, int y, float rotation, float scale, Texture2D texture) : base(x, y, texture.Width, texture.Height)
+        /// <param name="texture">Displayed image of the panel</param>
+        public Panel(int x, int y, Texture2D texture) : base(x, y, texture.Width, texture.Height)
         {
-            Rotation = rotation;
             Texture = texture;
 
             _sourceRect = new Rectangle(0, 0, texture.Width, texture.Height);
-            _targetRect = new Rectangle(x, y, texture.Width * scale, texture.Height * scale);
+            _targetRect = new Rectangle(x, y, texture.Width, texture.Height);
         }
 
         /// <summary>Initializes a new instance of a <see cref="Panel"/> object.</summary>
@@ -54,8 +51,7 @@ namespace RayGUI_cs
         /// <param name="scale">Scale of the panel</param>
         /// <param name="rotation">Rotation of the panel</param>
         /// <param name="texture"><see cref="Texture2D"/> of the panel</param>
-        /// <param name="tag">Tag of the panel</param>
-        public Panel(int x, int y, float rotation, float scale, Texture2D texture, string tag) : base(x, y, texture.Width, texture.Height, tag)
+        public Panel(int x, int y, float rotation, float scale, Texture2D texture) : base(x, y, texture.Width, texture.Height)
         {
             Rotation = rotation;
             Texture = texture;

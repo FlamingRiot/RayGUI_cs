@@ -68,22 +68,6 @@ namespace RayGUI_cs
             Type = ButtonType.Custom;
         }
 
-        /// <summary>Initializes a <see cref="Button"/> object.</summary>
-        /// <param name="x">X position of the button</param>
-        /// <param name="y">Y position of the button</param>
-        /// <param name="width">Width of the button</param>
-        /// <param name="height">Height of the button</param>
-        /// <param name="text">Text of the button</param>
-        /// <param name="tag">Tag of the button</param>
-        public Button(int x, int y, int width, int height, string text, string tag) : base(x, y, width, height, tag)
-        {
-            this.text = text;
-            FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Color.White;
-            // Automatically set (has to be modified afterwards if needed)
-            Type = ButtonType.Custom;
-        }
-
         /// <summary>Activates the event associated to the button</summary>
         public void Activate()
         {

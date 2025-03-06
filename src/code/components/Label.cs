@@ -65,19 +65,5 @@ namespace RayGUI_cs
             TextColor = Color.White;
             BaseColor = DEFAULT_BACKGROUND;
         }
-
-        /// <summary>Initializes a new instance of a <see cref="Label"/> object.</summary>
-        /// <param name="x">X position of the label</param>
-        /// <param name="y">Y position of the label</param>
-        /// <param name="text">Text of the label</param>
-        /// <param name="tag">Tag of the label</param>
-        public Label(int x, int y, string text, string tag) : base(x, y, 0, 0, tag)
-        {
-            this.text = "";
-            Text = text;
-            FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Color.White;
-            BaseColor = DEFAULT_BACKGROUND;
-        }
     }    
 }

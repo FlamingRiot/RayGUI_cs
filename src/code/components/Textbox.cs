@@ -74,26 +74,6 @@ namespace RayGUI_cs
             Filter = TextFilter.None;
         }
 
-        /// <summary>Initializes a new instance of a <see cref="Textbox"/> object.</summary>
-        /// <param name="x">X position of the textbox</param>
-        /// <param name="y">Y position of the textbox</param>
-        /// <param name="width">Width of the textbox</param>
-        /// <param name="height"">Height of the textbox</param>
-        /// <param name="placeholder">Initial text of the textbox</param>
-        /// <param name="tag">Tag of the textbox</param>
-        public Textbox(int x, int y, int width, int height, string placeholder, string tag) : base(x, y, width, height, tag)
-        {
-            this.text = placeholder;
-            FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Color.White;
-            // Interaction assignment
-            _focus = false;
-            DeltaBack = 0.0;
-            Args = new string[2];
-
-            Filter = TextFilter.None;
-        }
-
         /// <summary>Updates a textbox after entry.</summary>
         internal void EntryUpdate()
         {

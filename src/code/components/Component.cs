@@ -65,25 +65,6 @@ namespace RayGUI_cs
             LightFocus = false;
         }
 
-        /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
-        /// <param name="x">X Position of the component</param>
-        /// <param name="y">Y Position of the component</param>
-        /// <param name="width">Width of the component</param>
-        /// <param name="height">Height of the component</param>
-        /// <param name="tag">Tag of the component</param>
-        public Component(int x, int y, int width, int height, string tag)
-        {
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
-
-            this.tag = "";
-            Tag = tag;
-
-            LightFocus = false;
-        }
-
         /// <summary>Returns a <see langword="string"/> containg informations about the instance.</summary>
         /// <returns><see langword="string"/></returns>
         public override string ToString()

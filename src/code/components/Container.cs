@@ -43,20 +43,6 @@
             LastFile = "";
         }
 
-        /// <summary>Initializes a new instance of <see cref="Container"/>.</summary>
-        /// <param name="x">X Position of the container</param>
-        /// <param name="y">Y Position of the container</param>
-        /// <param name="width">Width of the container</param>
-        /// <param name="height">Height of the container</param>
-        public Container(int x, int y, int width, int height, string tag) : base(x, y, width, height, tag)
-        {
-            ExtensionFile = "";
-            Files = new List<string>() { "" };
-            Type = ContainerType.Custom;
-            OutputFilePath = "";
-            LastFile = "";
-        }
-
         //------------------------------------------------------------------------------------
         // FileDropper containers only (ContainerType:1)
         //------------------------------------------------------------------------------------
