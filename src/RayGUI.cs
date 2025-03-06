@@ -21,19 +21,15 @@ namespace RayGUI_cs
         /// <summary>Tickbox width and height values.</summary>
         internal static int DEFAULT_FONT_SIZE = 15;
 
-        /// <summary>Defines whether or not a list is activated.</summary>
-        internal static bool LIST_ACTIVATED = true;
-
         /// <summary>Global font of the GUI tool.</summary>
         public static Font Font;
 
         // Inernal variables
         internal static bool _fontLoaded = false;
-        internal static int _containerCount;
         internal static Dictionary<int, bool> _activeContainers = new Dictionary<int, bool>();
 
         //------------------------------------------------------------------------------------
-        // Window and Graphics Device Functions (Module: Raygui)
+        // Window and GUI Functions (Module: Raygui)
         //------------------------------------------------------------------------------------
 
         /// <summary>Initializes the GUI tool.</summary>
@@ -48,18 +44,16 @@ namespace RayGUI_cs
             Debugger.Send("Initialized successfully with custom font", ConsoleColor.Green);
         }
 
-        // TODO
-        /// <summary>Deactivates the current list.</summary>
-        public static void DeactivateList()
+        /// <summary>Deactivates the specified conatiner.</summary>
+        public static void DeactivateGui(GuiContainer container)
         {
-            LIST_ACTIVATED = false;
+            _activeContainers.Remove(container._id);
         }
 
-        // TODO
-        /// <summary>Activates the current list.</summary>
-        public static void ActivateList()
+        /// <summary>Activates the specified container.</summary>
+        public static void ActivateGui(GuiContainer container)
         {
-            LIST_ACTIVATED = true;
+            _activeContainers.Add(container._id, false);
         }
 
         /// <summary>Sets the default font size.</summary>
@@ -111,11 +105,11 @@ namespace RayGUI_cs
 
         /// <summary>Draws a <see cref="Button"/> object to the screen</summary>
         /// <param name="button"><see cref="Button"/> to draw</param>
-        internal static void DrawButton(Button button)
+        internal static void DrawButton(Button button, int id)
         {
             DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
             // Manage hover button color
-            if (Hover(button) && LIST_ACTIVATED) 
+            if (Hover(button) && _activeContainers.ContainsKey(id)) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
                 DrawRectangle(button.X, button.Y, button.Width, button.Height, button.HoverColor);
@@ -130,12 +124,12 @@ namespace RayGUI_cs
 
         /// <summary>Draws a <see cref="Textbox"/> component.</summary>
         /// <param name="t">Textbox to draw</param>
-        internal static void DrawTextbox(Textbox t)
+        internal static void DrawTextbox(Textbox t, int id)
         {
             // Manage box border
             DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
             // Manage hover t color
-            if (Hover(t) && !t.Focus && LIST_ACTIVATED) SetMouseCursor(MouseCursor.IBeam);
+            if (Hover(t) && !t.Focus && _activeContainers.ContainsKey(id)) SetMouseCursor(MouseCursor.IBeam);
 
             DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
 
@@ -167,11 +161,11 @@ namespace RayGUI_cs
 
         /// <summary>Draws a <see cref="DropDown"/> list component.</summary>
         /// <param name="d">DropDown list to draw.</param>
-        internal static void DrawDropDown(DropDown d) 
+        internal static void DrawDropDown(DropDown d, int id) 
         {
             d._buttons.ForEach(button =>
             {
-                DrawButton(button);
+                DrawButton(button, id);
             });
         }
 
@@ -248,7 +242,7 @@ namespace RayGUI_cs
 
         /// <summary>Draws a list of <see cref="Component"/>.</summary>
         /// <param name="components">List of <see cref="Component"/> to draw.</param>
-        internal static void DrawGuiContainer(List<Component> components, ref bool focus)
+        internal static void DrawGuiContainer(List<Component> components, ref bool focus, int id)
         {
             // Draw
             foreach (Component c in components) 
@@ -256,7 +250,7 @@ namespace RayGUI_cs
                 switch (c)
                 {
                     case Button:
-                        DrawButton((Button)c);
+                        DrawButton((Button)c, id);
                         c.LightFocus = Hover(c);
                         break;
                     case Container:
@@ -270,7 +264,7 @@ namespace RayGUI_cs
                         DrawPanel((Panel)c);
                         break;
                     case Textbox:
-                        DrawTextbox((Textbox)c);
+                        DrawTextbox((Textbox)c, id);
                         c.LightFocus = Hover(c);
                         break;
                     case Tickbox:
@@ -278,7 +272,7 @@ namespace RayGUI_cs
                         c.LightFocus = Hover(c);
                         break;
                     case DropDown:
-                        DrawDropDown((DropDown)c);
+                        DrawDropDown((DropDown)c, id);
                         c.LightFocus = Hover(c);
                         break;
                 }
@@ -295,7 +289,7 @@ namespace RayGUI_cs
             }
 
             // Update
-            if (IsMouseButtonPressed(MouseButton.Left) && LIST_ACTIVATED)
+            if (IsMouseButtonPressed(MouseButton.Left) && _activeContainers.ContainsKey(id))
             {
                 // Clear textboxes 
                 components.Where(x => x is Textbox).ToList().ForEach(t =>

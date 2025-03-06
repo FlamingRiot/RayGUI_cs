@@ -5,7 +5,7 @@ namespace RayGUI_cs
     /// <summary>Represents an instance of a GUI container.</summary>
     public unsafe class GuiContainer
     {
-        private int _id;
+        internal int _id;
         private readonly OrderedDictionary<string, Component> _components;
         
         public bool _focus;
@@ -55,8 +55,8 @@ namespace RayGUI_cs
         public void Draw()
         {
             _focus = false;
-            RayGUI.DrawGuiContainer([.._components.Values], ref _focus);
-            RayGUI._activeContainers[_id] = _focus;
+            RayGUI.DrawGuiContainer([.._components.Values], ref _focus, _id);
+            if (RayGUI._activeContainers.ContainsKey(_id)) RayGUI._activeContainers[_id] = _focus;
 
             // Check if cursor occupied
             bool check = false;
