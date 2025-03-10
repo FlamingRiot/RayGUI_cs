@@ -27,6 +27,22 @@ namespace RayGUI_cs
             }
         }
 
+        /// <summary>The numnber of components the conatiner holds.</summary>
+        public int Count { get { return _components.Count; } }
+
+        /// <summary>Clears the GÙI container by deleting every component.</summary>
+        public void Clear()
+        {
+            _components.Clear();
+        }
+
+        /// <summary>Performs an actions for each element of the GUI.</summary>
+        /// <param name="action">Action to perform.</param>
+        public void ForEach(Action<Component> action)
+        {
+            _components.Values.ToList().ForEach(action);
+        }
+
         /// <summary>Creates a default instance of <see cref="GuiContainer"/>.</summary>
         public GuiContainer()
         {
