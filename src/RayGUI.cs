@@ -9,7 +9,7 @@ namespace RayGUI_cs
     /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        private const string VERSION = "2.0.2";
+        public const string VERSION = "2.0.3";
 
         /// <summary>Constant border size of components.</summary>
         internal const int BORDER = 1;
@@ -201,76 +201,6 @@ namespace RayGUI_cs
         internal static void DrawPanel(Panel p)
         {
             DrawTexturePro(p.Texture, p.SourceRectangle, p.TargetRectangle, Vector2.Zero, p.Rotation, Color.White);
-        }
-
-        /// <param name="c">Corresponding container</param>
-        internal static DropZone ImportFiles(DropZone c)
-        {
-            FilePathList filePathList = LoadDroppedFiles();
-            string path = ConvertFilePathList(filePathList)[0];
-            string[] pathArray = path.Split('.');
-            string[] pathArryBySlash = path.Split('\\');
-            string fileName = pathArryBySlash.Last();
-
-            // Copy file to output directory of the container
-            if (c.Extensions.Contains(pathArray.Last()) || c.Extensions.Length == 0)
-            {
-                try
-                {
-                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
-                    c.AddFile(c.OutputFilePath + "\\" + fileName);
-                    // Add file path to the container
-                    Debugger.Send($"File {fileName} received successfully", ConsoleColor.Green);
-                }
-                catch
-                {
-                    Debugger.Send($"File could not be received, either wrong destination ({c.OutputFilePath}) or unsuitable source file ({path}))", ConsoleColor.Yellow);
-                }
-            }
-            else
-            { 
-                string err = "File could not be received, required extension(s):";
-                for (int i = 0; i < c.Extensions.Length; i++) err += $" .{c.Extensions[i]}";
-                Debugger.Send(err, ConsoleColor.Yellow);
-            }
-            UnloadDroppedFiles(filePathList);
-
-            // Return modified container
-            return c;
-        }
-
-        /// <summary>Converts a <see cref="FilePathList"/> to UTF-8 strings.</summary>
-        /// <param name="files">Received files.</param>
-        /// <returns>UTF-8 strings.</returns>
-        internal static string[] ConvertFilePathList(FilePathList files)
-        {
-            string[] paths = new string[files.Count];
-
-            for (int i = 0; i < paths.Length; i++)
-            {
-                IntPtr pathPtr = Marshal.ReadIntPtr((IntPtr)files.Paths, i * IntPtr.Size);
-                byte[] rawBytes = GetUtf8Bytes(pathPtr);
-                paths[i] = Encoding.UTF8.GetString(rawBytes);
-            }
-
-            return paths;
-        }
-
-        /// <summary>Returns UTF-8 bytes from an Integer Pointer.</summary>
-        /// <param name="ptr">Pointer.</param>
-        /// <returns>UTF-8 Bytes.</returns>
-        internal static byte[] GetUtf8Bytes(IntPtr ptr)
-        {
-            if (ptr == IntPtr.Zero) return Array.Empty<byte>();
-
-            // Trouver la longueur de la chaîne (NULL-terminated)
-            int length = 0;
-            while (Marshal.ReadByte(ptr, length) != 0) length++;
-
-            // Lire les bytes en UTF-8
-            byte[] bytes = new byte[length];
-            Marshal.Copy(ptr, bytes, 0, length);
-            return bytes;
         }
 
         //------------------------------------------------------------------------------------

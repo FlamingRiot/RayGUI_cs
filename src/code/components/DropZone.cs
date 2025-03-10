@@ -1,4 +1,8 @@
-﻿namespace RayGUI_cs
+﻿using Raylib_cs;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace RayGUI_cs
 {
     /// <summary>Container component of the library.</summary>
     public class DropZone : Component
@@ -72,6 +76,76 @@
         public bool Contains(string file)
         {
             return Files.Contains(file);
+        }
+
+        /// <param name="c">Corresponding container</param>
+        internal static DropZone ImportFiles(DropZone c)
+        {
+            FilePathList filePathList = Raylib.LoadDroppedFiles();
+            string path = ConvertFilePathList(filePathList)[0];
+            string[] pathArray = path.Split('.');
+            string[] pathArryBySlash = path.Split('\\');
+            string fileName = pathArryBySlash.Last();
+
+            // Copy file to output directory of the container
+            if (c.Extensions.Contains(pathArray.Last()) || c.Extensions.Length == 0)
+            {
+                try
+                {
+                    File.Copy(path, c.OutputFilePath + "\\" + fileName, true);
+                    c.AddFile(c.OutputFilePath + "\\" + fileName);
+                    // Add file path to the container
+                    Debugger.Send($"File {fileName} received successfully", ConsoleColor.Green);
+                }
+                catch
+                {
+                    Debugger.Send($"File could not be received, either wrong destination ({c.OutputFilePath}) or unsuitable source file ({path}))", ConsoleColor.Yellow);
+                }
+            }
+            else
+            {
+                string err = "File could not be received, required extension(s):";
+                for (int i = 0; i < c.Extensions.Length; i++) err += $" .{c.Extensions[i]}";
+                Debugger.Send(err, ConsoleColor.Yellow);
+            }
+            Raylib.UnloadDroppedFiles(filePathList);
+
+            // Return modified container
+            return c;
+        }
+
+        /// <summary>Converts a <see cref="FilePathList"/> to UTF-8 strings.</summary>
+        /// <param name="files">Received files.</param>
+        /// <returns>UTF-8 strings.</returns>
+        private static unsafe string[] ConvertFilePathList(FilePathList files)
+        {
+            string[] paths = new string[files.Count];
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                IntPtr pathPtr = Marshal.ReadIntPtr((IntPtr)files.Paths, i * IntPtr.Size);
+                byte[] rawBytes = GetUtf8Bytes(pathPtr);
+                paths[i] = Encoding.UTF8.GetString(rawBytes);
+            }
+
+            return paths;
+        }
+
+        /// <summary>Returns UTF-8 bytes from an Integer Pointer.</summary>
+        /// <param name="ptr">Pointer.</param>
+        /// <returns>UTF-8 Bytes.</returns>
+        private static byte[] GetUtf8Bytes(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero) return Array.Empty<byte>();
+
+            // Trouver la longueur de la chaîne (NULL-terminated)
+            int length = 0;
+            while (Marshal.ReadByte(ptr, length) != 0) length++;
+
+            // Lire les bytes en UTF-8
+            byte[] bytes = new byte[length];
+            Marshal.Copy(ptr, bytes, 0, length);
+            return bytes;
         }
     }
 }

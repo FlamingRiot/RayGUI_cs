@@ -35,7 +35,7 @@ namespace RayGUI_cs
             // Manage FileDropper containers
             if (IsFileDropped() && Hover(c))
             {
-                return ImportFiles(c);
+                return DropZone.ImportFiles(c);
             }
             return c;
         }
@@ -53,13 +53,13 @@ namespace RayGUI_cs
         /// <returns>Updated textbox.</returns>
         private static void UpdateTextbox(Textbox t)
         {
-            if (IsMouseButtonPressed(MouseButton.Left) && !t._focus) 
+            if ((IsMouseButtonPressed(MouseButton.Left) || IsKeyPressed(KeyboardKey.Tab)) && !t._focus) 
             { 
                 t._focus = true;
                 t.HoverColor = t.BaseColor;
                 t.BaseColor = t.BorderColor;
             }
-            // TESOGIMNESLGESg
+
             int key = GetCharPressed();
 
             if (t.Text is not null && t.Text.Length != 0)
