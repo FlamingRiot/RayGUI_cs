@@ -1,6 +1,8 @@
 ﻿using static Raylib_cs.Raylib;
 using Raylib_cs;
 using System.Numerics;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace RayGUI_cs
 {
@@ -205,7 +207,7 @@ namespace RayGUI_cs
         internal static DropZone ImportFiles(DropZone c)
         {
             FilePathList filePathList = LoadDroppedFiles();
-            string path = new ((sbyte*)filePathList.Paths[0]);
+            string path = ConvertFilePathList(filePathList)[0];
             string[] pathArray = path.Split('.');
             string[] pathArryBySlash = path.Split('\\');
             string fileName = pathArryBySlash.Last();
@@ -235,6 +237,40 @@ namespace RayGUI_cs
 
             // Return modified container
             return c;
+        }
+
+        /// <summary>Converts a <see cref="FilePathList"/> to UTF-8 strings.</summary>
+        /// <param name="files">Received files.</param>
+        /// <returns>UTF-8 strings.</returns>
+        internal static string[] ConvertFilePathList(FilePathList files)
+        {
+            string[] paths = new string[files.Count];
+
+            for (int i = 0; i < paths.Length; i++)
+            {
+                IntPtr pathPtr = Marshal.ReadIntPtr((IntPtr)files.Paths, i * IntPtr.Size);
+                byte[] rawBytes = GetUtf8Bytes(pathPtr);
+                paths[i] = Encoding.UTF8.GetString(rawBytes);
+            }
+
+            return paths;
+        }
+
+        /// <summary>Returns UTF-8 bytes from an Integer Pointer.</summary>
+        /// <param name="ptr">Pointer.</param>
+        /// <returns>UTF-8 Bytes.</returns>
+        internal static byte[] GetUtf8Bytes(IntPtr ptr)
+        {
+            if (ptr == IntPtr.Zero) return Array.Empty<byte>();
+
+            // Trouver la longueur de la chaîne (NULL-terminated)
+            int length = 0;
+            while (Marshal.ReadByte(ptr, length) != 0) length++;
+
+            // Lire les bytes en UTF-8
+            byte[] bytes = new byte[length];
+            Marshal.Copy(ptr, bytes, 0, length);
+            return bytes;
         }
 
         //------------------------------------------------------------------------------------
