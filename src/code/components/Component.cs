@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using System.Numerics;
+using Raylib_cs;
 
 namespace RayGUI_cs
 {
@@ -33,6 +34,12 @@ namespace RayGUI_cs
 
         /// <summary>Height of the component</summary>
         public int Height { get { return (int)Rectangle.Height; } set { Rectangle.Height = Math.Abs(value); } }
+
+        /// <summary>Position of the component expressed as a <see cref="Vector2"/>.</summary>
+        public Vector2 Position { get { return Rectangle.Position; } }
+
+        /// <summary>Size of the component expressed as a <see cref="Vector2"/>.</summary>
+        public Vector2 Size { get { return Rectangle.Size; } }
 
         /// <summary>Defines the roundness of the component's render rectangle.</summary>
         public float Roundness { get { return _roundness; } set { _roundness = value; } }

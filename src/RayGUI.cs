@@ -136,6 +136,7 @@ namespace RayGUI_cs
         /// <param name="t">Tickbox to draw.</param>
         internal static void DrawTickbox(Tickbox t)
         {
+            DrawRectangleRoundedLines(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
             if (Hover(t))
             {
                 DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
@@ -143,14 +144,10 @@ namespace RayGUI_cs
             else
             {
                 DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
-                if (!t.Ticked)
-                {
-                    DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
-                }
-                else if (t.Ticked)
-                {
-                    DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
-                }
+            }
+            if (t.Ticked)
+            {
+                DrawTextPro(Font, "x", t.Position + new Vector2(4, 0), Vector2.Zero, 0, 14, 1, Color.White);
             }
         }
 
