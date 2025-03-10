@@ -7,16 +7,10 @@ namespace RayGUI_cs
     {
         //------------------------------------------------------------------------------------
         // Private attributes at the core of the components
-        //------------------------------------------------------------------------------------
+        private const float DEFAULT_ROUNDNESS = 0.25f;
+        private float _roundness;
 
-        private int x;
-        private int y;
-
-        private int width;
-        private int height;
-
-        private string tag;
-
+        internal Rectangle Rectangle;
         internal bool LightFocus;
 
         /// <summary>Base color of the component</summary>
@@ -29,25 +23,19 @@ namespace RayGUI_cs
         public Color HoverColor;
 
         /// <summary>X Position of the component</summary>
-        public int X { get { return x; } set { x = Math.Abs(value); } }
+        public int X { get { return (int)Rectangle.X; } set { Rectangle.X = Math.Abs(value); } }
 
         /// <summary>Y Position of the component</summary>
-        public int Y { get { return y; } set { y = Math.Abs(value); } }
+        public int Y { get { return (int)Rectangle.Y; } set { Rectangle.Y = Math.Abs(value); } }
 
         /// <summary>Width the component</summary>
-        public int Width { get { return width; } set { width = Math.Abs(value); } }
+        public int Width { get { return (int)Rectangle.Width; } set { Rectangle.Width = Math.Abs(value); } }
 
         /// <summary>Height of the component</summary>
-        public int Height { get { return height; } set { height = Math.Abs(value); } }
+        public int Height { get { return (int)Rectangle.Height; } set { Rectangle.Height = Math.Abs(value); } }
 
-        /// <summary>Tag of the component</summary>
-        public string Tag { get { return tag; } 
-            set 
-            {
-                if (value.Length > RayGUI.MAX_TAG_LENGTH) throw new ArgumentException("Tag size is above 25 characters");
-                else tag = value;
-            } 
-        }
+        /// <summary>Defines the roundness of the component's render rectangle.</summary>
+        public float Roundness { get { return _roundness; } set { _roundness = value; } }
 
         /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
         /// <param name="x">X Position of the component</param>
@@ -56,11 +44,11 @@ namespace RayGUI_cs
         /// <param name="height">Height of the component</param>
         internal Component(int x, int y, int width, int height)
         {
+            //_roundness = DEFAULT_ROUNDNESS;
             X = x;
             Y = y;
             Width = width;
             Height = height;
-            tag = "";
 
             LightFocus = false;
         }
@@ -82,7 +70,6 @@ namespace RayGUI_cs
             hash.Add(Y);
             hash.Add(Width);
             hash.Add(Height);
-            hash.Add(Tag);
 
             return hash.ToHashCode();
         }

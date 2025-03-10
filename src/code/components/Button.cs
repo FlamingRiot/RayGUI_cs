@@ -64,7 +64,7 @@ namespace RayGUI_cs
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Raylib_cs.Color.White;
+            TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }
@@ -109,7 +109,6 @@ namespace RayGUI_cs
             hash.Add(Y);
             hash.Add(Width);
             hash.Add(Height);
-            hash.Add(Tag);
             hash.Add(Text);
             hash.Add(Type);
 

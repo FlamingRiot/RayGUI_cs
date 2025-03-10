@@ -3,8 +3,6 @@
 using static Raylib_cs.Raylib;
 using Raylib_cs;
 using System.Numerics;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace RayGUI_cs
 {
@@ -13,17 +11,10 @@ namespace RayGUI_cs
     {
         public const string VERSION = "2.0.3.1";
 
-        /// <summary>Constant border size of components.</summary>
-        internal const int BORDER = 1;
-
-        /// <summary>Maximum of characters in components tag.</summary>
         internal const int MAX_TAG_LENGTH = 25;
-
-        /// <summary>Tickbox width and height values.</summary>
         internal const int TICKBOX_SIZE = 16;
-
-        /// <summary>Tickbox width and height values.</summary>
         internal static int DEFAULT_FONT_SIZE = 15;
+        internal static int ROUND_SEGMENTS = 30;
 
         /// <summary>Global font of the GUI tool.</summary>
         public static Font Font;
@@ -111,16 +102,16 @@ namespace RayGUI_cs
         /// <param name="button"><see cref="Button"/> to draw</param>
         internal static void DrawButton(Button button, int id)
         {
-            DrawRectangle(button.X - BORDER, button.Y - BORDER, button.Width + BORDER * 2, button.Height + BORDER * 2, button.BorderColor);
+            DrawRectangleRoundedLines(button.Rectangle, button.Roundness, ROUND_SEGMENTS, button.BorderColor);
             // Manage hover button color
             if (Hover(button) && _activeContainers.ContainsKey(id)) 
             {
                 SetMouseCursor(MouseCursor.PointingHand);
-                DrawRectangle(button.X, button.Y, button.Width, button.Height, button.HoverColor);
+                DrawRectangleRounded(button.Rectangle, button.Roundness, ROUND_SEGMENTS, button.HoverColor);
             }
             else
             {
-                DrawRectangle(button.X, button.Y, button.Width, button.Height, button.BaseColor);
+                DrawRectangleRounded(button.Rectangle, button.Roundness, ROUND_SEGMENTS, button.BaseColor);
             }
             // Draw text
             DrawTextPro(Font, button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
@@ -131,11 +122,11 @@ namespace RayGUI_cs
         internal static void DrawTextbox(Textbox t, int id)
         {
             // Manage box border
-            DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+            DrawRectangleRoundedLines(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
             // Manage hover t color
             if (Hover(t) && !t.Focus && _activeContainers.ContainsKey(id)) SetMouseCursor(MouseCursor.IBeam);
 
-            DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
+            DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
 
             // Draw text
             DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
@@ -147,18 +138,18 @@ namespace RayGUI_cs
         {
             if (Hover(t))
             {
-                DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+                DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
             }
             else
             {
-                DrawRectangle(t.X - BORDER, t.Y - BORDER, t.Width + BORDER * 2, t.Height + BORDER * 2, t.BorderColor);
+                DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
                 if (!t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BaseColor);
+                    DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
                 }
                 else if (t.Ticked)
                 {
-                    DrawRectangle(t.X, t.Y, t.Width, t.Height, t.BorderColor);
+                    DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BorderColor);
                 }
             }
         }
@@ -182,8 +173,8 @@ namespace RayGUI_cs
         internal static void DrawContainer(DropZone c)
         {
             // Draw container
-            DrawRectangle(c.X - BORDER, c.Y - BORDER, c.Width + BORDER * 2, c.Height + BORDER * 2, c.BorderColor);
-            DrawRectangle(c.X, c.Y, c.Width, c.Height, c.BaseColor);
+            DrawRectangleRoundedLines(c.Rectangle, c.Roundness, ROUND_SEGMENTS, c.BorderColor);
+            DrawRectangleRounded(c.Rectangle, c.Roundness, ROUND_SEGMENTS, c.BaseColor);
         }
 
 
@@ -192,8 +183,8 @@ namespace RayGUI_cs
         internal static void DrawLabel(Label l)
         {
             // Draw background
-            DrawRectangle(l.X - BORDER, l.Y - BORDER, l.Width + BORDER * 2, l.Height + BORDER * 2, l.BorderColor);
-            DrawRectangle(l.X, l.Y, l.Width, l.Height, l.BaseColor);
+            DrawRectangleRoundedLines(l.Rectangle, l.Roundness, ROUND_SEGMENTS, l.BorderColor);
+            DrawRectangleRounded(l.Rectangle, l.Roundness, ROUND_SEGMENTS, l.BaseColor);
             DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
         }
 

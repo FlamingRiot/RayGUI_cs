@@ -43,6 +43,13 @@ namespace RayGUI_cs
             _components.Values.ToList().ForEach(action);
         }
 
+        /// <summary>Sets the roundness for each component of the GUI.</summary>
+        /// <param name="roundness">Roundness to set.</param>
+        public void SetRoundness(float roundness)
+        {
+            ForEach(x => x.Roundness = roundness);
+        }
+
         /// <summary>Creates a default instance of <see cref="GuiContainer"/>.</summary>
         public GuiContainer()
         {

@@ -71,7 +71,6 @@ namespace RayGUI_cs
             hash.Add(Y);
             hash.Add(Width);
             hash.Add(Height);
-            hash.Add(Tag);
             hash.Add(_buttons);
             hash.Add(RepeatedHeight);
 
