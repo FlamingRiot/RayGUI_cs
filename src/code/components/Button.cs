@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CA1416
 
+
 using System.Numerics;
 using System.Security.Principal;
 using Raylib_cs;
@@ -63,7 +64,7 @@ namespace RayGUI_cs
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Color.White;
+            TextColor = Raylib_cs.Color.White;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
         }

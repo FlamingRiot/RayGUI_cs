@@ -1,4 +1,6 @@
-﻿using Raylib_cs;
+﻿#pragma warning disable CS8602
+
+using Raylib_cs;
 using static Raylib_cs.Raylib;
 using static RayGUI_cs.RayGUI;
 

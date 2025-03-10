@@ -1,4 +1,6 @@
-﻿using Raylib_cs;
+﻿#pragma warning disable CS8602
+
+using Raylib_cs;
 using System.Numerics;
 
 namespace RayGUI_cs
@@ -65,7 +67,7 @@ namespace RayGUI_cs
         {
             this.text = placeholder;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
-            TextColor = Color.White;
+            TextColor = Raylib_cs.Color.White;
             // Interaction assignment
             _focus = false;
             DeltaBack = 0.0;

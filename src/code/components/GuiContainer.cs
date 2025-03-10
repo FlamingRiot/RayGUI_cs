@@ -9,8 +9,8 @@ namespace RayGUI_cs
         private readonly OrderedDictionary<string, Component> _components;
         
         public bool _focus;
-        public Color ColorA;
-        public Color ColorB;
+        public Color BaseColor;
+        public Color BorderColor;
 
         /// <summary>Links the internal list of components.</summary>
         /// <param name="key">Component key.</param>
@@ -47,8 +47,8 @@ namespace RayGUI_cs
         public GuiContainer()
         {
             _components = new OrderedDictionary<string, Component>();
-            ColorA = Color.Black;
-            ColorB = Color.White;
+            BaseColor = Color.Black;
+            BorderColor = Color.White;
             InternalizeContainer();
         }
 
@@ -58,8 +58,8 @@ namespace RayGUI_cs
         public GuiContainer(Color colorA, Color colorB)
         {
             _components = new OrderedDictionary<string, Component>();
-            ColorA = colorA;
-            ColorB = colorB;
+            BaseColor = colorA;
+            BorderColor = colorB;
             InternalizeContainer();
         }
 
@@ -68,10 +68,10 @@ namespace RayGUI_cs
         /// <param name="component">Component to add.</param>
         public void Add(string name, Component component)
         {
-            // Apply GUI-container's color scheme
-            component.BaseColor = ColorA;
-            component.BorderColor = ColorB;
-            component.HoverColor = ColorB;
+            // Apply GUI-container's color scheme (if not one already applied)
+            if (component.BaseColor.R == 0 && component.BaseColor.G == 0 && component.BaseColor.B == 0) component.BaseColor = BaseColor;
+            if (component.BorderColor.R == 0 && component.BorderColor.G == 0 && component.BorderColor.B == 0) component.BorderColor = BorderColor;
+            if (component.HoverColor.R == 0 && component.HoverColor.G == 0 && component.HoverColor.B == 0) component.HoverColor = BorderColor;
             _components.Add(name, component);
         }
 

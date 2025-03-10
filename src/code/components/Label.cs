@@ -1,6 +1,5 @@
 ﻿using Raylib_cs;
 using System.Numerics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RayGUI_cs
 {

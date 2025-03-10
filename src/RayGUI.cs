@@ -1,4 +1,6 @@
-﻿using static Raylib_cs.Raylib;
+﻿#pragma warning disable CS8602
+
+using static Raylib_cs.Raylib;
 using Raylib_cs;
 using System.Numerics;
 using System.Runtime.InteropServices;
@@ -9,7 +11,7 @@ namespace RayGUI_cs
     /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        public const string VERSION = "2.0.3";
+        public const string VERSION = "2.0.3.1";
 
         /// <summary>Constant border size of components.</summary>
         internal const int BORDER = 1;
