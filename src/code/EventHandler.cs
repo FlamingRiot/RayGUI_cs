@@ -53,7 +53,7 @@ namespace RayGUI_cs
         /// <returns>Updated textbox.</returns>
         private static void UpdateTextbox(Textbox t)
         {
-            if (IsMouseButtonPressed(MouseButton.Left)) 
+            if (IsMouseButtonPressed(MouseButton.Left) && !t._focus) 
             { 
                 t._focus = true;
                 t.HoverColor = t.BaseColor;
