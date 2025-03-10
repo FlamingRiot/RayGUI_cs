@@ -12,6 +12,21 @@ namespace RayGUI_cs
         public Color ColorA;
         public Color ColorB;
 
+        /// <summary>Links the internal list of components.</summary>
+        /// <param name="key">Component key.</param>
+        /// <returns>Component value.</returns>
+        public Component this[string key]
+        {
+            get
+            {
+                return _components[key];
+            }
+            set
+            {
+                _components[key] = value;
+            }
+        }
+
         /// <summary>Creates a default instance of <see cref="GuiContainer"/>.</summary>
         public GuiContainer()
         {

@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <Version>2.0.2</Version>
+    <Version>2.0.2.1</Version>
 	<PackageId>RayGUI-cs</PackageId>
 	<Author>FlamingRiot</Author>
 	<Company>FlamingRiot</Company>
