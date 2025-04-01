@@ -73,7 +73,7 @@ namespace RayGUI_cs
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
             _defaultFontSet = false;
 
-            TextColor = Raylib_cs.Color.White;
+            TextColor = Color.White;
             // Interaction assignment
             _focus = false;
             DeltaBack = 0.0;

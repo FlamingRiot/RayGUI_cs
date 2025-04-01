@@ -92,9 +92,13 @@ namespace RayGUI_cs
                         break;
                     case Textbox.TextFilter.Naturals:
                         if (key >= 48 && key <= 57) t.Text += Convert.ToString((char)key);
+                        // Manage '-' character
+                        if (key == 45 && t.Text?.Length == 0) t.Text += Convert.ToString((char)key); 
                         break;
                     case Textbox.TextFilter.Decimals:
                         if ((key >= 48 && key <= 57) || key == 46) t.Text += Convert.ToString((char)key);
+                        // Manage '-' character
+                        if (key == 45 && t.Text?.Length == 0) t.Text += Convert.ToString((char)key);
                         break;
                 }
             }
