@@ -51,13 +51,6 @@ namespace RayGUI_cs
             _activeContainers.Add(container._id, false);
         }
 
-        /// <summary>Sets the default font size.</summary>
-        /// <param name="size">Size to set.</param>
-        public static void SetDefaultFontSize(int size)
-        {
-            DEFAULT_FONT_SIZE = size;
-        }
-
         /// <summary>Checks if the mouse hovers an element.</summary>
         /// <param name="c">Component to check for.</param>
         /// <returns><see langword="true"/> if the mouse hovers the element. <see langword="false"/> otherwise.</returns>

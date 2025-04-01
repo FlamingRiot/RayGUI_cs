@@ -19,10 +19,11 @@ namespace RayGUI_cs
     }
 
     /// <summary>Button component of the library</summary>
-    public class Button : Component
+    public class Button : Component, IWritable
     {
         private int fontSize;
         private string text;
+        private bool _defaultFontSet = false;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
@@ -51,6 +52,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                _defaultFontSet = true;
             } 
         }
 
@@ -64,6 +66,7 @@ namespace RayGUI_cs
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            _defaultFontSet = false;
             TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
             Type = ButtonType.Custom;
@@ -96,6 +99,17 @@ namespace RayGUI_cs
                 case ButtonType.Custom:
                     if (Event is not null) Event();
                     break;
+            }
+        }
+
+        /// <summary>Sets the default font size of the button.</summary>
+        /// <param name="containerSize">Default font size to set.</param>
+        void IWritable.SetDefaultFontSize(int containerSize)
+        {
+            if (!_defaultFontSet)
+            {
+                FontSize = containerSize;
+                _defaultFontSet = false;
             }
         }
 

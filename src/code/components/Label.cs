@@ -1,15 +1,17 @@
-﻿using Raylib_cs;
+﻿using Newtonsoft.Json.Bson;
+using Raylib_cs;
 using System.Numerics;
 
 namespace RayGUI_cs
 {
     /// <summary>Label component of the library</summary>
-    public class Label : Component
+    public class Label : Component, IWritable
     {
         public static readonly Color DEFAULT_BACKGROUND = new Color(0, 0, 0, 0);
 
         private string text;
         private int fontSize;
+        private bool _defaultFontSet = false;
 
         /// <summary>Text color of the label.</summary>
         public Color TextColor;
@@ -36,6 +38,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                _defaultFontSet = true;
             }
         }
 
@@ -48,6 +51,7 @@ namespace RayGUI_cs
             this.text = "";
             Text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            _defaultFontSet = false;
             TextColor = Color.White;
             BaseColor = DEFAULT_BACKGROUND;
         }
@@ -61,8 +65,20 @@ namespace RayGUI_cs
             this.text = "";
             Text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            _defaultFontSet = false;
             TextColor = Color.White;
             BaseColor = DEFAULT_BACKGROUND;
+        }
+
+        /// <summary>Sets the default font size of the label.</summary>
+        /// <param name="containerSize">Default font size to set.</param>
+        void IWritable.SetDefaultFontSize(int containerSize)
+        {
+            if (!_defaultFontSet)
+            {
+                FontSize = containerSize;
+                _defaultFontSet = false;
+            }
         }
     }    
 }

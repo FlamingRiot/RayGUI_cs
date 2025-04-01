@@ -3,12 +3,19 @@ using Raylib_cs;
 
 namespace RayGUI_cs
 {
+    /// <summary>Defines whether a component implements the feature of writing/text.</summary>
+    internal interface IWritable
+    {
+        /// <summary>Sets the default font size of a component.</summary>
+        /// <param name="containerSize">Default font size to set.</param>
+        void SetDefaultFontSize(int containerSize);
+    }
+
     /// <summary>Base 2D component of the library</summary>
     public abstract class Component
     {
         //------------------------------------------------------------------------------------
         // Private attributes at the core of the components
-        private const float DEFAULT_ROUNDNESS = 0.25f;
         private float _roundness;
 
         internal Rectangle Rectangle;
@@ -51,7 +58,6 @@ namespace RayGUI_cs
         /// <param name="height">Height of the component</param>
         internal Component(int x, int y, int width, int height)
         {
-            //_roundness = DEFAULT_ROUNDNESS;
             X = x;
             Y = y;
             Width = width;

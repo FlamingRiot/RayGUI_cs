@@ -11,7 +11,7 @@ namespace RayGUI_cs
     public delegate void ParamEvent(string[] args, string value);
 
     /// <summary>Textbox component of the library</summary>
-    public class Textbox : Component
+    public class Textbox : Component, IWritable
     {
         /// <summary>Defines a filter-type when typing into a textbox.</summary>
         public enum TextFilter
@@ -23,6 +23,8 @@ namespace RayGUI_cs
 
         private int fontSize;
         private string text;
+        // Default-state booleans
+        private bool _defaultFontSet = false;
 
         public TextFilter Filter;
         public ParamEvent? OnEntry;
@@ -49,6 +51,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                _defaultFontSet = true;
             }
         }
         // Internal values
@@ -66,7 +69,10 @@ namespace RayGUI_cs
         public Textbox(int x, int y, int width, int height, string placeholder) : base(x, y, width, height)
         {
             this.text = placeholder;
+
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            _defaultFontSet = false;
+
             TextColor = Raylib_cs.Color.White;
             // Interaction assignment
             _focus = false;
@@ -85,6 +91,17 @@ namespace RayGUI_cs
             if (OnEntry is not null)
             {
                 OnEntry(Args, Text);
+            }
+        }
+
+        /// <summary>Sets the default font size of the textbox.</summary>
+        /// <param name="containerSize">Default font size to set.</param>
+        void IWritable.SetDefaultFontSize(int containerSize)
+        {
+            if (!_defaultFontSet)
+            {
+                FontSize = containerSize;
+                _defaultFontSet = false;
             }
         }
     }

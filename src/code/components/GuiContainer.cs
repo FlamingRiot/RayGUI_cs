@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using System.ComponentModel;
 
 namespace RayGUI_cs
 {
@@ -7,7 +8,8 @@ namespace RayGUI_cs
     {
         internal int _id;
         private readonly OrderedDictionary<string, Component> _components;
-        
+        private int _defaultFontSize = RayGUI.DEFAULT_FONT_SIZE;        
+
         public bool _focus;
         public Color BaseColor;
         public Color BorderColor;
@@ -50,6 +52,17 @@ namespace RayGUI_cs
             ForEach(x => x.Roundness = roundness);
         }
 
+        /// <summary>Sets the default font size for the GUI container.</summary>
+        /// <param name="fontSize">Font size to set.</param>
+        public void SetDefaultFontSize(int fontSize)
+        {
+            _defaultFontSize = fontSize;
+            ForEach(component =>
+            {
+                if (component is IWritable writable) writable.SetDefaultFontSize(_defaultFontSize);
+            });
+        }
+
         /// <summary>Creates a default instance of <see cref="GuiContainer"/>.</summary>
         public GuiContainer()
         {
@@ -79,6 +92,8 @@ namespace RayGUI_cs
             if (component.BaseColor.R == 0 && component.BaseColor.G == 0 && component.BaseColor.B == 0) component.BaseColor = BaseColor;
             if (component.BorderColor.R == 0 && component.BorderColor.G == 0 && component.BorderColor.B == 0) component.BorderColor = BorderColor;
             if (component.HoverColor.R == 0 && component.HoverColor.G == 0 && component.HoverColor.B == 0) component.HoverColor = BorderColor;
+            // Apply GUI-container's default font size if not already modified
+            if (component is IWritable writable) writable.SetDefaultFontSize(_defaultFontSize); 
             _components.Add(name, component);
         }
 
@@ -105,6 +120,7 @@ namespace RayGUI_cs
             if (!check) Raylib.SetMouseCursor(MouseCursor.Default);
         }
 
+        /// <summary>Internalizes a container to the library.</summary>
         private void InternalizeContainer()
         {
             _id = Random.Shared.Next(0, 1000);
