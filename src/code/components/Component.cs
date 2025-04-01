@@ -17,6 +17,7 @@ namespace RayGUI_cs
         //------------------------------------------------------------------------------------
         // Private attributes at the core of the components
         private float _roundness;
+        private bool _roundnessSet = false;
 
         internal Rectangle Rectangle;
         internal bool LightFocus;
@@ -49,7 +50,7 @@ namespace RayGUI_cs
         public Vector2 Size { get { return Rectangle.Size; } }
 
         /// <summary>Defines the roundness of the component's render rectangle.</summary>
-        public float Roundness { get { return _roundness; } set { _roundness = value; } }
+        public float Roundness { get { return _roundness; } set { _roundness = value; _roundnessSet = true; } }
 
         /// <summary>Initializes a new instance of the <see cref="Component"/> class.</summary>
         /// <param name="x">X Position of the component</param>
@@ -64,6 +65,17 @@ namespace RayGUI_cs
             Height = height;
 
             LightFocus = false;
+        }
+
+        /// <summary>Sets the default roundness for a generic component.</summary>
+        /// <param name="roundness">Default roundness to set.</param>
+        internal void SetDefaultRoundness(float roundness)
+        {
+            if (!_roundnessSet)
+            {
+                Roundness = roundness;
+                _roundnessSet = false;
+            }
         }
 
         /// <summary>Returns a <see langword="string"/> containg informations about the instance.</summary>

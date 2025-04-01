@@ -8,7 +8,9 @@ namespace RayGUI_cs
     {
         internal int _id;
         private readonly OrderedDictionary<string, Component> _components;
-        private int _defaultFontSize = RayGUI.DEFAULT_FONT_SIZE;        
+
+        private int _defaultFontSize = RayGUI.DEFAULT_FONT_SIZE;
+        private float _defaultRoundness = 0;
 
         public bool _focus;
         public Color BaseColor;
@@ -47,9 +49,10 @@ namespace RayGUI_cs
 
         /// <summary>Sets the roundness for each component of the GUI.</summary>
         /// <param name="roundness">Roundness to set.</param>
-        public void SetRoundness(float roundness)
+        public void SetDefaultRoundness(float roundness)
         {
-            ForEach(x => x.Roundness = roundness);
+            _defaultRoundness = roundness;
+            ForEach(component => component.SetDefaultRoundness(_defaultRoundness));
         }
 
         /// <summary>Sets the default font size for the GUI container.</summary>
@@ -93,7 +96,9 @@ namespace RayGUI_cs
             if (component.BorderColor.R == 0 && component.BorderColor.G == 0 && component.BorderColor.B == 0) component.BorderColor = BorderColor;
             if (component.HoverColor.R == 0 && component.HoverColor.G == 0 && component.HoverColor.B == 0) component.HoverColor = BorderColor;
             // Apply GUI-container's default font size if not already modified
-            if (component is IWritable writable) writable.SetDefaultFontSize(_defaultFontSize); 
+            if (component is IWritable writable) writable.SetDefaultFontSize(_defaultFontSize);
+            // Apply GUI-container's default roundness if not already modified
+            component.SetDefaultRoundness(_defaultRoundness);
             _components.Add(name, component);
         }
 
