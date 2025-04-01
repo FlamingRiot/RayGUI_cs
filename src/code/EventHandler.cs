@@ -96,7 +96,15 @@ namespace RayGUI_cs
                         if (key == 45 && t.Text?.Length == 0) t.Text += Convert.ToString((char)key); 
                         break;
                     case Textbox.TextFilter.Decimals:
-                        if ((key >= 48 && key <= 57) || key == 46) t.Text += Convert.ToString((char)key);
+                        if (key >= 48 && key <= 57) // Numbers
+                        {
+                            t.Text += Convert.ToString((char)key);
+                        }
+                        else if (key == 46 && !t.Text.Contains('.')) // '.' character
+                        {
+                            if (!t.Text.Contains('-') && t.Text.Length > 0) t.Text += Convert.ToString((char)key);
+                            if (t.Text.Contains('-') && t.Text.Length > 1) t.Text += Convert.ToString((char)key);
+                        }
                         // Manage '-' character
                         if (key == 45 && t.Text?.Length == 0) t.Text += Convert.ToString((char)key);
                         break;
