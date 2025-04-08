@@ -9,7 +9,7 @@ namespace RayGUI_cs
     /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        public const string VERSION = "2.0.4";
+        public const string VERSION = "2.0.4.1";
 
         internal const int MAX_TAG_LENGTH = 25;
         internal const int TICKBOX_SIZE = 16;

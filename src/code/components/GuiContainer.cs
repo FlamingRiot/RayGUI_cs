@@ -47,6 +47,22 @@ namespace RayGUI_cs
             _components.Values.ToList().ForEach(action);
         }
 
+        /// <summary>Checks whether a component exists or not in the container.</summary>
+        /// <param name="key">Component to look for.</param>
+        /// <returns><see langword="true"/> if exists. <see langword="false"/> otherwise.</returns>
+        public bool ContainsComponent(Component component)
+        {
+            return _components.ContainsValue(component);
+        }
+
+        /// <summary>Checks whether a component's key exists or not in the container.</summary>
+        /// <param name="key">Key to look for.</param>
+        /// <returns><see langword="true"/> if exists. <see langword="false"/> otherwise.</returns>
+        public bool ContainsKey(string key)
+        {
+            return _components.ContainsKey(key);
+        }
+
         /// <summary>Sets the roundness for each component of the GUI.</summary>
         /// <param name="roundness">Roundness to set.</param>
         public void SetDefaultRoundness(float roundness)
