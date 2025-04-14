@@ -25,6 +25,7 @@ namespace RayGUI_cs
         private string text;
         // Default-state booleans
         private bool _defaultFontSet = false;
+        internal int InternalFontSize = 0;
 
         public TextFilter Filter;
         public ParamEvent? OnEntry;
@@ -51,6 +52,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = true;
             }
         }
@@ -71,6 +73,7 @@ namespace RayGUI_cs
             this.text = placeholder;
 
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            InternalFontSize = RayGUI.FindMatchingFont(fontSize);
             _defaultFontSet = false;
 
             TextColor = Color.White;
@@ -101,6 +104,7 @@ namespace RayGUI_cs
             if (!_defaultFontSet)
             {
                 FontSize = containerSize;
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = false;
             }
         }

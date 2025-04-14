@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Bson;
-using Raylib_cs;
+﻿using Raylib_cs;
 using System.Numerics;
 
 namespace RayGUI_cs
@@ -12,6 +11,7 @@ namespace RayGUI_cs
         private string text;
         private int fontSize;
         private bool _defaultFontSet = false;
+        internal int InternalFontSize = 0;
 
         /// <summary>Text color of the label.</summary>
         public Color TextColor;
@@ -38,6 +38,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = true;
             }
         }
@@ -51,6 +52,7 @@ namespace RayGUI_cs
             this.text = "";
             Text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            InternalFontSize = RayGUI.FindMatchingFont(fontSize);
             _defaultFontSet = false;
             TextColor = Color.White;
             BaseColor = DEFAULT_BACKGROUND;
@@ -65,6 +67,7 @@ namespace RayGUI_cs
             this.text = "";
             Text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            InternalFontSize = RayGUI.FindMatchingFont(fontSize);
             _defaultFontSet = false;
             TextColor = Color.White;
             BaseColor = DEFAULT_BACKGROUND;
@@ -77,6 +80,7 @@ namespace RayGUI_cs
             if (!_defaultFontSet)
             {
                 FontSize = containerSize;
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = false;
             }
         }

@@ -17,7 +17,7 @@ namespace RayGUI_cs
         internal static int ROUND_SEGMENTS = 30;
 
         /// <summary>Global font of the GUI tool.</summary>
-        public static Font Font;
+        public static Dictionary<int, Font> FontSet = new Dictionary<int, Font>() { { DEFAULT_FONT_SIZE, new Font()} };
 
         // Inernal variables
         internal static bool _fontLoaded = false;
@@ -28,12 +28,12 @@ namespace RayGUI_cs
         //------------------------------------------------------------------------------------
 
         /// <summary>Initializes the GUI tool.</summary>
-        /// <param name="font">Custom font to use.</param>
-        public static void LoadGUI(Font font)
+        /// <param name="fonts">One font, different sizes. The more sizes, the better result.</param>
+        public static void LoadGUI(Dictionary<int, Font> fonts)
         {
-            // Set font
-            SetTextureFilter(font.Texture, TextureFilter.Trilinear);
-            Font = font;
+            // Configure font(s)
+            fonts.ToList().ForEach(pair => SetTextureFilter(pair.Value.Texture, TextureFilter.Trilinear));
+            FontSet = fonts;
             _fontLoaded = true;
             // Send debug text
             Debugger.Send("Initialized successfully with custom font", ConsoleColor.Green);
@@ -83,8 +83,17 @@ namespace RayGUI_cs
         /// <returns>Width and height of the text.</returns>
         internal static Vector2 MeasureComponentText(string text, int FontSize)
         {
-            if (_fontLoaded) return MeasureTextEx(Font, text, FontSize, 1);
+            if (_fontLoaded) return MeasureTextEx(FontSet.First().Value, text, FontSize, 1);
             else return new Vector2(MeasureText(text, FontSize), FontSize);
+        }
+
+        /// <summary>Retrieves the best matching font based on a given font size.</summary>
+        /// <param name="targetFontSize">Target font size (ideal) to look for. Tries to get as close as possible if not exist.</param>
+        /// <returns>The closest found font size in the given fonts.</returns>
+        internal static int FindMatchingFont(int targetFontSize)
+        {
+            if (_fontLoaded) return FontSet.Keys.Aggregate((x, y) => Math.Abs(x - targetFontSize) < Math.Abs(y - targetFontSize) ? x : y);
+            else return DEFAULT_FONT_SIZE;
         }
 
         //------------------------------------------------------------------------------------
@@ -107,7 +116,7 @@ namespace RayGUI_cs
                 DrawRectangleRounded(button.Rectangle, button.Roundness, ROUND_SEGMENTS, button.BaseColor);
             }
             // Draw text
-            DrawTextPro(Font, button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
+            DrawTextPro(FontSet[button.InternalFontSize], button.Text, new Vector2(button.X + button.Width / 2 - button.TextSize.X / 2, button.Y + button.Height / 2 - button.TextSize.Y / 2), new Vector2(0, 0), 0, button.FontSize, 1, button.TextColor);
         }
 
         /// <summary>Draws a <see cref="Textbox"/> component.</summary>
@@ -122,7 +131,7 @@ namespace RayGUI_cs
             DrawRectangleRounded(t.Rectangle, t.Roundness, ROUND_SEGMENTS, t.BaseColor);
 
             // Draw text
-            DrawTextPro(Font, t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
+            DrawTextPro(FontSet[t.InternalFontSize], t.Text, new Vector2(t.X + t.Width / 2 - t.TextSize.X / 2, t.Y + t.Height / 2 - t.TextSize.Y / 2), new Vector2(0, 0), 0, t.FontSize, 1, t.TextColor);
         }
 
         /// <summary>Draws a <see cref="Tickbox"/> component.</summary>
@@ -140,7 +149,7 @@ namespace RayGUI_cs
             }
             if (t.Ticked)
             {
-                DrawTextPro(Font, "x", t.Position + new Vector2(4, 0), Vector2.Zero, 0, 14, 1, Color.White);
+                DrawTextPro(FontSet[Tickbox.InternalFontSize], "x", t.Position + new Vector2(4, 0), Vector2.Zero, 0, DEFAULT_FONT_SIZE, 1, Color.White);
             }
         }
 
@@ -175,7 +184,7 @@ namespace RayGUI_cs
             // Draw background
             DrawRectangleRoundedLines(l.Rectangle, l.Roundness, ROUND_SEGMENTS, l.BorderColor);
             DrawRectangleRounded(l.Rectangle, l.Roundness, ROUND_SEGMENTS, l.BaseColor);
-            DrawTextPro(Font, l.Text, new Vector2(l.X, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
+            DrawTextPro(FontSet[l.InternalFontSize], l.Text, new Vector2(l.X, l.Y + l.Height / 2 - l.TextSize.Y / 2), new Vector2(0, 0), 0, l.FontSize, 1, l.TextColor);
         }
 
 

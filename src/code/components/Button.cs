@@ -24,6 +24,7 @@ namespace RayGUI_cs
         private int fontSize;
         private string text;
         private bool _defaultFontSet = false;
+        internal int InternalFontSize = 0;
 
         /// <summary>Text size in pixels.</summary>
         internal Vector2 TextSize;
@@ -52,6 +53,7 @@ namespace RayGUI_cs
             {
                 fontSize = value;
                 TextSize = RayGUI.MeasureComponentText(text, FontSize);
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = true;
             } 
         }
@@ -66,6 +68,7 @@ namespace RayGUI_cs
         {
             this.text = text;
             FontSize = RayGUI.DEFAULT_FONT_SIZE;
+            InternalFontSize = RayGUI.FindMatchingFont(fontSize);
             _defaultFontSet = false;
             TextColor = Color.White;
             // Automatically set (has to be modified afterwards if needed)
@@ -109,6 +112,7 @@ namespace RayGUI_cs
             if (!_defaultFontSet)
             {
                 FontSize = containerSize;
+                InternalFontSize = RayGUI.FindMatchingFont(fontSize);
                 _defaultFontSet = false;
             }
         }
