@@ -9,7 +9,7 @@ namespace RayGUI_cs
     /// <summary>RayGUI instance of the library.</summary>
     public unsafe class RayGUI
     {
-        public const string VERSION = "2.0.4.1";
+        public const string VERSION = "2.0.5";
 
         internal const int MAX_TAG_LENGTH = 25;
         internal const int TICKBOX_SIZE = 16;
@@ -40,13 +40,13 @@ namespace RayGUI_cs
         }
 
         /// <summary>Deactivates the specified conatiner.</summary>
-        public static void DeactivateGui(GuiContainer container)
+        public static void DetachGui(GuiContainer container)
         {
             _activeContainers.Remove(container._id);
         }
 
         /// <summary>Activates the specified container.</summary>
-        public static void ActivateGui(GuiContainer container)
+        public static void AttachGui(GuiContainer container)
         {
             _activeContainers.Add(container._id, false);
         }
